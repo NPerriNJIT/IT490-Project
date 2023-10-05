@@ -18,6 +18,7 @@ function requestProcessor($request)
 	case "login":
 		return doLogin($request['username'],$request['password']);
 	case "validate_session":
+		//TODO: add validate session
 		return doValidate($request['sessionId']);
 	}
 	return array("returnCode" => '0', 'message'=>"Server received request and processed");
@@ -26,6 +27,7 @@ function requestProcessor($request)
 $server = new rabbitMQServer("testRabbitMQ.ini","testServer");
 
 $server->process_requests('requestProcessor');
+//TODO: Make listener be always running until closed by an administrator
 exit();
 ?>
 
