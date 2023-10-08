@@ -23,7 +23,7 @@ function doLogin($username, $password)
                 }
             }
         } catch (Exception $e) {
-            //TODO: Add error logging
+            echo "Error: " . $e->getMessage();
         }
 }
 
