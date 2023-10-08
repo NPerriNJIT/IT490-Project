@@ -25,7 +25,7 @@ function requestProcessor($request)
 }
 
 $server = new rabbitMQServer("testRabbitMQ.ini","testServer");
-
+echo("Now listening for client messages...");
 $server->process_requests('requestProcessor');
 //TODO: Make listener be always running until closed by an administrator
 exit();
