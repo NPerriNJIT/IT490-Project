@@ -1,6 +1,6 @@
 #!/usr/bin/php
 <?php
-
+require_once("db.php");
 function doLogin($username, $password)
 {
 	$db = getDB();
