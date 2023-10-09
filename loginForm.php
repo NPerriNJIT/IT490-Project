@@ -1,9 +1,14 @@
 <?php 
-    
-    session_start();
 
-    $username = $_POST['username'];
-    $password = $_POST['password'];
+    $client = new rabbitMQClient("testRabbitMQ.ini", "testServer");
+
+
+    $request = array();
+    $request['type'] = "login";
+    $request['username'] = $_POST['username'];
+    $request['password'] = $_POST['password'];
+
+    $response = $client->send_request($request);
 
 ?>
 
