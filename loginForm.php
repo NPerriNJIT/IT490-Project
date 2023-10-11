@@ -22,7 +22,7 @@ $response = $client->send_request($request);
     </head>
 
     <body>
-	<form method="POST">
+	<form method="POST" onsubmit="sendFunction()">
 	    <label for="username"> Username: </label><br>
 	    <input type="text" id="username" name="username"><br>
 
