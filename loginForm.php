@@ -5,13 +5,15 @@ require_once('rabbitMQLib.inc');
 $client = new rabbitMQClient("testRabbitMQ.ini", "testServer");
 
 
-$request = array();
-$request['type'] = "login";
-$request['username'] = $_POST['username'];
-$request['password'] = $_POST['password'];
+sendFunction() {
+	$request = array();
+	$request['type'] = "login";
+	$request['username'] = $_POST['username'];
+	$request['password'] = $_POST['password'];
+	$request['message'] = "test Message";
 
-$response = $client->send_request($request);
-
+	$response = $client->send_request($request);
+	}
 ?>
 
 <!DOCTYPE html>
