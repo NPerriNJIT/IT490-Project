@@ -1,21 +1,4 @@
-<?php 
-require_once('lib/path.inc');
-require_once('lib/get_host_info.inc');
-require_once('lib/rabbitMQLib.inc');
-$client = new rabbitMQClient("lib/testRabbitMQ.ini", "testServer");
 
-
-$request = array();
-$request['type'] = "login";
-$request['username'] = $_POST['username'];
-$request['password'] = $_POST['password'];
-$request['message'] = "test Message";
-
-$response = $client->send_request($request);
-?>
-
-<!DOCTYPE html>
-<html>
     <head>
 	<meta charset="UTF-8">
 
@@ -35,4 +18,25 @@ $response = $client->send_request($request);
 
     </body>
 
-</html>
+<?php
+require_once('lib/path.inc');
+require_once('lib/get_host_info.inc');
+require_once('lib/rabbitMQLib.inc');
+$client = new rabbitMQClient("lib/testRabbitMQ.ini", "testServer");
+
+
+$request = array();
+$request['type'] = "login";
+$request['username'] = $_POST['username'];
+$request['password'] = $_POST['password'];
+$request['message'] = "test Message";
+
+$response = $client->send_request($request);
+
+echo "client received response: ".PHP_EOL;
+print_r($response);
+echo "\n\n";
+
+?>
+
+
