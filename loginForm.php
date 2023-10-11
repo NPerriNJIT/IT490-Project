@@ -1,8 +1,8 @@
 <?php 
-require_once('path.inc');
-require_once('get_host_info.inc');
-require_once('rabbitMQLib.inc');
-$client = new rabbitMQClient("testRabbitMQ.ini", "testServer");
+require_once('lib/path.inc');
+require_once('lib/get_host_info.inc');
+require_once('lib/rabbitMQLib.inc');
+$client = new rabbitMQClient("lib/testRabbitMQ.ini", "testServer");
 
 
 $request = array();
