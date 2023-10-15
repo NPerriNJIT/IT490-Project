@@ -1,4 +1,4 @@
-
+<html>
     <head>
 	<meta charset="UTF-8">
 
@@ -17,6 +17,7 @@
 	</form>
 
     </body>
+</html>
 
 <?php
 require_once('lib/path.inc');
