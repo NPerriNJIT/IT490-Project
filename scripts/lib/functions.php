@@ -14,6 +14,7 @@ function doLogin($username, $password)
 				unset($user["password"]);
 				if (password_verify($password, $hash)) {
 					echo($user + " logged in successfully");
+					return true;
 					//TODO: Create a session client-side with ID matching the session here
 					//TODO: Create a session here with username, other useful information
 					//we will have to pass things linked to users here, such as a team ID if we are sticking with fantasy football
@@ -37,10 +38,12 @@ function doRegistration($username, $password)
         $stmt = $db->prepare("INSERT INTO Users (password, username) VALUES(:password, :username)");
         try {
             $stmt->execute([":password" => $hash, ":username" => $username]);
-            echo $username . " registered successfully";
+	    echo $username . " registered successfully";
+	    return $username . " registered successfully";
         } catch (Exception $e) {
             echo "Error: " . $e->getMessage();
-        }
+	}
+	return "Failed to register, maybe the username is already used?";
 
 }
 function doValidate($sessionID)
