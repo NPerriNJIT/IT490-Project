@@ -3,11 +3,13 @@
 require_once("db.php");
 function doLogin($username, $password)
 {
+	echo "1";
 	$db = getDB();
 	$stmt = $db->prepare("SELECT id, username, password from Users where username = :username");
 	try {
 		$r = $stmt->execute([":username" => $username]);
 		if ($r) {
+			echo "2";
 			$user = $stmt->fetch(PDO::FETCH_ASSOC);
 			if ($user) {
 				$hash = $user["password"];
@@ -23,6 +25,7 @@ function doLogin($username, $password)
 					return false;
 				}
 			} else {
+				echo "3";
 				return false;
 			}
 		}

@@ -17,6 +17,11 @@ function requestProcessor($request)
 	{
 	case "login":
 		echo("running login function"); //Debugging output
+		$client = new rabbitMQClient("testRabbitMQ2.ini","testServer");
+		$response = array();
+		$response['loginStatus'] = doLogin($request['username'],$request['password']);
+		$client->publish($response);
+
 		return doLogin($request['username'],$request['password']);
 	case "registration":
 		echo("running registration function");
