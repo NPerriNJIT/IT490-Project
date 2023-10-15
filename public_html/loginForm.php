@@ -20,9 +20,9 @@
 </html>
 
 <?php
-require_once('lib/path.inc');
-require_once('lib/get_host_info.inc');
-require_once('lib/rabbitMQLib.inc');
+require_once('scripts/path.inc');
+require_once('scripts/get_host_info.inc');
+require_once('scripts/rabbitMQLib.inc');
 $client = new rabbitMQClient("lib/testRabbitMQ.ini", "testServer");
 
 
@@ -31,6 +31,8 @@ $request['type'] = "login";
 $request['username'] = $_POST['username'];
 $request['password'] = $_POST['password'];
 $request['message'] = "test Message";
+
+print_r($request);
 
 $response = $client->send_request($request);
 
