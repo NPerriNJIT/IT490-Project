@@ -51,7 +51,7 @@ function doValidate($sessionID)
 	$db = getDB();
 	$stmt = $db->prepare("Select data from Sessions where id = :sessionID");
 	try {
-		$r = $stmt->execute([":sessionID" = $sessionID]);
+		$r = $stmt->execute([":sessionID" => $sessionID]);
 		if($r) {
 			$session = $stmt->fetch(PDO::FETCH_ASSOC);
 			return $session['data'];
