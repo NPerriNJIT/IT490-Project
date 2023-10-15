@@ -18,6 +18,9 @@ function requestProcessor($request)
 	case "login":
 		echo("running login function"); //Debugging output
 		return doLogin($request['username'],$request['password']);
+	case "registration":
+		echo("running registration function");
+		return doRegistration($request['username'],$request['password']);
 	case "validate_session":
 		//TODO: add validate session
 		return doValidate($request['sessionId']);
