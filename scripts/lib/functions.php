@@ -28,5 +28,19 @@ function doLogin($username, $password)
 		echo "Error: " . $e->getMessage();
 	}
 }
+function doRegistration($username, $password)
+{
+	//Sanitization should be done on front-end
+	$hash = password_hash($password, PASSWORD_BCRYPT);
+        $db = getDB();
+        $stmt = $db->prepare("INSERT INTO Users (password, username) VALUES(:password, :username)");
+        try {
+            $stmt->execute([":email" => $email, ":password" => $hash, ":username" => $username]);
+            flash("You've registered, yay...");
+        } catch (Exception $e) {
+            echo "Error: " . $e->getMessage();
+        }
+
+}
 
 ?>
