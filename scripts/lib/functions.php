@@ -56,7 +56,7 @@ function doValidate($sessionID)
 			$session = $stmt->fetch(PDO::FETCH_ASSOC);
 			return $session['data'];
 		} else {
-			echo "Invalid session requested"
+			echo "Invalid session requested";
 			return null;
 		}
 	} catch (Exception $e) {
