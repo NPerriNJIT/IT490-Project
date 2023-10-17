@@ -15,29 +15,25 @@ function doLogin($username, $password)
 			echo "2";
 			$user = $stmt->fetch(PDO::FETCH_ASSOC);
 			if ($user) {
-				$client = new rabbitMQClient("testRabbitMQ2.ini", "testServer");
-				$login_response = array();
-				$login_response['type'] = "login_response";
 				$hash = $user["password"];
 				unset($user["password"]);
 				if (password_verify($password, $hash)) {
-					echo($user + " logged in successfully");
-					$login_response['status'] = "success";
+					echo($user . " logged in successfully");
+					return "success";
 					//TODO: Create a session client-side with ID matching the session here
 					//TODO: Create a session here with username, other useful information
 					//we will have to pass things linked to users here, such as a team ID if we are sticking with fantasy football
 				} else {
-					echo($user + " failed login attempt");
-					$login_response['status'] = "denied";
+					echo($user . " failed login attempt");
+					return "denied";
 				}
 			} else {
 				echo "3";
-				$login_response['status'] = "denied but username";
+				echo($user . "does not exist");
+				return "denied but username";
 				//IMPORTANT: Don't display to the client whether username or password was incorrect, has to be the same message.
 				//We can log that here though.
 			}
-			echo($login_response['status']);
-			$client->publish($login_response);
 		}
 	} catch (Exception $e) {
 		echo "Error: " . $e->getMessage();
