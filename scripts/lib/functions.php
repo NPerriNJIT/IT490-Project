@@ -71,7 +71,7 @@ function get_session_data(array $data) {
 		//Waits for a response from the server
 
 		if(isset($request['type']) && $request['type'] == "session_valid") {
-			//return data
+			//TODO: return data
 		} else {
 			flash("ERROR REQUEST TYPE WASN'T SET ON THE RETURNING MESSAGE");
 		}
