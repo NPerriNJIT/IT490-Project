@@ -19,15 +19,25 @@ function requestProcessor($request)
 		echo("running login function"); //Debugging output
 		$client = new rabbitMQClient("testRabbitMQ2.ini","testServer");
 		$response = array();
-		$response['loginStatus'] = doLogin($request['username'],$request['password']);
+		$response['type'] = "login_response";
+		$response['login_status'] = doLogin($request['username'],$request['password']);
 		$client->publish($response);
-
-		return doLogin($request['username'],$request['password']);
+		echo "Sent response: ".PHP_EOL . var_dump($response);
 	case "registration":
 		echo("running registration function");
+		$client = new rabbitMQClient("testRabbitMQ2.ini","testServer");
+		$response = array();
+		$response['type'] = "registration_response";
+		$response['registration_status'] = doRegistration($request['username'],$request['password']);
+		$client->publish($response);
 		return doRegistration($request['username'],$request['password']);
 	case "validate_session":
 		//TODO: add validate session
+		$client = new rabbitMQClient("testRabbitMQ2.ini","testServer");
+		$response = array();
+		$response['type'] = "session_response";
+		$response['session_status'] = doValidate($request['id']);
+		$client->publish($response);
 		return doValidate($request['sessionId']);
 	}
 	return array("returnCode" => '0', 'message'=>"Server received request and processed");
