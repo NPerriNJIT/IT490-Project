@@ -33,7 +33,7 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
         require_once(__DIR__ . '../scripts/path.inc');
         require_once(__DIR__ . '../scripts/get_host_info.inc');
         require_once(__DIR__ . '../scripts/rabbitMQLib.inc');
-        $client = new rabbitMQClient(__DIR__ . "../scripts/testRabbitMQ.ini", "testServer");
+        $client = new rabbitMQClient(__DIR__ . "/../scripts/testRabbitMQ.ini", "testServer");
 
         $request = array();
         $request['type'] = "login";
@@ -42,7 +42,7 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
         print_r($request);
 
         $client->publish($request);
-        $server = new rabbitMQServer(__DIR__ . "../scripts/testRabbitMQ2.ini", "testServer");
+        $server = new rabbitMQServer(__DIR__ . "/../scripts/testRabbitMQ2.ini", "testServer");
         $response = $server->process_requests();
 
         if(isset($response['type']) && $response['type'] === 'login_response') {

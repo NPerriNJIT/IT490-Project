@@ -1,5 +1,5 @@
 <?php 
-require_once(__DIR__ . "../scripts/lib/functions.php");
+require_once(__DIR__ . "/../scripts/lib/functions.php");
 reset_session();
 //TODO: Delete session data on database
 ?>
@@ -94,13 +94,13 @@ if (isset($_POST["password"]) && isset($_POST["confirm"]) && isset($_POST["usern
         //TODO 4
         $hash = password_hash($password, PASSWORD_BCRYPT);
         try {
-        $client = new rabbitMQClient(__DIR__ . "../scripts/testRabbitMQ.ini", "testServer");
+        $client = new rabbitMQClient(__DIR__ . "/../scripts/testRabbitMQ.ini", "testServer");
         $request = array();
         $request['type'] = 'registration';
         $request['username'] = $username;
         $request['password'] = $hash;
         $client->publish($request);
-        $server = new rabbitMQServer(__DIR__ . "../scripts/testRabbitMQ2.ini", "testServer");
+        $server = new rabbitMQServer(__DIR__ . "/../scripts/testRabbitMQ2.ini", "testServer");
         $response = $server->process_requests();
         if(isset($response['type']) && $response['type'] === 'registration_response') {
             if($response['registration_status'] === 'success') {
