@@ -42,17 +42,17 @@ function doLogin($username, $password)
 function doRegistration($username, $password)
 {
 	//Sanitization should be done on front-end
-	$hash = password_hash($password, PASSWORD_BCRYPT);
-        $db = getDB();
-        $stmt = $db->prepare("INSERT INTO Users (password, username) VALUES(:password, :username)");
-        try {
-            $stmt->execute([":password" => $hash, ":username" => $username]);
-	    echo $username . " registered successfully";
-	    return $username . " registered successfully";
-        } catch (Exception $e) {
-            echo "Error: " . $e->getMessage();
+	
+	$db = getDB();
+	$stmt = $db->prepare("INSERT INTO Users (password, username) VALUES(:password, :username)");
+	try {
+		$stmt->execute([":password" => $password, ":username" => $username]);
+	echo $username . " registered successfully";
+	return "success";
+	} catch (Exception $e) {
+		echo "Error: " . $e->getMessage();
 	}
-	return "Failed to register, maybe the username is already used?";
+	return "failure";
 
 }
 function doValidate($sessionID)
