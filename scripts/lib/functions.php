@@ -36,7 +36,7 @@ function is_logged_in($redirect = false, $destination = "loginForm.php")
 	$client = new rabbitMQClient(__DIR__ . "/../testRabbitMQ.ini","testServer");
 	$response = array();
 	$response['type'] = "validate_session";
-	$response['sessionId'] = session_id();
+	$response['session_id'] = session_id();
 	$client->publish($response);
 	//send session ID to see if logged in
 
