@@ -128,7 +128,6 @@ if (isset($_POST["email"]) && isset($_POST["password"]) && isset($_POST["confirm
         $client->publish($request);
         $server = new rabbitMQServer("../scripts/testRabbitMQ2.ini", "testServer");
         $response = $server->process_requests();
-        if()
         if(isset($response['type']) && $response['type'] === 'registration_response') {
             if($response['registration_status'] === 'success') {
                 flash("Registration successful", "success");
