@@ -1,5 +1,5 @@
 <?php 
-require("../scripts/lib/functions.php");
+require_once("../scripts/lib/functions.php");
 reset_session();
 //TODO: Delete session data on database
 ?>
