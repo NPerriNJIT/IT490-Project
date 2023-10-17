@@ -35,7 +35,7 @@ function requestProcessor($request)
 		$client = new rabbitMQClient(__DIR__ . "/testRabbitMQ2.ini","testServer");
 		$response = array();
 		$response['type'] = "session_response";
-		$response['session_status'] = doValidate($request['id']);
+		$response['session_status'] = doValidate($request['session_id']);
 		$client->publish($response);
 	}
 	return array("returnCode" => '0', 'message'=>"Server received request and processed");
