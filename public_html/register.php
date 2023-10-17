@@ -1,6 +1,4 @@
-<?php
-reset_session();
-?>
+
 <form onsubmit="return validate(this)" method="POST">
     <div>
         <label for="email">Email</label>
@@ -122,13 +120,26 @@ if (isset($_POST["email"]) && isset($_POST["password"]) && isset($_POST["confirm
         //TODO 4
         $hash = password_hash($password, PASSWORD_BCRYPT);
         try {
-        $client = new rabbitMQClient("testRabbitMQ.ini", "testServer");
+        $client = new rabbitMQClient("../scripts/testRabbitMQ.ini", "testServer");
         $request = array();
         $request['type'] = 'registration';
         $request['username'] = $username;
         $request['password'] = $hash;
         $client->publish($request);
-            echo ("Successfully registered!");
+        $server = new rabbitMQServer("../scripts/testRabbitMQ2.ini", "testServer");
+        $response = $server->process_requests();
+        if()
+        if(isset($response['type']) && $response['type'] === 'registration_response') {
+            if($response['registration_status'] === 'success') {
+                flash("Registration successful", "success");
+                //Session shenanigans
+            } else {
+                flash("Registration denied, fuck off", "danger");
+            }
+        } else {
+            //TODO:Log error
+            echo "Error with response";
+        }
         } catch (PDOException $e) {
             users_check_duplicate($e->errorInfo);
         }

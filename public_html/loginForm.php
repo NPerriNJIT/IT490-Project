@@ -38,11 +38,10 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
         $request['password'] = $_POST['password'];
         print_r($request);
 
-        $response = $client->send_request($request);
+        $client->publish($request);
+        $server = new rabbitMQServer("../scripts/testRabbitMQ2.ini", "testServer");
+        $response = $server->process_requests();
 
-        echo "client received response: ".PHP_EOL;
-        print_r($response);
-        echo "\n\n";
         if(isset($response['type']) && $response['type'] === 'login_response') {
             if($response['login_status'] === 'success') {
                 flash("Login accepted", "success");
