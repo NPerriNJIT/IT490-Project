@@ -33,14 +33,14 @@ function se($v, $k = null, $default = "", $isEcho = true)
 
 function is_logged_in($redirect = false, $destination = "loginForm.php")
 {
-	$client = new rabbitMQClient("../testRabbitMQ.ini","testServer");
+	$client = new rabbitMQClient(__DIR__ . "../testRabbitMQ.ini","testServer");
 	$response = array();
 	$response['type'] = "validate_session";
 	$response['sessionId'] = session_id();
 	$client->publish($response);
 	//send session ID to see if logged in
 
-	$server = new rabbitMQServer("../testRabbitMQ2.ini","testServer");
+	$server = new rabbitMQServer(__DIR__ . "../testRabbitMQ2.ini","testServer");
 	$request = $server->process_requests();
 
 	if(isset($request['sessionStatus']) && $request['sessionStatus'] == true) {
@@ -58,7 +58,7 @@ function is_logged_in($redirect = false, $destination = "loginForm.php")
 
 function get_session_data(array $data) {
 	if(is_logged_in()) {
-		$client = new rabbitMQClient("../testRabbitMQ.ini","testServer");
+		$client = new rabbitMQClient(__DIR__ . "../testRabbitMQ.ini","testServer");
 		$message = array();
 		$message['type'] = "validate_session";
 		$message['session_id'] = session_id();
@@ -66,7 +66,7 @@ function get_session_data(array $data) {
 		$client->publish($message);
 		//Sends session validation request with requested session data if the user is logged in
 		
-		$server = new rabbitMQServer("../testRabbitMQ2.ini","testServer");
+		$server = new rabbitMQServer(__DIR__ . "../testRabbitMQ2.ini","testServer");
 		$request = $server->process_requests();
 		//Waits for a response from the server
 

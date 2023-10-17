@@ -1,5 +1,5 @@
 <?php
-require_once("../scripts/lib/functions.php");
+require_once(__DIR__ . "../scripts/lib/functions.php");
 ?>
 
 <html>
@@ -20,5 +20,5 @@ require_once("../scripts/lib/functions.php");
     </body>
 </html>
 <?php
-require(__DIR__ . "/../../partials/flash.php");
+require(__DIR__ . "/../scripts/partials/flash.php");
 ?>
