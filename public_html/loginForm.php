@@ -43,6 +43,17 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
         echo "client received response: ".PHP_EOL;
         print_r($response);
         echo "\n\n";
+        if(isset($response['type']) && $response['type'] === 'login_response') {
+            if($response['login_status'] === 'success') {
+                flash("Login accepted", "success");
+                //Session shenanigans
+            } else {
+                flash("Login denied, fuck off", "danger");
+            }
+        } else {
+            //TODO:Log error
+            echo "Error with response";
+        }
 
 } else {
     echo "Both username and password are required.";
