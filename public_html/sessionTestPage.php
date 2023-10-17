@@ -19,3 +19,6 @@ require_once("../scripts/lib/functions.php");
         </p>
     </body>
 </html>
+<?php
+require(__DIR__ . "/../../partials/flash.php");
+?>

@@ -1,3 +1,6 @@
+<?php
+//TODO: Redirect if logged in
+?>
 <html>
 
     <head>
@@ -59,4 +62,6 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
 }
 
 ?>
-
+<?php
+require(__DIR__ . "/../../partials/flash.php");
+?>

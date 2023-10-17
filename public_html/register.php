@@ -1,9 +1,9 @@
-
+<?php 
+require("../scripts/lib/functions.php");
+reset_session();
+//TODO: Delete session data on database
+?>
 <form onsubmit="return validate(this)" method="POST">
-    <div>
-        <label for="email">Email</label>
-        <input type="email" name="email" required />
-    </div>
     <div>
         <label for="username">Username</label>
         <input type="text" name="username" required maxlength="30" />
@@ -22,16 +22,10 @@
     function validate(form) {
         //TODO 1: implement JavaScript validation
         //ensure it returns false for an error and true for success
-        let email = form.email.value;
         let username = form.username.value;
         let password = form.password.value;
         let confirm = form.confirm.value;
         let isValid = true;
-        if (email == "")
-        {
-            console.log("Email Cannot Be Blank");
-            isValid = false;
-        }
         if (username == "")
         {
             console.log("Username Cannot Be Blank");
@@ -51,14 +45,6 @@
     }
 </script>
 <?php
-function sanitize_email($email = "")
-{
-    return filter_var(trim($email), FILTER_SANITIZE_EMAIL);
-}
-function is_valid_email($email = "")
-{
-    return filter_var(trim($email), FILTER_VALIDATE_EMAIL);
-}
 function users_check_duplicate($errorInfo)
 {
     if ($errorInfo[1] === 1062) {
@@ -76,24 +62,12 @@ function users_check_duplicate($errorInfo)
     }
 }
 //TODO 2: add PHP Code
-if (isset($_POST["email"]) && isset($_POST["password"]) && isset($_POST["confirm"]) && isset($_POST["username"])) {
-    $email = $_POST["email"];
+if (isset($_POST["password"]) && isset($_POST["confirm"]) && isset($_POST["username"])) {
     $password = $_POST["password"];
     $confirm = $_POST["confirm"];
     $username = $_POST["username"];
     //TODO 3
     $hasError = false;
-    if (empty($email)) {
-        echo("Email must not be empty");
-        $hasError = true;
-    }
-    //sanitize
-    #$email = sanitize_email($email);
-    //validate
-    if (!is_valid_email($email)) {
-        echo("Invalid email address");
-        $hasError = true;
-    }
     if (!preg_match('/^[a-z0-9_-]{3,16}$/i', $username)) {
         echo("Username must only contain 3-16 characters a-z, 0-9, _, or -");
         $hasError = true;
@@ -144,4 +118,7 @@ if (isset($_POST["email"]) && isset($_POST["password"]) && isset($_POST["confirm
         }
     }
 }
+?>
+<?php
+require(__DIR__ . "/../../partials/flash.php");
 ?>
