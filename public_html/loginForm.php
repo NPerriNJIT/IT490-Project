@@ -23,7 +23,7 @@
 require_once('../scripts/path.inc');
 require_once('../scripts/get_host_info.inc');
 require_once('../scripts/rabbitMQLib.inc');
-$client = new rabbitMQClient("lib/testRabbitMQ.ini", "testServer");
+$client = new rabbitMQClient("../scripts/lib/testRabbitMQ.ini", "testServer");
 
 
 $request = array();
