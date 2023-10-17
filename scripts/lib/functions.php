@@ -99,8 +99,10 @@ function getMessages()
 }
 function reset_session()
 {
-    session_unset();
-    session_destroy();
+	if(session_status()) {
+    	session_unset();
+    	session_destroy();
+	}
     session_start();
 }
 
