@@ -43,7 +43,7 @@ function is_logged_in($redirect = false, $destination = "loginForm.php")
 	$server = new rabbitMQServer(__DIR__ . "/../testRabbitMQ2.ini","testServer");
 	$request = $server->process_requests();
 
-	if(isset($request['sessionStatus']) && $request['sessionStatus'] == true) {
+	if(isset($request['session_status']) && $request['session_status'] == true) {
 		$isLoggedIn = true;
 	} else {
 		$isLoggedIn = false;
@@ -56,13 +56,12 @@ function is_logged_in($redirect = false, $destination = "loginForm.php")
 	return $isLoggedIn;
 }
 
-function get_session_data(array $data) {
+function get_session_username() {
 	if(is_logged_in()) {
 		$client = new rabbitMQClient(__DIR__ . "/../testRabbitMQ.ini","testServer");
 		$message = array();
-		$message['type'] = "validate_session";
+		$message['type'] = "get_session_username";
 		$message['session_id'] = session_id();
-		$message['data'] = $data;
 		$client->publish($message);
 		//Sends session validation request with requested session data if the user is logged in
 		
@@ -70,10 +69,12 @@ function get_session_data(array $data) {
 		$request = $server->process_requests();
 		//Waits for a response from the server
 
-		if(isset($request['type']) && $request['type'] == "session_valid") {
-			//TODO: return data
+		if(isset($request['type']) && $request['type'] == "session_response") {
+			if(isset($request['session_status']) && $request['session_status'] == "valid") {
+				return $request['username'];
+			}
 		} else {
-			flash("ERROR REQUEST TYPE WASN'T SET ON THE RETURNING MESSAGE");
+			flash("ERROR IN FUNCTIONS SEE LINE 77", "danger");
 		}
 	}
 }
@@ -100,9 +101,20 @@ function getMessages()
 function reset_session()
 {
 	if(session_status() == PHP_SESSION_ACTIVE) {
+		//TODO: Delete session data from database
     	session_unset();
     	session_destroy();
 	}
     session_start();
+}
+function send_session($session_id, $username)
+{
+	$client = new rabbitMQClient(__DIR__ . "/../testRabbitMQ.ini","testServer");
+	$message = array();
+	$message['type'] = "start_session";
+	$message['session_id'] = $session_id;
+	$message['username'] = $username;
+	$client->publish($message);
+	is_logged_in();
 }
 
