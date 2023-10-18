@@ -100,7 +100,18 @@ function getSessionUsername($sessionID) {
 	} catch (Exception $e) {
 		echo "Error: " . $e->getMessage();
 	}
-	return "error"
+	return "error";
+}
+
+function delete_session($session_id) {
+	$db = getDB();
+	$stmt = $db->prepare("Delete from Sessions where session_id = :session_id");
+	try {
+		$stmt->execute();
+		echo "Deleted session " . $session_id . PHP_EOL;
+	} catch (Exception $e) {
+		echo "Error deleting session " . $session_id . ": " . $e . PHP_EOL; 
+	}
 }
 
 ?>

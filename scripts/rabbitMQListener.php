@@ -42,6 +42,8 @@ function requestProcessor($request)
 			$response['session_status'] = "invalid";
 		}
 		$client->publish($response);
+	case "delete_session_data":
+		delete_session($request['session_id']);
 	return array("returnCode" => '0', 'message'=>"Server received request and processed");
 }
 
