@@ -66,7 +66,7 @@ function doValidate($sessionID)
 			return $session['data'];
 		} else {
 			echo "Invalid session requested";
-			return null;
+			return "denied";
 		}
 	} catch (Exception $e) {
 		echo "Error: " . $e->getMessage();
