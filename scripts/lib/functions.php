@@ -58,19 +58,49 @@ function doRegistration($username, $password)
 function doValidate($sessionID)
 {
 	$db = getDB();
-	$stmt = $db->prepare("Select data from Sessions where id = :sessionID");
+	$stmt = $db->prepare("Select * from Sessions where id = :sessionID");
+	try {
+		$r = $stmt->execute([":sessionID" => $sessionID]);
+		if($r) {
+			echo "Valid session";
+			return true;
+		} else {
+			echo "Invalid session requested";
+			return true;
+		}
+	} catch (Exception $e) {
+		echo "Error: " . $e->getMessage();
+		echo "Something crazy happened";
+		return false;
+	}
+}
+
+function getSessionUsername($sessionID) {
+	$db = getDB();
+	$stmt = $db->prepare("Select user_id from Sessions where session_id = :sessionID");
 	try {
 		$r = $stmt->execute([":sessionID" => $sessionID]);
 		if($r) {
 			$session = $stmt->fetch(PDO::FETCH_ASSOC);
-			return $session['data'];
+			$user_id = $session['user_id'];
+			$stmt = $db->prepare("Select username from Users where id = :userID");
+			try{
+				$r = $stmt->execute([":userID" => $user_id]);
+				if($r) {
+					$user = $stmt->fetch(PDO::FETCH_ASSOC);
+					$username = $user['username'];
+					return $username;
+				}
+			} catch (Exception $e) {
+				echo "Error: " . $e->getMessage();
+			}
 		} else {
-			echo "Invalid session requested";
-			return "denied";
+
 		}
 	} catch (Exception $e) {
 		echo "Error: " . $e->getMessage();
 	}
+	return "error"
 }
 
 ?>

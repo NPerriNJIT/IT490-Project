@@ -30,20 +30,18 @@ function requestProcessor($request)
 		$response['type'] = "registration_response";
 		$response['registration_status'] = doRegistration($request['username'],$request['password']);
 		$client->publish($response);
-	case "validate_session":
+	case "get_session_username":
 		//TODO: add validate session
 		$client = new rabbitMQClient(__DIR__ . "/testRabbitMQ2.ini","testServer");
 		$response = array();
 		$response['type'] = "session_response";
-		$session_data = doValidate($request['session_id']);
-		if($session_data === "denied") {
-			$response['session_status'] = "denied";
+		if(doValidate($request['session_id'])) {
+			$response['username'] = getSessionUsername($request['session_id']);
+			$response['session_status'] = "valid";
 		} else {
-			$response['session_status'] = "successful";
-			$response['session_data'] = $session_data;
+			$response['session_status'] = "invalid";
 		}
 		$client->publish($response);
-	}
 	return array("returnCode" => '0', 'message'=>"Server received request and processed");
 }
 
