@@ -1,5 +1,7 @@
 <?php
-//TODO: Redirect if logged in
+if(is_logged_in()) {
+    die(header("Location: sessionTestPage.php"));
+}
 ?>
 <html>
 
@@ -48,7 +50,8 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
         if(isset($response['type']) && $response['type'] === 'login_response') {
             if($response['login_status'] === 'success') {
                 flash("Login accepted", "success");
-                //Session shenanigans
+                session_start();
+                send_session(session_id(), $_POST['username']);
             } else {
                 flash("Login denied, fuck off", "danger");
             }
