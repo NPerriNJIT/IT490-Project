@@ -1,16 +1,15 @@
+#!/usr/bin/php
 <?php
-require_once 'get_host_info.inc';
-require_once 'rabbitMQLib.inc';
-
+require_once(__DIR__ . '/rabbitMQLib.inc');
 // Create a new rabbitMQClient instance with the machine-specific .ini file
 $mqClient = new rabbitMQClient("dLoggerRabbitMQ.ini", "testServer");
 $machineIdentifier = "Joe's Machine";
 
 // Log file paths (with sudo)
 $logFilePaths = [
-    '/var/log/rabbitmq/rabbitmq@jheans-VirtualBox.log',
-    '/var/log/apache2/error.log',
-    '/var/log/mysql/error.log',
+    '/var/log/rabbitmq/rabbit@jheans-VirtualBox.log',
+    #'/var/log/apache2/error.log',
+    #'/var/log/mysql/error.log',
 ];
 
 // Read and send log messages from specified log files

@@ -1,5 +1,6 @@
+#!/usr/bin/php
 <?php
-require_once 'rabbitMQLib.inc'; // Include the rabbitMQLib.inc file
+require_once (__DIR__. '/rabbitMQLib.inc'); // Include the rabbitMQLib.inc file
 
 // Create a new rabbitMQServer instance with the machine-specific .ini file
 $mqServer = new rabbitMQServer("dLoggerRabbitMQ.ini","testServer");
