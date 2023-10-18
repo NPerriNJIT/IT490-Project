@@ -102,6 +102,14 @@ function reset_session()
 {
 	if(session_status() == PHP_SESSION_ACTIVE) {
 		//TODO: Delete session data from database
+		function delete_session_data($session_id) {
+   		 $client = new rabbitMQClient(__DIR__ . "/../testRabbitMQ.ini", "testServer");
+    $message = array();
+    $message['type'] = "delete_session_data";
+    $message['session_id'] = $session_id;
+    $client->publish($message);
+}
+
     	session_unset();
     	session_destroy();
 	}
