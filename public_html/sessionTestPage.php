@@ -12,7 +12,7 @@ require_once(__DIR__ . "/../scripts/lib/functions.php");
             Logged in: 
             <?php if(is_logged_in()) : ?>
                 True 
-                Username: <?php echo(get_session_data(['username'])) ?>
+                Username: <?php echo(get_session_username()) ?>
             <?php else : ?> 
                 False 
             <?php endif ?>
