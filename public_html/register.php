@@ -1,7 +1,6 @@
 <?php 
 require_once(__DIR__ . "/../scripts/lib/functions.php");
 reset_session();
-//TODO: Delete session data on database
 ?>
 <form onsubmit="return validate(this)" method="POST">
     <div>
@@ -104,8 +103,7 @@ if (isset($_POST["password"]) && isset($_POST["confirm"]) && isset($_POST["usern
         $response = $server->process_requests();
         if(isset($response['type']) && $response['type'] === 'registration_response') {
             if($response['registration_status'] === 'success') {
-                flash("Registration successful", "success");
-                //Session shenanigans
+                flash("Registration successful, you can now login using your account", "success");
             } else {
                 flash("Registration denied, fuck off", "danger");
             }
