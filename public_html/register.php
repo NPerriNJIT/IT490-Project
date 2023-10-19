@@ -1,5 +1,5 @@
 <?php 
-require_once(__DIR__ . "/../scripts/lib/functions.php");
+require_once(__DIR__ . "/../scripts/partials/nav.php");
 reset_session();
 ?>
 <form onsubmit="return validate(this)" method="POST">
