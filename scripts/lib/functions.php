@@ -101,14 +101,7 @@ function getMessages()
 function reset_session()
 {
 	if(session_status() == PHP_SESSION_ACTIVE) {
-		//TODO: Delete session data from database
-		function delete_session_data($session_id) {
-   		 $client = new rabbitMQClient(__DIR__ . "/../testRabbitMQ.ini", "testServer");
-    $message = array();
-    $message['type'] = "delete_session_data";
-    $message['session_id'] = $session_id;
-    $client->publish($message);
-}
+		delete_session_data(session_id());
 
     	session_unset();
     	session_destroy();
@@ -126,3 +119,10 @@ function send_session($session_id, $username)
 	is_logged_in();
 }
 
+function delete_session_data($session_id) {
+	$client = new rabbitMQClient(__DIR__ . "/../testRabbitMQ.ini", "testServer");
+	$message = array();
+	$message['type'] = "delete_session_data";
+	$message['session_id'] = $session_id;
+	$client->publish($message);
+}
