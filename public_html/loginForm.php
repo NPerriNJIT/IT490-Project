@@ -44,9 +44,7 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
         $request['password'] = $_POST['password'];
         print_r($request);
 
-        $client->publish($request);
-        $server = new rabbitMQServer(__DIR__ . "/../scripts/testRabbitMQ2.ini", "testServer");
-        $response = $server->process_requests();
+        $response = $client->send_request($request);
 
         if(isset($response['type']) && $response['type'] === 'login_response') {
             if($response['login_status'] === 'success') {

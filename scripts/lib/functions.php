@@ -34,16 +34,15 @@ function se($v, $k = null, $default = "", $isEcho = true)
 function is_logged_in($redirect = false, $destination = "loginForm.php")
 {
 	$client = new rabbitMQClient(__DIR__ . "/../testRabbitMQ.ini","testServer");
-	$response = array();
-	$response['type'] = "validate_session";
-	$response['session_id'] = session_id();
-	$client->publish($response);
+	$request = array();
+	$request['type'] = "validate_session";
+	$request['session_id'] = session_id();
 	//send session ID to see if logged in
 
-	$server = new rabbitMQServer(__DIR__ . "/../testRabbitMQ2.ini","testServer");
-	$request = $server->process_requests();
+	$response = $client->send_request($request);
 
-	if(isset($request['session_status']) && $request['session_status'] == true) {
+
+	if(isset($response['session_status']) && $response['session_status'] == true) {
 		$isLoggedIn = true;
 	} else {
 		$isLoggedIn = false;
@@ -59,19 +58,15 @@ function is_logged_in($redirect = false, $destination = "loginForm.php")
 function get_session_username() {
 	if(is_logged_in()) {
 		$client = new rabbitMQClient(__DIR__ . "/../testRabbitMQ.ini","testServer");
-		$message = array();
-		$message['type'] = "get_session_username";
-		$message['session_id'] = session_id();
-		$client->publish($message);
-		//Sends session validation request with requested session data if the user is logged in
-		
-		$server = new rabbitMQServer(__DIR__ . "/../testRabbitMQ2.ini","testServer");
-		$request = $server->process_requests();
+		$request = array();
+		$request['type'] = "get_session_username";
+		$request['session_id'] = session_id();
+		$response = $client->send_request($request);
 		//Waits for a response from the server
 
-		if(isset($request['type']) && $request['type'] == "session_response") {
-			if(isset($request['session_status']) && $request['session_status'] == "valid") {
-				return $request['username'];
+		if(isset($response['type']) && $response['type'] == "session_response") {
+			if(isset($response['session_status']) && $response['session_status'] == "valid") {
+				return $response['username'];
 			}
 		} else {
 			flash("ERROR IN FUNCTIONS SEE LINE 77", "danger");

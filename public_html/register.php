@@ -98,9 +98,7 @@ if (isset($_POST["password"]) && isset($_POST["confirm"]) && isset($_POST["usern
         $request['type'] = 'registration';
         $request['username'] = $username;
         $request['password'] = $hash;
-        $client->publish($request);
-        $server = new rabbitMQServer(__DIR__ . "/../scripts/testRabbitMQ2.ini", "testServer");
-        $response = $server->process_requests();
+        $response = $client->send_request($request);
         if(isset($response['type']) && $response['type'] === 'registration_response') {
             if($response['registration_status'] === 'success') {
                 flash("Registration successful, you can now login using your account", "success");
