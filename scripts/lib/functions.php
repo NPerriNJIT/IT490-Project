@@ -126,3 +126,14 @@ function delete_session_data($session_id) {
 	$message['session_id'] = $session_id;
 	$client->publish($message);
 }
+
+function get_url($dest)
+{
+    global $BASE_PATH;
+    if (str_starts_with($dest, "/")) {
+        //handle absolute path
+        return $dest;
+    }
+    //handle relative path
+    return $BASE_PATH . $dest;
+}
