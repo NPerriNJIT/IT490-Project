@@ -45,6 +45,13 @@ function requestProcessor($request)
 	case "delete_session_data":
 		delete_session($request['session_id']);
 		return true;
+	case "validate_session":
+		$response = array();
+		if(doValidate($request['session_id'])) {
+			$response['session_status'] = "valid";
+		} else {
+			$response['session_status'] = "invalid";
+		}
 	}
 	return array("returnCode" => '0', 'message'=>"Server received request and processed");
 }
