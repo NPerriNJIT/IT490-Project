@@ -1,4 +1,5 @@
 <?php
+//Basic profile page that will tell us whether the user is logged in with proper session data or not
 require_once(__DIR__ . "/../scripts/lib/functions.php");
 ?>
 

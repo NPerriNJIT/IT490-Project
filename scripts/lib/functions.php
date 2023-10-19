@@ -78,7 +78,8 @@ function get_session_username() {
 		}
 	}
 }
-
+//Used for outputting messages onto the webpage with different colors for different types of messages
+//"success" = green, "warning" = yellow, "danger" = red
 function flash($msg = "", $color = "info")
 {
     $message = ["text" => $msg, "color" => $color];
@@ -89,6 +90,7 @@ function flash($msg = "", $color = "info")
         array_push($_SESSION['flash'], $message);
     }
 }
+//Helper function for flash()
 function getMessages()
 {
     if (isset($_SESSION['flash'])) {
@@ -98,6 +100,7 @@ function getMessages()
     }
     return array();
 }
+//Used for hard resetting sessions, will delete it from database if it exists
 function reset_session()
 {
 	if(session_status() == PHP_SESSION_ACTIVE) {
@@ -108,6 +111,7 @@ function reset_session()
 	}
     session_start();
 }
+//On a successful login, send_session() will send session information to the server
 function send_session($session_id, $username)
 {
 	$client = new rabbitMQClient(__DIR__ . "/../testRabbitMQ.ini","testServer");
@@ -118,7 +122,7 @@ function send_session($session_id, $username)
 	$client->publish($message);
 	is_logged_in();
 }
-
+//Sends message to delete this session from database if it exists
 function delete_session_data($session_id) {
 	$client = new rabbitMQClient(__DIR__ . "/../testRabbitMQ.ini", "testServer");
 	$message = array();
@@ -126,7 +130,7 @@ function delete_session_data($session_id) {
 	$message['session_id'] = $session_id;
 	$client->publish($message);
 }
-
+//Gets the url of a page, used for nav
 function get_url($dest)
 {
     global $BASE_PATH;
