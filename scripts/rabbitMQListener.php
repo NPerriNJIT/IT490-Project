@@ -52,6 +52,7 @@ function requestProcessor($request)
 		} else {
 			$response['session_status'] = "invalid";
 		}
+		return $response;
 	}
 	return array("returnCode" => '0', 'message'=>"Server received request and processed");
 }
