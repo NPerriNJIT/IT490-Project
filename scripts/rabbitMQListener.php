@@ -17,22 +17,21 @@ function requestProcessor($request)
 	{
 	case "login":
 		echo("running login function"); //Debugging output
-		$client = new rabbitMQClient(__DIR__ . "/testRabbitMQ2.ini","testServer");
+		
 		$response = array();
 		$response['type'] = "login_response";
 		$response['login_status'] = doLogin($request['username'],$request['password']);
-		$client->publish($response);
 		echo "Sent response: ".PHP_EOL . var_dump($response);
+		return $response;
 	case "registration":
 		echo("running registration function");
-		$client = new rabbitMQClient(__DIR__ . "/testRabbitMQ2.ini","testServer");
 		$response = array();
 		$response['type'] = "registration_response";
 		$response['registration_status'] = doRegistration($request['username'],$request['password']);
-		$client->publish($response);
+		echo "Sent response: ".PHP_EOL . var_dump($response);
+		return $response;
 	case "get_session_username":
 		//TODO: add validate session
-		$client = new rabbitMQClient(__DIR__ . "/testRabbitMQ2.ini","testServer");
 		$response = array();
 		$response['type'] = "session_response";
 		if(doValidate($request['session_id'])) {
@@ -41,9 +40,11 @@ function requestProcessor($request)
 		} else {
 			$response['session_status'] = "invalid";
 		}
-		$client->publish($response);
+		echo "Sent response: ".PHP_EOL . var_dump($response);
+		return $response;
 	case "delete_session_data":
 		delete_session($request['session_id']);
+		return true;
 	}
 	return array("returnCode" => '0', 'message'=>"Server received request and processed");
 }
