@@ -5,4 +5,4 @@ if(is_logged_in()) {
 } else {
     flash("You never logged in...", "warning");
 }
-die("Location: loginForm.php");
+die(header("Location: loginForm.php"));
