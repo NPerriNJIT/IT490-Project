@@ -58,7 +58,7 @@ function doRegistration($username, $password)
 function doValidate($sessionID)
 {
 	$db = getDB();
-	$stmt = $db->prepare("Select * from Sessions where id = :sessionID");
+	$stmt = $db->prepare("Select * from Sessions where session_id = :sessionID");
 	try {
 		$r = $stmt->execute([":sessionID" => $sessionID]);
 		if($r) {
