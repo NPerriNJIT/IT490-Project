@@ -109,8 +109,10 @@ function delete_session($session_id) {
 	try {
 		$stmt->execute();
 		echo "Deleted session " . $session_id . PHP_EOL;
+		return "deleted";
 	} catch (Exception $e) {
 		echo "Error deleting session " . $session_id . ": " . $e . PHP_EOL; 
+		return "did not exist";
 	}
 }
 

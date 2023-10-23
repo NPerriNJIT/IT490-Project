@@ -43,8 +43,9 @@ function requestProcessor($request)
 		echo "Sent response: ".PHP_EOL . var_dump($response);
 		return $response;
 	case "delete_session_data":
-		delete_session($request['session_id']);
-		return true;
+		$response = array();
+		$response['delete_session_status'] = delete_session($request['session_id']);
+		return $response;
 	case "validate_session":
 		$response = array();
 		$response['session_status'] = doValidate($request['session_id']);
