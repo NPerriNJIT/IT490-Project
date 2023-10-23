@@ -21,6 +21,7 @@ if (($localWorks && $domain == "localhost") || $domain != "localhost") {
     ]);
 }
 session_start();
+$isLoggedIn = is_logged_in();
 require_once(__DIR__ . "/../lib/functions.php");
 
 ?>
@@ -32,14 +33,14 @@ require_once(__DIR__ . "/../lib/functions.php");
 <script src="<?php echo get_url('helpers.js'); ?>"></script>
 <nav>
     <ul>
-        <?php if (is_logged_in()) : ?>
+        <?php if ($isLoggedIn) : ?>
             <li><a href="<?php echo get_url('sessionTestPage.php'); ?>">Profile</a></li>
         <?php endif; ?>
-        <?php if (!is_logged_in()) : ?>
+        <?php if (!$isLoggedIn) : ?>
             <li><a href="<?php echo get_url('loginForm.php'); ?>">Login</a></li>
             <li><a href="<?php echo get_url('register.php'); ?>">Register</a></li>
         <?php endif; ?>
-        <?php if (is_logged_in()) : ?>
+        <?php if ($isLoggedIn) : ?>
             <li><a href="<?php echo get_url('logout.php'); ?>">Logout</a></li>
         <?php endif; ?>
     </ul>
