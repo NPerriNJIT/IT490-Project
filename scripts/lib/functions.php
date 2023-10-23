@@ -42,7 +42,7 @@ function is_logged_in($redirect = false, $destination = "loginForm.php")
 	$response = $client->send_request($request);
 
 
-	if(isset($response['session_status']) && $response['session_status'] == true) {
+	if(isset($response['session_status']) && $response['session_status'] === "valid") {
 		$isLoggedIn = true;
 	} else {
 		$isLoggedIn = false;
