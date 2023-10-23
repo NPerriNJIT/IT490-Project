@@ -114,7 +114,8 @@ function send_session($session_id, $username)
 	$message['type'] = "start_session";
 	$message['session_id'] = $session_id;
 	$message['username'] = $username;
-	$client->publish($message);
+	$response = $client->send_request($message);
+	//TODO: log response
 	is_logged_in();
 }
 //Sends message to delete this session from database if it exists
@@ -123,7 +124,8 @@ function delete_session_data($session_id) {
 	$message = array();
 	$message['type'] = "delete_session_data";
 	$message['session_id'] = $session_id;
-	$client->publish($message);
+	$response = $client->send_request($message);
+	//TODO: log response
 }
 //Gets the url of a page, used for nav
 function get_url($dest)
