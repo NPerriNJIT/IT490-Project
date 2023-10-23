@@ -47,11 +47,7 @@ function requestProcessor($request)
 		return true;
 	case "validate_session":
 		$response = array();
-		if(doValidate($request['session_id'])) {
-			$response['session_status'] = "valid";
-		} else {
-			$response['session_status'] = "invalid";
-		}
+		$response['session_status'] = doValidate($request['session_id']);
 		echo "Sent response: ".PHP_EOL . var_dump($response);
 		return $response;
 	}

@@ -63,10 +63,10 @@ function doValidate($sessionID)
 		$stmt->execute([":sessionID" => $sessionID]);
 		if($stmt->rowCount() > 0) {
 			echo "Valid session";
-			return true;
+			return "valid";
 		} else {
 			echo "Invalid session requested";
-			return true;
+			return "invalid";
 		}
 	} catch (Exception $e) {
 		echo "Error: " . $e->getMessage();
