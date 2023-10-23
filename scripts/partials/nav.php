@@ -20,9 +20,9 @@ if (($localWorks && $domain == "localhost") || $domain != "localhost") {
         "samesite" => "lax"
     ]);
 }
+require_once(__DIR__ . "/../lib/functions.php");
 session_start();
 $isLoggedIn = is_logged_in();
-require_once(__DIR__ . "/../lib/functions.php");
 
 ?>
 <!-- include css and js files -->
