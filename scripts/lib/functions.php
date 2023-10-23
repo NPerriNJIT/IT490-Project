@@ -107,7 +107,7 @@ function delete_session($session_id) {
 	$db = getDB();
 	$stmt = $db->prepare("Delete from Sessions where session_id = :session_id");
 	try {
-		$stmt->execute();
+		$stmt->execute([":session_id" => $session_id]);
 		echo "Deleted session " . $session_id . PHP_EOL;
 		return "deleted";
 	} catch (Exception $e) {
