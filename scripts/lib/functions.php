@@ -106,18 +106,6 @@ function reset_session()
 	}
     session_start();
 }
-//On a successful login, send_session() will send session information to the server
-function send_session($session_id, $username)
-{
-	$client = new rabbitMQClient(__DIR__ . "/../testRabbitMQ.ini","testServer");
-	$message = array();
-	$message['type'] = "start_session";
-	$message['session_id'] = $session_id;
-	$message['username'] = $username;
-	$response = $client->send_request($message);
-	//TODO: log response
-	is_logged_in();
-}
 //Sends message to delete this session from database if it exists
 function delete_session_data($session_id) {
 	$client = new rabbitMQClient(__DIR__ . "/../testRabbitMQ.ini", "testServer");
