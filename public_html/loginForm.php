@@ -1,5 +1,6 @@
 <?php
 require_once(__DIR__ . "/../scripts/partials/nav.php");
+error_reporting(E_ALL);
 if(is_logged_in()) {
     die(header("Location: sessionTestPage.php"));
 }
@@ -17,7 +18,7 @@ if(is_logged_in()) {
             <input type="text" id="username" name="username"><br>
 
             <label for="password"> Password: </label><br>
-            <input type="text" id="password" name="password"><br>
+            <input type="password" id="password" name="password"><br>
 
             <button type="submit"> Login </button>
 
