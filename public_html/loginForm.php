@@ -51,6 +51,8 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
         if(isset($response['type']) && $response['type'] === 'login_response') {
             if($response['login_status'] === 'success') {
                 flash("Login accepted", "success");
+                //TODO: update location once we have a proper profile or home page
+                die(header("Location: sessionTestPage.php"));
             } else {
                 flash("Login denied, fuck off", "danger");
             }
