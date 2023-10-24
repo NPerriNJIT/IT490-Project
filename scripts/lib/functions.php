@@ -19,9 +19,9 @@ function doLogin($username, $password, $session_id)
 				unset($user["password"]);
 				if (password_verify($password, $hash)) {
 					echo($user . " logged in successfully");
+					create_session($session_id, $user['id']);
 					return "success";
 					//TODO: Create a session client-side with ID matching the session here
-					create_session($session_id, $user['id']);
 					//TODO: Create a session here with username, other useful information
 					//we will have to pass things linked to users here, such as a team ID if we are sticking with fantasy football
 				} else {
