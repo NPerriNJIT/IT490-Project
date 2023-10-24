@@ -34,9 +34,9 @@ if(is_logged_in()) {
 if (isset($_POST['username']) && isset($_POST['password'])) {
     $username = $_POST['username'];
         $password = $_POST['password'];
-        require_once(__DIR__ . '../scripts/path.inc');
-        require_once(__DIR__ . '../scripts/get_host_info.inc');
-        require_once(__DIR__ . '../scripts/rabbitMQLib.inc');
+        require_once(__DIR__ . '/../scripts/path.inc');
+        require_once(__DIR__ . '/../scripts/get_host_info.inc');
+        require_once(__DIR__ . '/../scripts/rabbitMQLib.inc');
         $client = new rabbitMQClient(__DIR__ . "/../scripts/testRabbitMQ.ini", "testServer");
 
         $request = array();
