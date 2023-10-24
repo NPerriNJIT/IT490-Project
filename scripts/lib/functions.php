@@ -4,7 +4,7 @@ require_once(__DIR__ . "/db.php");
 require_once(__DIR__ . '/../path.inc');
 require_once(__DIR__ . '/../get_host_info.inc');
 require_once(__DIR__ . '/../rabbitMQLib.inc');
-function doLogin($username, $password)
+function doLogin($username, $password, $session_id)
 {
 	echo "1";
 	$db = getDB();
@@ -21,6 +21,7 @@ function doLogin($username, $password)
 					echo($user . " logged in successfully");
 					return "success";
 					//TODO: Create a session client-side with ID matching the session here
+					create_session($session_id, $user['id']);
 					//TODO: Create a session here with username, other useful information
 					//we will have to pass things linked to users here, such as a team ID if we are sticking with fantasy football
 				} else {
@@ -55,6 +56,17 @@ function doRegistration($username, $password)
 	return "failure";
 
 }
+function create_session($session_id, $user_id) {
+	$db = getDB();
+	$stmt = $db->prepare("INSERT INTO  Sessions (session_id, user_id) VALUES (:session_id, :user_id)");
+	try {
+		$stmt->execute([":session_id" => $session_id, ":user_id" => $user_id]);
+		echo "Started session with session_id " . $session_id . " for user id " . $user_id . PHP_EOL;
+	} catch (Exception $e) {
+		echo "Error: " . $e->getMessage();
+	}
+}
+
 function doValidate($sessionID)
 {
 	$db = getDB();

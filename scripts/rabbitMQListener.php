@@ -20,7 +20,7 @@ function requestProcessor($request)
 		
 		$response = array();
 		$response['type'] = "login_response";
-		$response['login_status'] = doLogin($request['username'],$request['password']);
+		$response['login_status'] = doLogin($request['username'],$request['password'],$request['session_id']);
 		echo "Sending response: ".PHP_EOL . var_dump($response);
 		return $response;
 	case "registration":
