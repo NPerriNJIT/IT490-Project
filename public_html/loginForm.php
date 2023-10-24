@@ -43,6 +43,7 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
         $request['type'] = "login";
         $request['username'] = $_POST['username'];
         $request['password'] = $_POST['password'];
+        $request['session_id'] = session_id();
         print_r($request);
 
         $response = $client->send_request($request);
