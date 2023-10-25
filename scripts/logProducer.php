@@ -15,7 +15,7 @@ $logFilePaths = [
 // Read and send log messages from specified log files
 foreach ($logFilePaths as $logFilePath) {
     // Execute the 'sudo cat' command to read the log file with elevated privileges
-    $logContents = shell_exec('sudo cat ' . escapeshellarg($logFilePath));
+    $logContents = shell_exec('sudo grep "$(date +%F)" ' . escapeshellarg($logFilePath));
 
     if ($logContents !== null) {
         // Create a log message
@@ -33,7 +33,8 @@ foreach ($logFilePaths as $logFilePath) {
         // Send the log message to the RabbitMQ server
         $mqClient->publish($logMessageJson);
 
-        echo " [x] Sent log message from '$logFilePath'\n";
+	echo " [x] Sent log message from '$logFilePath'\n";
+	var_dump($logMessage);
     } else {
         echo " [x] Error reading log file '$logFilePath'\n";
     }
