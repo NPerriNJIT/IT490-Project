@@ -1,45 +1,71 @@
+<?php
+require_once(__DIR__ . "/../scripts/partials/nav.php");
+error_reporting(E_ALL);
+if(is_logged_in()) {
+    die(header("Location: sessionTestPage.php"));
+}
+?>
 <html>
+
     <head>
-	<meta charset="UTF-8">
+        <meta charset="UTF-8">
 
     </head>
 
     <body>
-	<form method="POST" onsubmit="loginForm.php">
-	    <label for="username"> Username: </label><br>
-	    <input type="text" id="username" name="username"><br>
+        <form method="POST">
+            <label for="username"> Username: </label><br>
+            <input type="text" id="username" name="username"><br>
 
-	    <label for="password"> Password: </label><br>
-	    <input type="text" id="password" name="password"><br>>
+            <label for="password"> Password: </label><br>
+            <input type="password" id="password" name="password"><br>
 
-	    <button type="submit"> Login </button>
+            <button type="submit"> Login </button>
 
-	</form>
+
+        </form>
+
+
 
     </body>
+
 </html>
-
 <?php
-require_once('../scripts/path.inc');
-require_once('../scripts/get_host_info.inc');
-require_once('../scripts/rabbitMQLib.inc');
-$client = new rabbitMQClient("lib/testRabbitMQ.ini", "testServer");
+if (isset($_POST['username']) && isset($_POST['password'])) {
+    $username = $_POST['username'];
+        $password = $_POST['password'];
+        require_once(__DIR__ . '/../scripts/path.inc');
+        require_once(__DIR__ . '/../scripts/get_host_info.inc');
+        require_once(__DIR__ . '/../scripts/rabbitMQLib.inc');
+        $client = new rabbitMQClient(__DIR__ . "/../scripts/testRabbitMQ.ini", "testServer");
 
+        $request = array();
+        $request['type'] = "login";
+        $request['username'] = $_POST['username'];
+        $request['password'] = $_POST['password'];
+        $request['session_id'] = session_id();
+        print_r($request);
 
-$request = array();
-$request['type'] = "login";
-$request['username'] = $_POST['username'];
-$request['password'] = $_POST['password'];
-$request['message'] = "test Message";
+        $response = $client->send_request($request);
 
-print_r($request);
+        if(isset($response['type']) && $response['type'] === 'login_response') {
+            if($response['login_status'] === 'success') {
+                flash("Login accepted", "success");
+                //TODO: update location once we have a proper profile or home page
+                die(header("Location: sessionTestPage.php"));
+            } else {
+                flash("Login denied, fuck off", "danger");
+            }
+        } else {
+            //TODO:Log error
+            echo "Error with response";
+        }
 
-$response = $client->send_request($request);
-
-echo "client received response: ".PHP_EOL;
-print_r($response);
-echo "\n\n";
+} else {
+    echo "Both username and password are required.";
+}
 
 ?>
-
-
+<?php
+require(__DIR__ . "/../scripts/partials/flash.php");
+?>
