@@ -142,3 +142,18 @@ function send_blog_post($blog_post)
         flash("Blog post failed to send", "warning");
     }
 }
+
+function send_drink_rating($drink_id, $rating)
+{
+    $client = new rabbitMQClient(__DIR__ . "/../testRabbitMQ.ini", "testServer");
+    $request = array();
+    $request['type'] = 'send_drink_rating';
+    $request['drink_id'] = $drink_id;
+    $request['rating'] = $rating;
+    $response = $client->send_request($request);
+    if(isset($response['drink_rating_status']) && $response['drink_rating_status'] === "success") {
+        flash("Drink successfully rated", "success");
+    } else {
+        flash("Drink rating failed", "warning");
+    }
+}
