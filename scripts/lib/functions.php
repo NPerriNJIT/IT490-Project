@@ -189,3 +189,21 @@ function get_blog_posts_all()
         return [];
     }
 }
+
+//Get reviews for a specific drink
+function get_drink_reviews($drink_id)
+{
+    $client = new rabbitMQClient(__DIR__ . "/../testRabbitMQ.ini", "testServer");
+    $request = array();
+    $request['type'] = 'get_drink_reviews';
+    $request['drink_id'] = $drink_id;
+    $response = $client->send_request($request);
+    if(isset($response['get_drink_reviews_status']) && $response['get_drink_reviews_status'] === 'success') {
+        if($response['has_reviews'] === 'true') {
+            return $response['average_review'];
+        }
+        return "Unrated";
+    } else {
+        flash("Failed to get drink reviews", "warning");
+    }
+}
