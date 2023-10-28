@@ -113,6 +113,7 @@ function delete_session_data($session_id) {
 	$message['type'] = "delete_session_data";
 	$message['session_id'] = $session_id;
 	$response = $client->send_request($message);
+    flash("Successfully logged out", "success");
 	//TODO: log response
 }
 //Gets the url of a page, used for nav
@@ -125,4 +126,19 @@ function get_url($dest)
     }
     //handle relative path
     return $BASE_PATH . $dest;
+}
+
+//Sends blog post to DB
+function send_blog_post($blog_post)
+{
+    $client = new rabbitMQClient(__DIR__ . "/../testRabbitMQ.ini", "testServer");
+    $request = array();
+    $request['type'] = 'send_blog_post';
+    $request['blog_post'] = $blog_post;
+    $response = $client->send_request($request);
+    if(isset($response['blog_post_status']) && $response['blog_post_status'] === 'success') {
+        flash("Blog post succesfully sent", "success");
+    } else {
+        flash("Blog post failed to send", "warning");
+    }
 }
