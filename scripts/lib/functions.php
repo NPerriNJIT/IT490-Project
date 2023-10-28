@@ -143,6 +143,7 @@ function send_blog_post($blog_post)
     }
 }
 
+//Send drink rating to DB
 function send_drink_rating($drink_id, $rating)
 {
     $client = new rabbitMQClient(__DIR__ . "/../testRabbitMQ.ini", "testServer");
@@ -155,5 +156,20 @@ function send_drink_rating($drink_id, $rating)
         flash("Drink successfully rated", "success");
     } else {
         flash("Drink rating failed", "warning");
+    }
+}
+
+//Get blog posts from user
+function get_blog_posts($username) {
+    $client = new rabbitMQClient(__DIR__ . "/../testRabbitMQ.ini", "testServer");
+    $request = array();
+    $request['type'] = 'get_blog_posts';
+    $request['username'] = $username;
+    $response = $client->send_request($request);
+    if(isset($response['get_blog_posts_status']) && $response['get_blog_posts_status'] === 'success') {
+        return $response['blog_posts'];
+    } else {
+        flash("Failed to get blog posts", "warning");
+        return [];
     }
 }
