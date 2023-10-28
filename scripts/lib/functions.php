@@ -160,7 +160,7 @@ function send_drink_rating($drink_id, $rating)
 }
 
 //Get blog posts from user
-function get_blog_posts($username) {
+function get_blog_posts_username($username) {
     $client = new rabbitMQClient(__DIR__ . "/../testRabbitMQ.ini", "testServer");
     $request = array();
     $request['type'] = 'get_blog_posts';
@@ -173,3 +173,5 @@ function get_blog_posts($username) {
         return [];
     }
 }
+
+function get_drink_reviews
