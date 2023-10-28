@@ -161,6 +161,23 @@ function send_drink_rating($drink_id, $rating)
     }
 }
 
+//Send drink review to DB
+function send_drink_review($drink_id, $review)
+{
+    $client = new rabbitMQClient(__DIR__ . "/../testRabbitMQ.ini", "testServer");
+    $request = array();
+    $request['type'] = 'send_drink_rating';
+    $request['drink_id'] = $drink_id;
+    $request['review'] = $review;
+    $request['session_id'] = session_id();
+    $response = $client->send_request($request);
+    if(isset($response['drink_review_status']) && $response['drink_review_status'] === "success") {
+        flash("Drink successfully reviewed", "success");
+    } else {
+        flash("Drink review failed", "warning");
+    }
+}
+
 //Get blog posts from user
 function get_blog_posts_username($username) 
 {
@@ -192,6 +209,24 @@ function get_blog_posts_all()
     }
 }
 
+//Get rating for a specific drink
+function get_drink_rating($drink_id)
+{
+    $client = new rabbitMQClient(__DIR__ . "/../testRabbitMQ.ini", "testServer");
+    $request = array();
+    $request['type'] = 'get_drink_rating';
+    $request['drink_id'] = $drink_id;
+    $response = $client->send_request($request);
+    if(isset($response['get_drink_rating_status']) && $response['get_drink_rating_status'] === 'success') {
+        if($response['has_ratings'] === 'true') {
+            return $response['average_rating'];
+        }
+        return "Unrated";
+    } else {
+        flash("Failed to get drink ratings", "warning");
+    }
+}
+
 //Get reviews for a specific drink
 function get_drink_reviews($drink_id)
 {
@@ -202,9 +237,9 @@ function get_drink_reviews($drink_id)
     $response = $client->send_request($request);
     if(isset($response['get_drink_reviews_status']) && $response['get_drink_reviews_status'] === 'success') {
         if($response['has_reviews'] === 'true') {
-            return $response['average_review'];
+            return $response['average_reviews'];
         }
-        return "Unrated";
+        return "No reviews";
     } else {
         flash("Failed to get drink reviews", "warning");
     }
