@@ -160,13 +160,14 @@ function send_drink_rating($drink_id, $rating)
 }
 
 //Get blog posts from user
-function get_blog_posts_username($username) {
+function get_blog_posts_username($username) 
+{
     $client = new rabbitMQClient(__DIR__ . "/../testRabbitMQ.ini", "testServer");
     $request = array();
-    $request['type'] = 'get_blog_posts';
+    $request['type'] = 'get_blog_posts_username';
     $request['username'] = $username;
     $response = $client->send_request($request);
-    if(isset($response['get_blog_posts_status']) && $response['get_blog_posts_status'] === 'success') {
+    if(isset($response['get_blog_posts_username_status']) && $response['get_blog_posts_username_status'] === 'success') {
         return $response['blog_posts'];
     } else {
         flash("Failed to get blog posts", "warning");
@@ -174,4 +175,17 @@ function get_blog_posts_username($username) {
     }
 }
 
-function get_drink_reviews
+//Get all blog posts
+function get_blog_posts_all() 
+{
+    $client = new rabbitMQClient(__DIR__ . "/../testRabbitMQ.ini", "testServer");
+    $request = array();
+    $request['type'] = 'get_blog_posts_all';
+    $response = $client->send_request($request);
+    if(isset($response['get_blog_posts_all_status']) && $response['get_blog_posts_all_status'] === 'success') {
+        return $response['blog_posts'];
+    } else {
+        flash("Failed to get blog posts", "warning");
+        return [];
+    }
+}
