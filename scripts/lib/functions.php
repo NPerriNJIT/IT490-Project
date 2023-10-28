@@ -233,7 +233,7 @@ function get_favorite_drinks($username)
     $request = array();
     $request['type'] = 'get_favorite_drinks';
     $request['username'] = $username;
-    $response = client->send_request($request);
+    $response = $client->send_request($request);
     if(isset($response['get_favorite_drinks_status']) && $response['get_favorite_drinks_status'] === 'valid') {
         if($response['has_favorites'] === 'true') {
             return $response['favorite_drinks'];
