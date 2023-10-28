@@ -1,5 +1,5 @@
 # IT490-Project
-Fantasy football probably
+COCKTAIL DB
 Group Members: Nicholas Perri, Joseph Heaney, Zachary Garcia, Joshua Okossi
 
 # TODOs
@@ -30,3 +30,18 @@ Group Members: Nicholas Perri, Joseph Heaney, Zachary Garcia, Joshua Okossi
  - [x] Sessions
 	 - [x] Client: Send request type "validateSession" with session id to clientToServerQueue with requested variables, wait for response from serverToClientQueue
 	 - [x] Server: Receive request from clientToServerQueue with type "validateSession", check against sessions table, return requested information if it is a match on serverToClientQueue
+
+**Other common deliverable stuff**
+
+ - [ ] Distributed Logging
+	 - [ ] Logs will get sent to rabbitmq
+	 - [ ] Logs will be received by every machine on network
+
+**Personal Deliverables**
+
+ - [ ] Ability to search through drinks and add them to profile
+ - [ ] Profile page to see cocktail book & recipes
+ - [ ] Ability to rate and review recipes
+ - [ ] A recommendation system based on likes and preferences
+ - [ ] Ability to make personal recipes public and private, should show in recipe search if public
+ - [ ] Blog posts from bartender
