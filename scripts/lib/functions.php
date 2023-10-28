@@ -278,3 +278,21 @@ function get_favorite_drinks($username)
         flash("Failed to get favorite drinks", "warning");
     }
 }
+
+//Get drink info
+function get_drink_info($drink_id) {
+    $client = new rabbitMQClient(__DIR__ . "/../testRabbitMQ.ini", "testServer");
+    $request = array();
+    $request['type'] = 'get_drink_info';
+    $request['drink_id'] = $drink_id;
+    $response = $client->send_request($request);
+    if(isset($response['get_drink_info_status']) && $response['get_drink_info_status'] === 'valid') {
+        $drink_info = array();
+        //TODO: add drink info
+        return $drink_info;
+    } else {
+        flash("Error retrieving drink info", "danger");
+        die(header("Location: profile.php"));
+        return false;
+    }
+}
