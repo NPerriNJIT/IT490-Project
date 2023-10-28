@@ -135,6 +135,7 @@ function send_blog_post($blog_post)
     $request = array();
     $request['type'] = 'send_blog_post';
     $request['blog_post'] = $blog_post;
+    $request['session_id'] = session_id();
     $response = $client->send_request($request);
     if(isset($response['blog_post_status']) && $response['blog_post_status'] === 'success') {
         flash("Blog post succesfully sent", "success");
@@ -151,6 +152,7 @@ function send_drink_rating($drink_id, $rating)
     $request['type'] = 'send_drink_rating';
     $request['drink_id'] = $drink_id;
     $request['rating'] = $rating;
+    $request['session_id'] = session_id();
     $response = $client->send_request($request);
     if(isset($response['drink_rating_status']) && $response['drink_rating_status'] === "success") {
         flash("Drink successfully rated", "success");
@@ -205,5 +207,39 @@ function get_drink_reviews($drink_id)
         return "Unrated";
     } else {
         flash("Failed to get drink reviews", "warning");
+    }
+}
+
+//Add drink as favorite
+function send_favorite($drink_id) 
+{
+    $client = new rabbitMQClient(__DIR__ . "/../testRabbitMQ.ini", "testServer");
+    $request = array();
+    $request['type'] = 'send_favorite';
+    $request['drink_id'] = $drink_id;
+    $request['session_id'] = session_id();
+    $response = $client->send_request($request);
+    if(isset($response['send_favorite_status']) && $response['send_favorite_status'] === 'valid') {
+        flash("Successfully favorited", "success");
+    } else {
+        flash("Failed to favorite drink", "danger");
+    }
+}
+
+//Get favorite drinks
+function get_favorite_drinks($username)
+{
+    $client = new rabbitMQClient(__DIR__ . "/../testRabbitMQ.ini", "testServer");
+    $request = array();
+    $request['type'] = 'get_favorite_drinks';
+    $request['username'] = $username;
+    $response = client->send_request($request);
+    if(isset($response['get_favorite_drinks_status']) && $response['get_favorite_drinks_status'] === 'valid') {
+        if($response['has_favorites'] === 'true') {
+            return $response['favorite_drinks'];
+        }
+        return "No favorites";
+    } else {
+        flash("Failed to get favorite drinks", "warning");
     }
 }
