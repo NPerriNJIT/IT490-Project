@@ -4,7 +4,7 @@ require_once(__DIR__ . "/db.php");
 require_once(__DIR__ . '/../path.inc');
 require_once(__DIR__ . '/../get_host_info.inc');
 require_once(__DIR__ . '/../rabbitMQLib.inc');
-function doLogin($username, $password)
+function doLogin($username, $password, $session_id)
 {
 	echo "1";
 	$db = getDB();
@@ -19,6 +19,7 @@ function doLogin($username, $password)
 				unset($user["password"]);
 				if (password_verify($password, $hash)) {
 					echo($user . " logged in successfully");
+					create_session($session_id, $user['id']);
 					return "success";
 					//TODO: Create a session client-side with ID matching the session here
 					//TODO: Create a session here with username, other useful information
@@ -55,6 +56,17 @@ function doRegistration($username, $password)
 	return "failure";
 
 }
+function create_session($session_id, $user_id) {
+	$db = getDB();
+	$stmt = $db->prepare("INSERT INTO  Sessions (session_id, user_id) VALUES (:session_id, :user_id)");
+	try {
+		$stmt->execute([":session_id" => $session_id, ":user_id" => $user_id]);
+		echo "Started session with session_id " . $session_id . " for user id " . $user_id . PHP_EOL;
+	} catch (Exception $e) {
+		echo "Error: " . $e->getMessage();
+	}
+}
+
 function doValidate($sessionID)
 {
 	$db = getDB();
@@ -107,10 +119,12 @@ function delete_session($session_id) {
 	$db = getDB();
 	$stmt = $db->prepare("Delete from Sessions where session_id = :session_id");
 	try {
-		$stmt->execute();
+		$stmt->execute([":session_id" => $session_id]);
 		echo "Deleted session " . $session_id . PHP_EOL;
+		return "deleted";
 	} catch (Exception $e) {
 		echo "Error deleting session " . $session_id . ": " . $e . PHP_EOL; 
+		return "did not exist";
 	}
 }
 
