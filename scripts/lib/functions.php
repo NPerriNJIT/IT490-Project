@@ -179,14 +179,14 @@ function send_drink_review($drink_id, $review)
 }
 
 //Get blog posts from user
-function get_blog_posts_username($username) 
+function get_blog_posts_user($user_id) 
 {
     $client = new rabbitMQClient(__DIR__ . "/../testRabbitMQ.ini", "testServer");
     $request = array();
-    $request['type'] = 'get_blog_posts_username';
-    $request['username'] = $username;
+    $request['type'] = 'get_blog_posts_user';
+    $request['user_id'] = $user_id;
     $response = $client->send_request($request);
-    if(isset($response['get_blog_posts_username_status']) && $response['get_blog_posts_username_status'] === 'success') {
+    if(isset($response['get_blog_posts_user_status']) && $response['get_blog_posts_user_status'] === 'success') {
         return $response['blog_posts'];
     } else {
         flash("Failed to get blog posts", "warning");
@@ -262,12 +262,12 @@ function send_favorite($drink_id)
 }
 
 //Get favorite drinks
-function get_favorite_drinks($username)
+function get_favorite_drinks($user_id)
 {
     $client = new rabbitMQClient(__DIR__ . "/../testRabbitMQ.ini", "testServer");
     $request = array();
     $request['type'] = 'get_favorite_drinks';
-    $request['username'] = $username;
+    $request['user_id'] = $user_id;
     $response = $client->send_request($request);
     if(isset($response['get_favorite_drinks_status']) && $response['get_favorite_drinks_status'] === 'valid') {
         if($response['has_favorites'] === 'true') {
