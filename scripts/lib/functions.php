@@ -272,4 +272,21 @@ function get_drink_reviews($drink_id) {
 	}
 }
 
+function send_drink_review($drink_id, $session_id, $rating, $comment) {
+	$user_id = get_session_user_id($session_id);
+	if(!is_int($user_id)) {
+		return "user id error";
+	}
+	$db = getDB();
+	$stmt = $db->prepare("INSERT INTO Ratings (user_id, drink_id, rating, comment) VALUES(:user_id, :drink_id, :rating, :comment)");
+	try {
+		$stmt->execute([":user_id" => $user_id, ":drink_id" => $drink_id, ":rating" => $rating, ":comment" => $comment]);
+		echo  "Review posted successfully";
+		return "valid";
+	} catch (Exception $e) {
+		echo "Error: " . $e->getMessage();
+	}
+	return "failure";
+}
+
 ?>
