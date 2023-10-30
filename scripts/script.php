@@ -42,7 +42,7 @@ function populateDatabase($drink_id, $conn) {
 
         // Prepare SQL statement to insert data
         $stmt = $conn->prepare("INSERT INTO Drinks (drink_id, drink_name, drink_tags, alcoholic, ingredients, measurements, instructions, avgrating) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-        $stmt->bind_param("issssssds", $drink_id, $drink['strDrink'], $drink['strTags'], ($drink['strAlcoholic'] == 'Alcoholic' ? 1 : 0), $ingredients_param, $measurements_param, $drink['strInstructions'], $avgrating_param);
+        $stmt->bind_param("isssssssd", $drink_id, $drink['strDrink'], $drink['strTags'], ($drink['strAlcoholic'] == 'Alcoholic' ? 1 : 0), $ingredients_param, $measurements_param, $drink['strInstructions'], $avgrating_param);
 
         // Execute the prepared statement
         if ($stmt->execute()) {
