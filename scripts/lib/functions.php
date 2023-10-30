@@ -239,8 +239,8 @@ function get_favorite_drinks($user_id)
     $request['user_id'] = $user_id;
     $response = $client->send_request($request);
     if(isset($response['get_favorite_drinks_status']) && $response['get_favorite_drinks_status'] === 'valid') {
-        if($response['has_favorites'] === 'true') {
-            return $response['favorite_drinks'];
+        if($response['drink_ids'] > 0) {
+            return $response['drink_ids'];
         }
         return "No favorites";
     } else {
@@ -265,3 +265,61 @@ function get_drink_info($drink_id) {
         return false;
     }
 }
+
+//Get user id from session
+function get_session_user_id() {
+	$client = new rabbitMQClient(__DIR__ . "/../testRabbitMQ.ini","testServer");
+	$request = array();
+	$request['type'] = "get_session_user_id";
+	$request['session_id'] = session_id();
+	$response = $client->send_request($request);
+	//Waits for a response from the server
+
+		
+	if(isset($response['get_session_user_id_status']) && $response['session_status'] == "valid") {
+		return $response['user_id'];
+	}
+}
+
+function check_user_exists($user_id) {
+	$client = new rabbitMQClient(__DIR__ . "/../testRabbitMQ.ini","testServer");
+	$request = array();
+	$request['type'] = "check_user_exists";
+	$request['user_id'] = $user_id;
+	$response = $client->send_request($request);
+	//Waits for a response from the server
+
+	
+	if(isset($response['check_user_exists_status'])) {
+		return $response['check_user_exists_status'] === 'valid';
+	}
+}
+
+function get_profile_me($user_id) {
+	$client = new rabbitMQClient(__DIR__ . "/../testRabbitMQ.ini","testServer");
+	$request = array();
+	$request['type'] = "get_profile_me";
+	$request['user_id'] = $user_id;
+	$response = $client->send_request($request);
+	//Waits for a response from the server
+
+		
+	if(isset($response['get_profile_me_status']) && $response['get_profile_me_status'] == "valid") {
+		return $response['profile'];
+	}
+}
+
+function get_profile_not_me($user_id) {
+	$client = new rabbitMQClient(__DIR__ . "/../testRabbitMQ.ini","testServer");
+	$request = array();
+	$request['type'] = "get_profile_not_me";
+	$request['user_id'] = $user_id;
+	$response = $client->send_request($request);
+	//Waits for a response from the server
+
+		
+	if(isset($response['get_profile_not_me_status']) && $response['get_profile_not_me_status'] == "valid") {
+		return $response['profile'];
+	}
+}
+//TODO: Add display_drink_info() function
