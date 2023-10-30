@@ -88,7 +88,7 @@ if (isset($_POST["password"]) && isset($_POST["confirm"]) && isset($_POST["usern
     ) {
         echo "Passwords must match";
         $hasError = true;
-    }
+    }]
     if (!$hasError) {
         //TODO 4
         $hash = password_hash($password, PASSWORD_BCRYPT);
