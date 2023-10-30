@@ -85,6 +85,16 @@ function requestProcessor($request)
 		$response = array();
 		$response = get_drink_reviews($request['drink_id']);
 		return $response;
+	case "send_favorite":
+		echo "processing favorite";
+		$response = array();
+		$response = send_favorite($request['session_id'], $request['drink_id']);
+		return $response;
+	case "get_favorite_drinks":
+		echo "getting favorites";
+		$response = array();
+		$response = get_favorite_drinks($request['user_id']);
+		return $response;
 	}
 	return array("returnCode" => '0', 'message'=>"Server received request and processed");
 }

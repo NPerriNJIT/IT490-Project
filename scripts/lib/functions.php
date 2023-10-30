@@ -289,4 +289,40 @@ function send_drink_review($drink_id, $session_id, $rating, $comment) {
 	return "failure";
 }
 
+function send_favorite($session_id, $drink_id) {
+	$user_id = get_session_user_id($session_id);
+	if(!is_int($user_id)) {
+		return "user id error";
+	}
+	$db = getDB();
+	$stmt = $db->prepare("INSERT INTO Favorites (user_id, drink_id) VALUES(:user_id, :drink_id)");
+	try {
+		$stmt->execute([":user_id" => $user_id, ":drink_id" => $drink_id]);
+		echo  "Drink favorited successfully";
+		return "valid";
+	} catch (Exception $e) {
+		echo "Error: " . $e->getMessage();
+	}
+	return "failure";
+}
+
+
+function get_favorite_drinks($user_id) {
+	$db = getDB();
+	$stmt = $db->prepare("Select drink_id from Favorites where user_id = :user_id");
+	try {
+		$r = $stmt->execute([":user_id" => $user_id]);
+		if($r) {
+			$result = $stmt->fetch(PDO::FETCH_ASSOC);
+			$response['get_favorite_drinks_status'] = "valid";
+			$response['drink_ids'] = $result['drink_id'];
+			return $response;
+		}
+	} catch (Exception $e){
+		echo "Error: " . $e;
+		$response['get_favorite_drinks_status'] = "invalid";
+		return $response;
+	}
+}
+
 ?>
