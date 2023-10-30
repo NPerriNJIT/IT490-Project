@@ -127,7 +127,7 @@ function get_url($dest)
     //handle relative path
     return $BASE_PATH . $dest;
 }
-//THESE FUNCTIONS ARE FOR COMMON DELIVERABLES
+//THESE FUNCTIONS ARE FOR PERSONAL DELIVERABLES, NOT DONE YET
 //Sends blog post to DB
 function send_blog_post($blog_post)
 {
