@@ -1,4 +1,5 @@
 <?php
+//THIS PAGE ISN'T USABLE YET
 require_once(__DIR__ . "/../../partials/nav.php");
 if (!is_logged_in()) {
     die(header("Location: login.php"));
