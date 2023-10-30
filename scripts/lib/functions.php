@@ -137,7 +137,7 @@ function send_blog_post($blog_post)
     $request['blog_post'] = $blog_post;
     $request['session_id'] = session_id();
     $response = $client->send_request($request);
-    if(isset($response['blog_post_status']) && $response['blog_post_status'] === 'success') {
+    if(isset($response['blog_post_status']) && $response['blog_post_status'] === 'valid') {
         flash("Blog post succesfully sent", "success");
     } else {
         flash("Blog post failed to send", "warning");
@@ -154,7 +154,7 @@ function send_drink_rating($drink_id, $rating)
     $request['rating'] = $rating;
     $request['session_id'] = session_id();
     $response = $client->send_request($request);
-    if(isset($response['drink_rating_status']) && $response['drink_rating_status'] === "success") {
+    if(isset($response['drink_rating_status']) && $response['drink_rating_status'] === "valid") {
         flash("Drink successfully rated", "success");
     } else {
         flash("Drink rating failed", "warning");
@@ -171,7 +171,7 @@ function send_drink_review($drink_id, $review)
     $request['review'] = $review;
     $request['session_id'] = session_id();
     $response = $client->send_request($request);
-    if(isset($response['drink_review_status']) && $response['drink_review_status'] === "success") {
+    if(isset($response['drink_review_status']) && $response['drink_review_status'] === "valid") {
         flash("Drink successfully reviewed", "success");
     } else {
         flash("Drink review failed", "warning");
@@ -186,7 +186,7 @@ function get_blog_posts_user($user_id)
     $request['type'] = 'get_blog_posts_user';
     $request['user_id'] = $user_id;
     $response = $client->send_request($request);
-    if(isset($response['get_blog_posts_user_status']) && $response['get_blog_posts_user_status'] === 'success') {
+    if(isset($response['get_blog_posts_user_status']) && $response['get_blog_posts_user_status'] === 'valid') {
         return $response['blog_posts'];
     } else {
         flash("Failed to get blog posts", "warning");
@@ -201,29 +201,11 @@ function get_blog_posts_all()
     $request = array();
     $request['type'] = 'get_blog_posts_all';
     $response = $client->send_request($request);
-    if(isset($response['get_blog_posts_all_status']) && $response['get_blog_posts_all_status'] === 'success') {
+    if(isset($response['get_blog_posts_all_status']) && $response['get_blog_posts_all_status'] === 'valid') {
         return $response['blog_posts'];
     } else {
         flash("Failed to get blog posts", "warning");
         return [];
-    }
-}
-
-//Get rating for a specific drink
-function get_drink_rating($drink_id)
-{
-    $client = new rabbitMQClient(__DIR__ . "/../testRabbitMQ.ini", "testServer");
-    $request = array();
-    $request['type'] = 'get_drink_rating';
-    $request['drink_id'] = $drink_id;
-    $response = $client->send_request($request);
-    if(isset($response['get_drink_rating_status']) && $response['get_drink_rating_status'] === 'success') {
-        if($response['has_ratings'] === 'true') {
-            return $response['average_rating'];
-        }
-        return "Unrated";
-    } else {
-        flash("Failed to get drink ratings", "warning");
     }
 }
 
@@ -235,9 +217,12 @@ function get_drink_reviews($drink_id)
     $request['type'] = 'get_drink_reviews';
     $request['drink_id'] = $drink_id;
     $response = $client->send_request($request);
-    if(isset($response['get_drink_reviews_status']) && $response['get_drink_reviews_status'] === 'success') {
-        if($response['has_reviews'] === 'true') {
-            return $response['average_reviews'];
+    if(isset($response['get_drink_reviews_status']) && $response['get_drink_reviews_status'] === 'valid') {
+        if($response['average_rating'] != '0') {
+            $reviews['average_rating'] = $response['average_rating'];
+			$reviews['comments'] = $response['comments'];
+			$reviews['review_id'] = $response['review_id'];
+			return $reviews;
         }
         return "No reviews";
     } else {
