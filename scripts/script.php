@@ -23,19 +23,25 @@ function populateDatabase($drink_id, $conn) {
     if ($data['drinks'] != null) {
         $drink = $data['drinks'][0];
 
-        // Assign values to variables
-        $drink_id_param = $drink_id;
-        $drink_name_param = $drink['strDrink'];
-        $drink_tags_param = $drink['strTags'];
-        $alcoholic_param = ($drink['strAlcoholic'] == 'Alcoholic' ? 1 : 0);
-        $ingredients_param = json_encode(array_filter($drink, function ($key) { return strpos($key, 'strIngredient') === 0; }, ARRAY_FILTER_USE_KEY));
-        $measurements_param = json_encode(array_filter($drink, function ($key) { return strpos($key, 'strMeasure') === 0; }, ARRAY_FILTER_USE_KEY));
-        $instructions_param = $drink['strInstructions'];
-        $avgrating_param = null;
+        // Extract ingredients and measurements
+        $ingredients = [];
+        $measurements = [];
+        for ($i = 1; $i <= 15; $i++) {
+            $ingredient = $drink["strIngredient$i"];
+            $measurement = $drink["strMeasure$i"];
+            if ($ingredient && $measurement) {
+                $ingredients[] = $ingredient;
+                $measurements[] = $measurement;
+            }
+        }
+
+        // Combine ingredients and measurements into comma-separated text
+        $ingredients_param = implode(", ", $ingredients);
+        $measurements_param = implode(", ", $measurements);
 
         // Prepare SQL statement to insert data
         $stmt = $conn->prepare("INSERT INTO Drinks (drink_id, drink_name, drink_tags, alcoholic, ingredients, measurements, instructions, avgrating) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-        $stmt->bind_param("issssssd", $drink_id_param, $drink_name_param, $drink_tags_param, $alcoholic_param, $ingredients_param, $measurements_param, $instructions_param, $avgrating_param);
+        $stmt->bind_param("issssssd", $drink_id, $drink['strDrink'], $drink['strTags'], ($drink['strAlcoholic'] == 'Alcoholic' ? 1 : 0), $ingredients_param, $measurements_param, $drink['strInstructions'], null);
 
         // Execute the prepared statement
         if ($stmt->execute()) {
