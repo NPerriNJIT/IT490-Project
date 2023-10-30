@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS `DRINKS` (
+CREATE TABLE IF NOT EXISTS `Drinks` (
         `drink_id` INT PRIMARY KEY NOT NULL UNIQUE,
         `drink_name` VARCHAR(60) NOT NULL,
         `drink_tags` VARCHAR(255),
