@@ -236,4 +236,40 @@ function get_blog_posts_all() {
 	}
 }
 
+
+//TODO: Delete redundant function from frontend
+function get_drink_reviews($drink_id) {
+	$db = getDB();
+	$stmt = $db->prepare("Select rating, comment, id from Ratings where drink_id = :drink_id");
+	try{
+		$r = $stmt->execute([":drink_id" => $drink_id]);
+		if($r) {
+			$response = array();
+			$response['get_drink_reviews_status'] = "valid";
+			$result = $stmt->fetch(PDO::FETCH_ASSOC);
+			if(count($result) == 0) {
+				$response['average_rating'] = 0;
+			} else {
+				$avg_rating = array_sum($result['rating']) / count($result);
+				$response['average_rating'] = $avg_rating;
+				$response['comments'] = $result['comment'];
+				$response['rating_id'] = $result['id'];
+			}
+			
+
+			return $response;
+
+		} else {
+			$result = array();
+			$result['get_drink_reviews_status'] = "invalid";
+			return $result;
+		}
+	} catch (Exception $e) {
+		echo "Error: " . $e;
+		$result = array();
+		$result['get_drink_reviews_status'] = "invalid";
+		return $result;
+	}
+}
+
 ?>
