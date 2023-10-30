@@ -144,31 +144,15 @@ function send_blog_post($blog_post)
     }
 }
 
-//Send drink rating to DB
-function send_drink_rating($drink_id, $rating)
+//Send drink review to DB
+function send_drink_review($drink_id, $rating, $comment)
 {
     $client = new rabbitMQClient(__DIR__ . "/../testRabbitMQ.ini", "testServer");
     $request = array();
     $request['type'] = 'send_drink_rating';
     $request['drink_id'] = $drink_id;
     $request['rating'] = $rating;
-    $request['session_id'] = session_id();
-    $response = $client->send_request($request);
-    if(isset($response['drink_rating_status']) && $response['drink_rating_status'] === "valid") {
-        flash("Drink successfully rated", "success");
-    } else {
-        flash("Drink rating failed", "warning");
-    }
-}
-
-//Send drink review to DB
-function send_drink_review($drink_id, $review)
-{
-    $client = new rabbitMQClient(__DIR__ . "/../testRabbitMQ.ini", "testServer");
-    $request = array();
-    $request['type'] = 'send_drink_rating';
-    $request['drink_id'] = $drink_id;
-    $request['review'] = $review;
+	$request['comment'] = $comment;
     $request['session_id'] = session_id();
     $response = $client->send_request($request);
     if(isset($response['drink_review_status']) && $response['drink_review_status'] === "valid") {
