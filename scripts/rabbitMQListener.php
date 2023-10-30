@@ -54,6 +54,17 @@ function requestProcessor($request)
 		$response['session_status'] = doValidate($request['session_id']);
 		echo "Sending response: ".PHP_EOL . var_dump($response);
 		return $response;
+	case "get_drink_info":
+		echo "running get drink info" . PHP_EOL;
+		$response = array();
+		$response = get_drink($request['drink_id']);
+		echo "Sending response: " . PHP_EOL . var_dump($response);
+		return $response;
+	case "send_blog_post":
+		echo "user sent blog post" . PHP_EOL;
+		$response = array();
+		$response['send_blog_post_status'] = send_blog_post($request['session_id'], $request['blog_post']);
+		return $response;
 	}
 	return array("returnCode" => '0', 'message'=>"Server received request and processed");
 }

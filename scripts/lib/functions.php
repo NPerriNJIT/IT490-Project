@@ -128,4 +128,65 @@ function delete_session($session_id) {
 	}
 }
 
+function get_session_user_id($session_id) {
+	$db = getDB();
+	$stmt = $db->prepare("Select user_id from Sessions where session_id = :sessionID");
+	try {
+		$r = $stmt->execute([":sessionID" => $session_id]);
+		if($r) {
+			$result = $stmt->fetch(PDO::FETCH_ASSOC);
+			return $result['user_id'];
+		} else {
+			return "session doesn't exist";
+		}
+			
+	} catch (Exception $e) {
+		echo "Error: " . $e;
+		return "error";
+	}
+}
+
+//Gets drink info
+function get_drink($drink_id) {
+	$db = getDB();
+	$stmt = $db->prepare("Select drink_name, drink_tags, alcoholic, ingredients, measurements, instructions from Drinks where drink_id = :drink_id");
+	try{
+		$r = $stmt->execute([":drink_id" => $drink_id]);
+		if($r) {
+			$result = $stmt->fetch(PDO::FETCH_ASSOC);
+			$result['get_drink_info_status'] = "valid";
+			return $result;
+
+		} else {
+			$result = array();
+			$result['get_drink_info_status'] = "invalid";
+			return $result;
+		}
+	} catch (Exception $e) {
+		echo "Error: " . $e;
+		$result = array();
+		$result['get_drink_info_status'] = "invalid";
+		return $result;
+	}
+}
+
+//Processes blog post
+function send_blog_post($session_id, $blog_post) {
+	$user_id = get_session_user_id($session_id);
+	if(!is_int($user_id)) {
+		return "user id error";
+	}
+	$db = getDB();
+	$stmt = $db->prepare("INSERT INTO Blogs (user_id, blog_post) VALUES(:user_id, :blog_post)");
+	try {
+		$stmt->execute([":user_id" => $user_id, ":blog_post" => $blog_post]);
+		echo  "Blog posted successfully";
+		return "valid";
+	} catch (Exception $e) {
+		echo "Error: " . $e->getMessage();
+	}
+	return "failure";
+}
+
+
 ?>
