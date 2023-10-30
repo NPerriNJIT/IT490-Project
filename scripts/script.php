@@ -23,9 +23,19 @@ function populateDatabase($drink_id, $conn) {
     if ($data['drinks'] != null) {
         $drink = $data['drinks'][0];
 
+        // Assign values to variables
+        $drink_id_param = $drink_id;
+        $drink_name_param = $drink['strDrink'];
+        $drink_tags_param = $drink['strTags'];
+        $alcoholic_param = ($drink['strAlcoholic'] == 'Alcoholic' ? 1 : 0);
+        $ingredients_param = json_encode(array_filter($drink, function ($key) { return strpos($key, 'strIngredient') === 0; }, ARRAY_FILTER_USE_KEY));
+        $measurements_param = json_encode(array_filter($drink, function ($key) { return strpos($key, 'strMeasure') === 0; }, ARRAY_FILTER_USE_KEY));
+        $instructions_param = $drink['strInstructions'];
+        $avgrating_param = null;
+
         // Prepare SQL statement to insert data
         $stmt = $conn->prepare("INSERT INTO Drinks (drink_id, drink_name, drink_tags, alcoholic, ingredients, measurements, instructions, avgrating) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-        $stmt->bind_param("issssssd", $drink_id, $drink['strDrink'], $drink['strTags'], ($drink['strAlcoholic'] == 'Alcoholic' ? 1 : 0), json_encode(array_filter($drink, function ($key) { return strpos($key, 'strIngredient') === 0; }, ARRAY_FILTER_USE_KEY)), json_encode(array_filter($drink, function ($key) { return strpos($key, 'strMeasure') === 0; }, ARRAY_FILTER_USE_KEY)), $drink['strInstructions'], null);
+        $stmt->bind_param("issssssd", $drink_id_param, $drink_name_param, $drink_tags_param, $alcoholic_param, $ingredients_param, $measurements_param, $instructions_param, $avgrating_param);
 
         // Execute the prepared statement
         if ($stmt->execute()) {
@@ -40,7 +50,7 @@ function populateDatabase($drink_id, $conn) {
 }
 
 // Start populating the database from a specified drink_id
-$drink_id = 1;
+$drink_id = 11000;
 while (true) {
     populateDatabase($drink_id, $conn);
     $drink_id++;
