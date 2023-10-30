@@ -24,34 +24,35 @@ function populateDatabase($drink_id, $conn) {
         $drink = $data['drinks'][0];
 
         // Extract ingredients and measurements
-        $ingredients = [];
-        $measurements = [];
-        for ($i = 1; $i <= 15; $i++) {
-            $ingredient = $drink["strIngredient$i"];
-            $measurement = $drink["strMeasure$i"];
-            if ($ingredient && $measurement) {
-                $ingredients[] = $ingredient;
-                $measurements[] = $measurement;
-            }
+    $ingredients = [];
+    $measurements = [];
+    for ($i = 1; $i <= 15; $i++) {
+        $ingredient = $drink["strIngredient$i"];
+        $measurement = $drink["strMeasure$i"];
+        if ($ingredient && $measurement) {
+            $ingredients[] = $ingredient;
+            $measurements[] = $measurement;
         }
+    }
 
-        // Combine ingredients and measurements into comma-separated text
-        $ingredients_param = implode(", ", $ingredients);
-        $measurements_param = implode(", ", $measurements);
+    // Combine ingredients and measurements into comma-separated text
+    $ingredients_param = implode(", ", $ingredients);
+    $measurements_param = implode(", ", $measurements);
+    $avgrating_param = 0;
+    
+    // Prepare SQL statement to insert data
+    $stmt = $conn->prepare("INSERT INTO Drinks (drink_id, drink_name, drink_tags, alcoholic, ingredients, measurements, instructions, avgrating) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param("isssssssd", $drink_id, $drink['strDrink'], $drink['strTags'], ($drink['strAlcoholic'] == 'Alcoholic' ? 1 : 0), $ingredients_param, $measurements_param, $drink['strInstructions'], $avgrating_param);
 
-        // Prepare SQL statement to insert data
-        $stmt = $conn->prepare("INSERT INTO Drinks (drink_id, drink_name, drink_tags, alcoholic, ingredients, measurements, instructions, avgrating) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-        $stmt->bind_param("isssssssd", $drink_id, $drink['strDrink'], $drink['strTags'], ($drink['strAlcoholic'] == 'Alcoholic' ? 1 : 0), $ingredients_param, $measurements_param, $drink['strInstructions'], null);
+    // Execute the prepared statement
+    if ($stmt->execute()) {
+        echo "Inserted drink with ID: " . $drink_id . "<br>";
+    } else {
+        echo "Error inserting drink with ID: " . $drink_id . "<br>";
+    }
 
-        // Execute the prepared statement
-        if ($stmt->execute()) {
-            echo "Inserted drink with ID: " . $drink_id . "<br>";
-        } else {
-            echo "Error inserting drink with ID: " . $drink_id . "<br>";
-        }
-
-        // Close the statement
-        $stmt->close();
+    // Close the statement
+    $stmt->close();
     }
 }
 
@@ -66,3 +67,5 @@ while (true) {
 $conn->close();
 
 ?>
+
+
