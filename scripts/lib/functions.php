@@ -188,5 +188,52 @@ function send_blog_post($session_id, $blog_post) {
 	return "failure";
 }
 
+//Get blog posts for a specific user
+function get_blog_posts_user($user_id) {
+	$db = getDB();
+	$stmt = $db->prepare("Select Blogs.blog_post, Users.username from Blogs inner join Users On Blogs.user_id = Users.id where Blogs.user_id = :user_id order bye Blogs.blog_id desc;");
+	try{
+		$r = $stmt->execute([":user_id" => $user_id]);
+		if($r) {
+			$result = $stmt->fetch(PDO::FETCH_ASSOC);
+			$result['get_blog_posts_user_status'] = "valid";
+			return $result;
+
+		} else {
+			$result = array();
+			$result['get_blog_posts_user_status'] = "invalid";
+			return $result;
+		}
+	} catch (Exception $e) {
+		echo "Error: " . $e;
+		$result = array();
+		$result['get_blog_posts_user_status'] = "invalid";
+		return $result;
+	}
+}
+
+//Get blog posts for all users
+function get_blog_posts_all() {
+	$db = getDB();
+	$stmt = $db->prepare("Select Blogs.blog_post, Users.username from Blogs inner join Users On Blogs.user_id = Users.id order bye Blogs.blog_id desc;");
+	try{
+		$r = $stmt->execute();
+		if($r) {
+			$result = $stmt->fetch(PDO::FETCH_ASSOC);
+			$result['get_blog_posts_all_status'] = "valid";
+			return $result;
+
+		} else {
+			$result = array();
+			$result['get_blog_posts_all_status'] = "invalid";
+			return $result;
+		}
+	} catch (Exception $e) {
+		echo "Error: " . $e;
+		$result = array();
+		$result['get_blog_posts_all_status'] = "invalid";
+		return $result;
+	}
+}
 
 ?>

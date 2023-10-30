@@ -65,6 +65,16 @@ function requestProcessor($request)
 		$response = array();
 		$response['send_blog_post_status'] = send_blog_post($request['session_id'], $request['blog_post']);
 		return $response;
+	case "get_blog_posts_user":
+		echo "getting user blog posts" . PHP_EOL;
+		$response = array();
+		$response = get_blog_posts_user($request['user_id']);
+		return $response;
+	case "get_blog_posts_all":
+		echo "getting all blog posts" . PHP_EOL;
+		$response = array();
+		$response = get_blog_posts_all();
+		return $response;
 	}
 	return array("returnCode" => '0', 'message'=>"Server received request and processed");
 }
