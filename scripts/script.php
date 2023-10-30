@@ -38,11 +38,20 @@ function populateDatabase($drink_id, $conn) {
         // Combine ingredients and measurements into comma-separated text
         $ingredients_param = implode(", ", $ingredients);
         $measurements_param = implode(", ", $measurements);
+        $alcoholic_param = ($drink['strAlcoholic'] == 'Alcoholic') ? 1 : 0;
         $avgrating_param = 0;
 
         // Prepare SQL statement to insert data
         $stmt = $conn->prepare("INSERT INTO Drinks (drink_id, drink_name, drink_tags, alcoholic, ingredients, measurements, instructions, avgrating) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-        $stmt->bind_param("isssssssd", $drink_id, $drink['strDrink'], $drink['strTags'], ($drink['strAlcoholic'] == 'Alcoholic' ? 1 : 0), $ingredients_param, $measurements_param, $drink['strInstructions'], $avgrating_param);
+
+        // Check if the prepare statement was successful
+        if ($stmt === false) {
+            echo "Error preparing statement: " . $conn->error . "<br>";
+            return;
+        }
+
+        // Bind the parameters
+        $stmt->bind_param("isssssssd", $drink_id, $drink['strDrink'], $drink['strTags'], $alcoholic_param, $ingredients_param, $measurements_param, $drink['strInstructions'], $avgrating_param);
 
         // Execute the prepared statement
         if ($stmt->execute()) {
