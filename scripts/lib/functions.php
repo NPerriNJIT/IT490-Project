@@ -188,5 +188,141 @@ function send_blog_post($session_id, $blog_post) {
 	return "failure";
 }
 
+//Get blog posts for a specific user
+function get_blog_posts_user($user_id) {
+	$db = getDB();
+	$stmt = $db->prepare("Select Blogs.blog_post, Users.username from Blogs inner join Users On Blogs.user_id = Users.id where Blogs.user_id = :user_id order bye Blogs.blog_id desc;");
+	try{
+		$r = $stmt->execute([":user_id" => $user_id]);
+		if($r) {
+			$result = $stmt->fetch(PDO::FETCH_ASSOC);
+			$result['get_blog_posts_user_status'] = "valid";
+			return $result;
+
+		} else {
+			$result = array();
+			$result['get_blog_posts_user_status'] = "invalid";
+			return $result;
+		}
+	} catch (Exception $e) {
+		echo "Error: " . $e;
+		$result = array();
+		$result['get_blog_posts_user_status'] = "invalid";
+		return $result;
+	}
+}
+
+//Get blog posts for all users
+function get_blog_posts_all() {
+	$db = getDB();
+	$stmt = $db->prepare("Select Blogs.blog_post, Users.username from Blogs inner join Users On Blogs.user_id = Users.id order bye Blogs.blog_id desc;");
+	try{
+		$r = $stmt->execute();
+		if($r) {
+			$result = $stmt->fetch(PDO::FETCH_ASSOC);
+			$result['get_blog_posts_all_status'] = "valid";
+			return $result;
+
+		} else {
+			$result = array();
+			$result['get_blog_posts_all_status'] = "invalid";
+			return $result;
+		}
+	} catch (Exception $e) {
+		echo "Error: " . $e;
+		$result = array();
+		$result['get_blog_posts_all_status'] = "invalid";
+		return $result;
+	}
+}
+
+
+//TODO: Delete redundant function from frontend
+function get_drink_reviews($drink_id) {
+	$db = getDB();
+	$stmt = $db->prepare("Select rating, comment, id from Ratings where drink_id = :drink_id");
+	try{
+		$r = $stmt->execute([":drink_id" => $drink_id]);
+		if($r) {
+			$response = array();
+			$response['get_drink_reviews_status'] = "valid";
+			$result = $stmt->fetch(PDO::FETCH_ASSOC);
+			if(count($result) == 0) {
+				$response['average_rating'] = 0;
+			} else {
+				$avg_rating = array_sum($result['rating']) / count($result);
+				$response['average_rating'] = $avg_rating;
+				$response['comments'] = $result['comment'];
+				$response['rating_id'] = $result['id'];
+			}
+			
+
+			return $response;
+
+		} else {
+			$result = array();
+			$result['get_drink_reviews_status'] = "invalid";
+			return $result;
+		}
+	} catch (Exception $e) {
+		echo "Error: " . $e;
+		$result = array();
+		$result['get_drink_reviews_status'] = "invalid";
+		return $result;
+	}
+}
+
+function send_drink_review($drink_id, $session_id, $rating, $comment) {
+	$user_id = get_session_user_id($session_id);
+	if(!is_int($user_id)) {
+		return "user id error";
+	}
+	$db = getDB();
+	$stmt = $db->prepare("INSERT INTO Ratings (user_id, drink_id, rating, comment) VALUES(:user_id, :drink_id, :rating, :comment)");
+	try {
+		$stmt->execute([":user_id" => $user_id, ":drink_id" => $drink_id, ":rating" => $rating, ":comment" => $comment]);
+		echo  "Review posted successfully";
+		return "valid";
+	} catch (Exception $e) {
+		echo "Error: " . $e->getMessage();
+	}
+	return "failure";
+}
+
+function send_favorite($session_id, $drink_id) {
+	$user_id = get_session_user_id($session_id);
+	if(!is_int($user_id)) {
+		return "user id error";
+	}
+	$db = getDB();
+	$stmt = $db->prepare("INSERT INTO Favorites (user_id, drink_id) VALUES(:user_id, :drink_id)");
+	try {
+		$stmt->execute([":user_id" => $user_id, ":drink_id" => $drink_id]);
+		echo  "Drink favorited successfully";
+		return "valid";
+	} catch (Exception $e) {
+		echo "Error: " . $e->getMessage();
+	}
+	return "failure";
+}
+
+
+function get_favorite_drinks($user_id) {
+	$db = getDB();
+	$stmt = $db->prepare("Select drink_id from Favorites where user_id = :user_id");
+	try {
+		$r = $stmt->execute([":user_id" => $user_id]);
+		if($r) {
+			$result = $stmt->fetch(PDO::FETCH_ASSOC);
+			$response['get_favorite_drinks_status'] = "valid";
+			$response['drink_ids'] = $result['drink_id'];
+			return $response;
+		}
+	} catch (Exception $e){
+		echo "Error: " . $e;
+		$response['get_favorite_drinks_status'] = "invalid";
+		return $response;
+	}
+}
 
 ?>

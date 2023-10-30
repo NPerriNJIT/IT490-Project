@@ -65,6 +65,36 @@ function requestProcessor($request)
 		$response = array();
 		$response['send_blog_post_status'] = send_blog_post($request['session_id'], $request['blog_post']);
 		return $response;
+	case "get_blog_posts_user":
+		echo "getting user blog posts" . PHP_EOL;
+		$response = array();
+		$response = get_blog_posts_user($request['user_id']);
+		return $response;
+	case "get_blog_posts_all":
+		echo "getting all blog posts" . PHP_EOL;
+		$response = array();
+		$response = get_blog_posts_all();
+		return $response;
+	case "send_drink_review":
+		echo "processing drink review" . PHP_EOL;
+		$response = array();
+		$response['send_drink_reviews_status'] = send_drink_review($request['drink_id'], $request['session_id'], $request['rating'], $request['comment']);
+		return $response;
+	case "get_drink_reviews":
+		echo "getting drink reviews" . PHP_EOL;
+		$response = array();
+		$response = get_drink_reviews($request['drink_id']);
+		return $response;
+	case "send_favorite":
+		echo "processing favorite";
+		$response = array();
+		$response = send_favorite($request['session_id'], $request['drink_id']);
+		return $response;
+	case "get_favorite_drinks":
+		echo "getting favorites";
+		$response = array();
+		$response = get_favorite_drinks($request['user_id']);
+		return $response;
 	}
 	return array("returnCode" => '0', 'message'=>"Server received request and processed");
 }
