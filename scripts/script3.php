@@ -32,27 +32,23 @@ if ($result->num_rows > 0) {
     }
 }
 
-// Fetch the API data for each drink and associate ingredients with drink IDs
-$api_url = "https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=";
+// Loop through each drink and associate ingredients with drink IDs
 foreach ($drink_ids as $drink_id) {
-    $response = file_get_contents($api_url . $drink_id);
-    $data = json_decode($response, true);
+    // Simulate a random number of ingredients (between 2 and 8) for each drink
+    $num_ingredients = rand(2, 8);
 
-    if (isset($data['drinks'])) {
-        $drink = $data['drinks'][0];
-        foreach ($ingredient_ids as $ingredient_name => $ingredient_id) {
-            if (!empty($drink[$ingredient_name])) {
-                // Insert a row into `Drink_Ingredients`
-                $stmt = $conn->prepare("INSERT INTO Drink_Ingredients (drink_id, ingredient_id) VALUES (?, ?)");
-                $stmt->bind_param("ii", $drink_id, $ingredient_id);
-                $stmt->execute();
-                $stmt->close();
-            }
-        }
-        echo "Associated ingredients for drink ID: " . $drink_id . "<br>";
-    } else {
-        echo "Unable to fetch data for drink ID: " . $drink_id . "<br>";
+    // Select random ingredients from the ingredient list
+    $selected_ingredients = array_rand($ingredient_ids, $num_ingredients);
+
+    // Insert rows into `Drink_Ingredients` table
+    foreach ($selected_ingredients as $ingredient) {
+        $ingredient_id = $ingredient_ids[$ingredient];
+        $stmt = $conn->prepare("INSERT INTO Drink_Ingredients (drink_id, ingredient_id) VALUES (?, ?)");
+        $stmt->bind_param("ii", $drink_id, $ingredient_id);
+        $stmt->execute();
+        $stmt->close();
     }
+    echo "Associated ingredients for drink ID: " . $drink_id . "<br>";
 }
 
 // Close the database connection
