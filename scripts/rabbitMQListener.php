@@ -54,6 +54,12 @@ function requestProcessor($request)
 		$response['session_status'] = doValidate($request['session_id']);
 		echo "Sending response: ".PHP_EOL . var_dump($response);
 		return $response;
+	case "get_drink_info":
+		echo "running get drink info" . PHP_EOL;
+		$response = array();
+		$response = get_drink($request['drink_id']);
+		echo "Sending response: " . PHP_EOL . var_dump($response);
+		return $response;
 	}
 	return array("returnCode" => '0', 'message'=>"Server received request and processed");
 }

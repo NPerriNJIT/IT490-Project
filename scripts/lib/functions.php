@@ -128,4 +128,31 @@ function delete_session($session_id) {
 	}
 }
 
+//Gets drink info
+function get_drink($drink_id) {
+	$db = getDB();
+	$stmt = $db->prepare("Select drink_name, drink_tags, alcoholic, ingredients, measurements, instructions from Drinks where drink_id = :drink_id");
+	try{
+		$r = $stmt->execute([":drink_id" => $drink_id]);
+		if($r) {
+			$result = $stmt->fetch(PDO::FETCH_ASSOC);
+			$result['get_drink_info_status'] = "valid";
+			return $result;
+
+		} else {
+			$result = array();
+			$result['get_drink_info_status'] = "invalid";
+			return $result;
+		}
+	} catch (Exception $e) {
+		echo "Error: " . $e;
+		$result = array();
+		$result['get_drink_info_status'] = "invalid";
+		return $result;
+	}
+}
+
+
+
+
 ?>
