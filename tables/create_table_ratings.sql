@@ -6,6 +6,6 @@ CREATE TABLE IF NOT EXISTS `Ratings`(
     `comment` text,
     `created` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (`user_id`) REFERENCES Users(`id`),
-    FOREIGN KEY (`drink_id`) REFERENCES DRINKS(`drink_id`),
+    FOREIGN KEY (`drink_id`) REFERENCES Drinks(`drink_id`),
     check (`rating` > 0 AND `rating` <= 5)
 )
