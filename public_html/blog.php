@@ -13,7 +13,7 @@ $blog_posts = get_blog_posts_all();
     </head>
     <body>
         <?php foreach($blog_posts as $blog_post) {
-            echo "<h2>Title: " . $blog_post['title'] . "</h2>";
+            echo "<h2>Title: " . $blog_post['blog_title'] . "</h2>";
             echo "<h4>User: " . $blog_post['username'] . "</h4>";
             echo "<p>" . $blog_post['blog_post'] . "</p>";
         }
