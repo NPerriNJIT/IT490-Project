@@ -4,10 +4,10 @@ require_once(__DIR__ . "/../../partials/nav.php");
 if (!is_logged_in()) {
     die(header("Location: loginForm.php"));
 }
-//TODO: sanitize id
+//TODO: sanitize id if necessary
 $user_id = $_GET['id'];
 error_log("user id $user_id");
-if ($user_id < 1 || check_user_id_exists()) {
+if ($user_id < 1 || !check_user_exists($user_id)) {
     flash("Invalid user", "danger");
     die(header("Location: profile?id=$user_id"));
 }

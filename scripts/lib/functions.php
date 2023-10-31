@@ -293,6 +293,7 @@ function check_user_exists($user_id) {
 	if(isset($response['check_user_exists_status'])) {
 		return $response['check_user_exists_status'] === 'valid';
 	}
+	return false;
 }
 
 function get_profile_me($user_id) {
