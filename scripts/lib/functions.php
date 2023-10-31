@@ -336,3 +336,17 @@ function display_drink_info($drink) {
 	$drink_info = $drink_info . "<li>Instructions: " . $drink['instructions'] . "</li>" . PHP_EOL . "<hr>";
 	return $drink_info;
 }
+
+function get_recommendations() {
+	$client = new rabbitMQClient(__DIR__ . "/../testRabbitMQ.ini","testServer");
+	$request = array();
+	$request['type'] = "get_recommendations";
+	$request['user_id'] = session_id();
+	$response = $client->send_request($request);
+	if(isset($response('get_recommendations_status')) && $response('get_recommendations_status') === 'valid') {
+		return $response['drinks'];
+	} else {
+		echo flash("Failed to get recommendations", "warning");
+		return "error";
+	}
+}
