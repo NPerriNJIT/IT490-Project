@@ -12,7 +12,7 @@ if(!is_logged_in()) {
 
     </head>
     <body>
-        <form method="POST">
+        <form method="POST" action="">
             <label for="blogTitle">Title:</label><br>
             <input type="text" id="blogTitle" name="blogTitle"><br><br>
 
