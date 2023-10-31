@@ -63,7 +63,7 @@ function requestProcessor($request)
 	case "send_blog_post":
 		echo "user sent blog post" . PHP_EOL;
 		$response = array();
-		$response['send_blog_post_status'] = send_blog_post($request['session_id'], $request['blog_post']);
+		$response['send_blog_post_status'] = send_blog_post($request['session_id'], $request['blog_post'], $request['blog_title']);
 		return $response;
 	case "get_blog_posts_user":
 		echo "getting user blog posts" . PHP_EOL;
