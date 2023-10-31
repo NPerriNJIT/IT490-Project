@@ -25,7 +25,6 @@ if (isset($_POST["submit"])) {
 ?>
 <h1>Add Rating</h1>
 <?php echo(display_drink_info($drink)) ?>
-<p><?php echo($get_reviews)?></p>
 <form method="POST">
     <h3>Rating</h3>
 	<label for="1">☆</label>
