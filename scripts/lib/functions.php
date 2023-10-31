@@ -147,7 +147,6 @@ function get_drink($drink_id) {
 	try{
 		$r = $stmt->execute([":drink_id" => $drink_id]);
 		if($r) {
-			$result = array();
 			$result = $stmt->fetch(PDO::FETCH_ASSOC);
 			$result['get_drink_info_status'] = "valid";
 			return $result;
