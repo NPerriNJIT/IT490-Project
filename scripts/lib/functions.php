@@ -242,16 +242,7 @@ function get_drink_reviews($drink_id) {
 			$response = array();
 			$response['get_drink_reviews_status'] = "valid";
 			$result = $stmt->fetch(PDO::FETCH_ASSOC);
-			if(empty($result['id'])) {
-				$response['average_rating'] = 0;
-			} else {
-				$avg_rating = array_sum($result['rating']) / count($result);
-				$response['average_rating'] = $avg_rating;
-				$response['comments'] = $result['comment'];
-				$response['rating_id'] = $result['id'];
-			}
-			
-
+			$response['reviews'] = $result;
 			return $response;
 
 		} else {
@@ -270,6 +261,7 @@ function get_drink_reviews($drink_id) {
 function send_drink_review($drink_id, $session_id, $rating, $comment) {
 	$user_id = get_session_user_id($session_id);
 	if(!is_int($user_id)) {
+		echo "funky error" . PHP_EOL;
 		return "user id error";
 	}
 	$db = getDB();
