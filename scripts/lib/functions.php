@@ -387,4 +387,47 @@ function get_recommendations($user_id, $amount = 10) {
 	return $response;
 }
 
+function search_drinks($search_string) {
+	$db = getDB();
+	$search_results = array();
+	//If it is an ID search, we look only at id's
+	//Otherwise, we search names, ingredients
+	$search_result_ids = array();
+	if(preg_match('/^[0-9]+$/', $search_string)) {
+		$stmt = $db->prepare("Select drink_id from Drinks where drink_id = :drink_id");
+		try{
+			$r = $stmt->execute([':drink_id' => $search_string]);
+			if($r) {
+				$result = $stmt->fetch(PDO::FETCH_ASSOC);
+				$search_result_ids = $result['drink_id'];
+			}
+		} catch (Exception $e) {
+			echo("Error: " . $e);
+			$response['search_drinks_status'] = "invalid";
+			return $response;
+		}
+	} else {
+		$stmt = $db->prepare("Select drink_id from Drinks where drink_name like :search or ingredients like :search or drink_tags like :search");
+		try {
+			$r = $stmt->execute([':search' => $search_string]);
+			if($r) {
+				$result = $stmt->fetch(PDO::FETCH_ASSOC);
+				$search_result_ids = $result['drink_id'];
+			}
+		} catch (Exception $e) {
+			echo("Error: " . $e);
+			$response['search_drinks_status'] = "invalid";
+			return $response;
+		}
+	}
+	foreach($search_result_ids as $drink_id) {
+		$drink_info = get_drink($drink_id);
+		unset($drink_info['get_drink_info_status']);
+		array_push($search_results, $drink_info);
+	}
+	$response['search_drinks_status'] = "valid";
+	$response['search_results'] = $search_results;
+	return $response;
+}
+
 ?>

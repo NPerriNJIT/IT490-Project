@@ -104,6 +104,11 @@ function requestProcessor($request)
 			$response = get_recommendations($request['user_id']);
 		}
 		return $response;
+	case "search_drinks":
+		echo "search";
+		$response = array();
+		$response = search_drinks($request['search_string']);
+		return $response;
 	}
 	return array("returnCode" => '0', 'message'=>"Server received request and processed");
 }
