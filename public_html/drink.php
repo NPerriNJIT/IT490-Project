@@ -7,15 +7,12 @@ if(!isset($_GET['id'])) {
 //TODO: Make this page
 $drink_id = $_GET['id'];
 $drink = get_drink_info($drink_id);
-$get_reviews = get_drink_reviews($drink_id);
+$reviews = get_drink_reviews($drink_id);
 $unrated = false;
-if($get_reviews === 'No reviews') {
+if(count($reviews) == 0) {
     $unrated = true;
 } else {
-    $comments = array();
-    $avg_rating = $get_reviews['average_rating'];
-    $comments['text'] = $get_reviews['comments'];
-    $comments['review_id'] = $get_reviews['review_id'];
+    $avg_rating = array_sum($reviews['rating'])/count($reviews['rating']);
 }
 if (isset($_POST["submit"])) {
     if (!isset($_POST["rating_number"]) || !isset($_POST["comment"])) {
@@ -58,11 +55,12 @@ if (isset($_POST["submit"])) {
 
 <?php
 // Check if there are previous ratings and comments
-if (!empty($comments)) {
+if (!$unrated) {
     echo "<h2>Previous Ratings and Comments:</h2>";
     if(!$unrated);
-    foreach ($comments as $review) {
-        
+    foreach ($reviews as $review) {
+
+        echo "<p>Rating: " . $rating['rating'] . "</p>";
         echo "<div>";
         echo "<p>Comment: " . $review['text'] . "</p>";
         echo "</div>";

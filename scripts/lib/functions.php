@@ -205,15 +205,11 @@ function get_drink_reviews($drink_id)
     $request['drink_id'] = $drink_id;
     $response = $client->send_request($request);
     if(isset($response['get_drink_reviews_status']) && $response['get_drink_reviews_status'] === 'valid') {
-        if($response['average_rating'] != '0') {
-            $reviews['average_rating'] = $response['average_rating'];
-			$reviews['comments'] = $response['comments'];
-			$reviews['review_id'] = $response['review_id'];
-			return $reviews;
-        }
-        return "No reviews";
+		$reviews = $response['reviews'];
+		return $reviews;
     } else {
         flash("Failed to get drink reviews", "warning");
+		return [];
     }
 }
 
