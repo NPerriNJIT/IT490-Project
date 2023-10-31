@@ -28,6 +28,7 @@ if (isset($_POST["submit"])) {
 ?>
 <h1>Add Rating</h1>
 <?php echo(display_drink_info($drink)) ?>
+<?php echo(var_dump($drink)) ?>
 <p><?php echo($get_reviews)?></p>
 <form method="POST">
     <h3>Rating</h3>
