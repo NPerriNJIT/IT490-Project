@@ -16,8 +16,11 @@ $comments['review_id'] = $get_reviews['review_id'];
 if (isset($_POST["submit"])) {
     if (!isset($_POST["rating_number"]) || !isset($_POST["comment"])) {
         flash("Please fill all fields", "danger");
+    } else {
+        send_drink_review($drink_id, $_POST["rating_number"], $_POST["comment"]);
     }
-}  
+}
+
 ?>
 <h1>Add Rating</h1>
 <form method="POST">
@@ -45,6 +48,22 @@ if (isset($_POST["submit"])) {
 </form>
 </div>
 
+<!-- Assuming you have your form and other content above this section -->
+
 <?php
+// Check if there are previous ratings and comments
+if (!empty($comments)) {
+    echo "<h2>Previous Ratings and Comments:</h2>";
+    
+    foreach ($comments as $review) {
+        $rating = $review['rating'];
+        $comment = $review['comment'];
+        
+        echo "<div>";
+        echo "<p>Rating: $rating stars</p>";
+        echo "<p>Comment: $comment</p>";
+        echo "</div>";
+    }
+}
 require(__DIR__ . "/../scripts/partials/flash.php");
 ?>
