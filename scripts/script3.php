@@ -61,7 +61,7 @@ foreach ($drink_ids as $drink_id) {
             }
         }
 
-        echo "Associated ingredients for drink ID: " . $drink_id . "<br>";
+        echo "Associated ingredients for drink ID: " . $drink_id . " | ";
     }
 }
 
