@@ -258,6 +258,7 @@ function get_drink_info($drink_id) {
     $request['drink_id'] = $drink_id;
     $response = $client->send_request($request);
     if(isset($response['get_drink_info_status']) && $response['get_drink_info_status'] === 'valid') {
+		error_log(print_r($response));
         $drink_info = array();
         $drink_info = $response['drink_info'];
         return $drink_info;
