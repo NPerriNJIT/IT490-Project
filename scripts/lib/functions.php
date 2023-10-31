@@ -325,4 +325,66 @@ function get_favorite_drinks($user_id) {
 	}
 }
 
+function get_recommendations($user_id, $amount = 10) {
+	//Find favorites
+	$db = getDB();
+	$favorites = get_favorite_drinks($user_id);
+	$favorite_ids = $favorites['drink_id'];
+	$recommendations = array();
+	$liked_ingredients = array();
+	//Compile an array of liked ingredients
+	foreach($favorite_ids as $drink_id) {
+		$stmt = $db->prepare("Select ingredient_id from Drink_Ingredients where drink_id = :drink_id");
+		try {
+			$r = $stmt->execute(['drink_id' => $drink_id]);
+			if($r) {
+				$result = $stmt->fetch(PDO::FETCH_ASSOC);
+				array_push($liked_ingredients, $result['ingredient_id']);
+			}
+		} catch (Exception $e) {
+			echo("Error: " . $e);
+			$response['get_recommendations_status'] = "invalid";
+			return $response;
+		}
+	}
+	//Order by most liked
+	$count_instances = array_count_values($liked_ingredients);
+	arsort($count_instances);
+	$weighted_ingredients = array_keys($count_instances);
+	//Find top $amount drinks, first come first serve based on ingredient preference, then randomize drinks that are weighted the same
+	$recommendation_ids = array();
+	foreach($weighted_ingredients as $ingredient_id) {
+		$stmt = $db->prepare("Select distinct drink_id from Drink_Ingredients where ingredient_id = :ingredient_id");
+		try {
+			$r = $stmt->execute(['drink_id' => $drink_id]);
+			if($r) {
+				$result = $stmt->fetch(PDO::FETCH_ASSOC);
+				array_push($recommendation_ids, $result['drink_id']);
+				shuffle($recommendation_ids);
+			}
+			if(count($recommendation_ids) >= $amount) {
+				break;
+			} 
+		} catch (Exception $e) {
+			echo("Error: " . $e);
+			$response['get_recommendations_status'] = "invalid";
+			return $response;
+		}
+	}
+	//Double check that we are only recommending $amount of drinks, array is already randomized so it will remove randomly
+	while(count($recommendation_ids) >= $amount) {
+		array_shift($recommendation_ids);
+	}
+	//Get drink info for recommendations
+	foreach($recommendation_ids as $drink_id) {
+		$drink_info = get_drink($drink_id);
+		unset($drink_info['get_drink_info_status']);
+		array_push($recommendations, $drink_info);
+	}
+	$response = array();
+	$response['get_recommendations_status'] = 'valid';
+	$response['recommendations'] = $recommendations;
+	return $response;
+}
+
 ?>
