@@ -187,7 +187,7 @@ function send_blog_post($session_id, $blog_post, $blog_title) {
 function get_blog_posts_user($user_id) {
 	$db = getDB();
 	$response = array();
-	$stmt = $db->prepare("Select Blogs.blog_post, Blogs.blog_title, Users.username from Blogs inner join Users On Blogs.user_id = Users.id where Blogs.user_id = :user_id order bye Blogs.blog_id desc;");
+	$stmt = $db->prepare("Select Blogs.blog_post, Blogs.blog_title, Users.username from Blogs inner join Users On Blogs.user_id = Users.id where Blogs.user_id = :user_id order by Blogs.blog_id desc;");
 	try{
 		$r = $stmt->execute([":user_id" => $user_id]);
 		if($r) {
