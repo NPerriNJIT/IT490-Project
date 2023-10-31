@@ -8,7 +8,6 @@ if(!isset($_GET['id'])) {
 $drink_id = $_GET['id'];
 $drink = get_drink_info($drink_id);
 $get_reviews = get_drink_reviews($drink_id);
-print_r($get_reviews);
 //$avg_rating = $get_reviews['average_rating'];
 //$comments = array();
 //$comments['text'] = $get_reviews['comments'];
@@ -24,6 +23,7 @@ if (isset($_POST["submit"])) {
 
 ?>
 <h1>Add Rating</h1>
+<p><?php echo(var_dump($get_reviews)); ?></p>
 <form method="POST">
     <h3>Rating</h3>
 	<label for="1">☆</label>
