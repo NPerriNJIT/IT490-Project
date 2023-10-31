@@ -12,7 +12,8 @@ require_once(__DIR__ . "/../scripts/partials/nav.php");
             const baseDomain = "https://thecocktaildb.com/api/json/v1/1/";
 
             const searchDomain_Name = "search.php?s=";
-            //fetch to CocktailDB API
+            
+            //function when search button is pressed
             searchButton.addEventListener('click', () => {
                 const apiURL = baseDomain + searchDomain_Name + drinkNameInput.value
                 
@@ -31,6 +32,7 @@ require_once(__DIR__ . "/../scripts/partials/nav.php");
                         this.tags = tags;
                     }
                 }
+                //fetch request to API
                 fetch(apiURL)
                     .then(response => response.json())
                     .then(data=> {
@@ -75,7 +77,8 @@ require_once(__DIR__ . "/../scripts/partials/nav.php");
                                 const img = drinkData.strDrinkThumb;
                                 const glass = drinkData.strGlass;
                                 const instructions = drinkData.strInstructions;
-                
+                                
+                                //TODO: Push to database | currently pushing to website 
                                 const drinkInfo = `
                                     <li>Drink Name: ${drinkName}</li>
                                     <li>Drink ID: ${drinkID}</li>
