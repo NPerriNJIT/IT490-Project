@@ -343,10 +343,24 @@ function get_recommendations() {
 	$request['type'] = "get_recommendations";
 	$request['user_id'] = session_id();
 	$response = $client->send_request($request);
-	if(isset($response('get_recommendations_status')) && $response('get_recommendations_status') === 'valid') {
+	if(isset($response['get_recommendations_status']) && $response['get_recommendations_status'] === 'valid') {
 		return $response['drinks'];
 	} else {
 		echo flash("Failed to get recommendations", "warning");
 		return "error";
+	}
+}
+
+function search_drinks($search_string) {
+	$client = new rabbitMQClient(__DIR__ . "/../testRabbitMQ.ini","testServer");
+	$request = array();
+	$request['type'] = "search_drinks";
+	$request['search_string'] = $search_string;
+	$response = $client->send_request($request);
+	if(isset($response['search_drinks_status']) && $response['search_drinks_status'] === 'valid') {
+		unset($response['search_drinks_status']);
+		return $response;
+	} else {
+		flash("Error searching", "warning");
 	}
 }
