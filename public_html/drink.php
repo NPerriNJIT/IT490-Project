@@ -7,7 +7,6 @@ if(!isset($_GET['id'])) {
 //TODO: Make this page
 $drink_id = $_GET['id'];
 $drink = get_drink_info($drink_id);
-echo(var_dump($drink));
 $get_reviews = get_drink_reviews($drink_id);
 $unrated = false;
 if($get_reviews === 'No reviews') {
@@ -28,7 +27,16 @@ if (isset($_POST["submit"])) {
 
 ?>
 <h1>Add Rating</h1>
-<?php echo(display_drink_info($drink)) ?>
+<?php
+$drink_info = "<li>Drink Name: " . $drink['drink_name'] . "</li>" . PHP_EOL;
+	$drink_info = $drink_info . "<li>Drink ID: " . $drink['drink_id'] . "</li>" . PHP_EOL;
+	$drink_info = $drink_info . "<li>Drink Category: " . $drink['tags'] . "</li>" . PHP_EOL;
+	$drink_info = $drink_info . "<li>Is alcoholic?: " . $drink['alcoholic'] . "</li>" . PHP_EOL;
+	$drink_info = $drink_info . "<li>Ingredients: " . $drink['ingredients'] . "</li>" . PHP_EOL;
+	$drink_info = $drink_info . "<li>Measurements: " . $drink['measurements'] . "</li>" . PHP_EOL;
+	$drink_info = $drink_info . "<li>Instructions: " . $drink['instructions'] . "</li>" . PHP_EOL . "<hr>";
+	$drink_info; ?>
+<?php echo($drink_info) ?>
 <?php echo($drink['drink_name']) ?>
 <p><?php echo($get_reviews)?></p>
 <form method="POST">
