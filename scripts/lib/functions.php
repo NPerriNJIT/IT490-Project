@@ -142,25 +142,26 @@ function get_session_user_id($session_id) {
 
 //Gets drink info
 function get_drink($drink_id) {
+	$response = array();
 	$db = getDB();
 	$stmt = $db->prepare("Select drink_name, drink_tags, alcoholic, ingredients, measurements, instructions from Drinks where drink_id = :drink_id");
 	try{
 		$r = $stmt->execute([":drink_id" => $drink_id]);
 		if($r) {
 			$result = $stmt->fetch(PDO::FETCH_ASSOC);
-			$result['get_drink_info_status'] = "valid";
-			return $result;
+			$response['drink_info'] = $result;
+			$response['get_drink_info_status'] = "valid";
+			return $response;
 
 		} else {
-			$result = array();
-			$result['get_drink_info_status'] = "invalid";
-			return $result;
+			$response['get_drink_info_status'] = "invalid";
+			return $response;
 		}
 	} catch (Exception $e) {
 		echo "Error: " . $e;
-		$result = array();
-		$result['get_drink_info_status'] = "invalid";
-		return $result;
+		$response = array();
+		$response['get_drink_info_status'] = "invalid";
+		return $response;
 	}
 }
 
@@ -185,48 +186,48 @@ function send_blog_post($session_id, $blog_post, $blog_title) {
 //Get blog posts for a specific user
 function get_blog_posts_user($user_id) {
 	$db = getDB();
+	$response = array();
 	$stmt = $db->prepare("Select Blogs.blog_post, Blogs.blog_title, Users.username from Blogs inner join Users On Blogs.user_id = Users.id where Blogs.user_id = :user_id order bye Blogs.blog_id desc;");
 	try{
 		$r = $stmt->execute([":user_id" => $user_id]);
 		if($r) {
 			$result = $stmt->fetch(PDO::FETCH_ASSOC);
-			$result['get_blog_posts_user_status'] = "valid";
-			return $result;
+			$response['get_blog_posts_user_status'] = "valid";
+			$response['blog_posts'] = $result;
+			return $response;
 
 		} else {
-			$result = array();
-			$result['get_blog_posts_user_status'] = "invalid";
-			return $result;
+			$response['get_blog_posts_user_status'] = "invalid";
+			return $response;
 		}
 	} catch (Exception $e) {
 		echo "Error: " . $e;
-		$result = array();
-		$result['get_blog_posts_user_status'] = "invalid";
-		return $result;
+		$response['get_blog_posts_user_status'] = "invalid";
+		return $response;
 	}
 }
 
 //Get blog posts for all users
 function get_blog_posts_all() {
 	$db = getDB();
+	$response = array();
 	$stmt = $db->prepare("Select Blogs.blog_post, Blogs.blog_title, Users.username from Blogs inner join Users On Blogs.user_id = Users.id order bye Blogs.blog_id desc;");
 	try{
 		$r = $stmt->execute();
 		if($r) {
 			$result = $stmt->fetch(PDO::FETCH_ASSOC);
-			$result['get_blog_posts_all_status'] = "valid";
-			return $result;
+			$response['get_blog_posts_all_status'] = "valid";
+			$response['blog_posts'] = $result;
+			return $response;
 
 		} else {
-			$result = array();
-			$result['get_blog_posts_all_status'] = "invalid";
-			return $result;
+			$response['get_blog_posts_all_status'] = "invalid";
+			return $response;
 		}
 	} catch (Exception $e) {
 		echo "Error: " . $e;
-		$result = array();
-		$result['get_blog_posts_all_status'] = "invalid";
-		return $result;
+		$response['get_blog_posts_all_status'] = "invalid";
+		return $response;
 	}
 }
 
@@ -254,15 +255,15 @@ function get_drink_reviews($drink_id) {
 			return $response;
 
 		} else {
-			$result = array();
-			$result['get_drink_reviews_status'] = "invalid";
-			return $result;
+			$response = array();
+			$response['get_drink_reviews_status'] = "invalid";
+			return $response;
 		}
 	} catch (Exception $e) {
 		echo "Error: " . $e;
-		$result = array();
-		$result['get_drink_reviews_status'] = "invalid";
-		return $result;
+		$response = array();
+		$response['get_drink_reviews_status'] = "invalid";
+		return $response;
 	}
 }
 
