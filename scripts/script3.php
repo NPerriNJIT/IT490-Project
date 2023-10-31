@@ -25,6 +25,20 @@ if ($result->num_rows > 0) {
 
 // Loop through each drink and fetch the number of ingredients from the API
 foreach ($drink_ids as $drink_id) {
+    // Check if the drink ID already exists in Drink_Ingredients
+    $check_stmt = $conn->prepare("SELECT COUNT(*) FROM Drink_Ingredients WHERE drink_id = ?");
+    $check_stmt->bind_param("i", $drink_id);
+    $check_stmt->execute();
+    $check_stmt->bind_result($count);
+    $check_stmt->fetch();
+    $check_stmt->close();
+    
+    // If the drink ID already exists, skip to the next one
+    if ($count > 0) {
+        echo "Drink ID " . $drink_id . " already exists in Drink_Ingredients | ";
+        continue;
+    }
+
     $api_url = "https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=" . $drink_id;
     $response = file_get_contents($api_url);
     $data = json_decode($response, true);
