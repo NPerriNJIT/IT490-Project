@@ -191,7 +191,7 @@ function get_blog_posts_user($user_id) {
 	try{
 		$r = $stmt->execute([":user_id" => $user_id]);
 		if($r) {
-			$result = $stmt->fetch(PDO::FETCH_ASSOC);
+			$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 			$response['get_blog_posts_user_status'] = "valid";
 			$response['blog_posts'] = $result;
 			return $response;
@@ -215,7 +215,7 @@ function get_blog_posts_all() {
 	try{
 		$r = $stmt->execute();
 		if($r) {
-			$result = $stmt->fetch(PDO::FETCH_ASSOC);
+			$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 			$response['get_blog_posts_all_status'] = "valid";
 			$response['blog_posts'] = $result;
 			return $response;
@@ -241,7 +241,7 @@ function get_drink_reviews($drink_id) {
 		if($r) {
 			$response = array();
 			$response['get_drink_reviews_status'] = "valid";
-			$result = $stmt->fetch(PDO::FETCH_ASSOC);
+			$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 			$response['reviews'] = $result;
 			return $response;
 
@@ -300,7 +300,7 @@ function get_favorite_drinks($user_id) {
 	try {
 		$r = $stmt->execute([":user_id" => $user_id]);
 		if($r) {
-			$result = $stmt->fetch(PDO::FETCH_ASSOC);
+			$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 			$response['get_favorite_drinks_status'] = "valid";
 			$response['drink_ids'] = $result['drink_id'];
 			return $response;
@@ -325,7 +325,7 @@ function get_recommendations($user_id, $amount = 10) {
 		try {
 			$r = $stmt->execute(['drink_id' => $drink_id]);
 			if($r) {
-				$result = $stmt->fetch(PDO::FETCH_ASSOC);
+				$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 				array_push($liked_ingredients, $result['ingredient_id']);
 			}
 		} catch (Exception $e) {
@@ -345,7 +345,7 @@ function get_recommendations($user_id, $amount = 10) {
 		try {
 			$r = $stmt->execute(['drink_id' => $drink_id]);
 			if($r) {
-				$result = $stmt->fetch(PDO::FETCH_ASSOC);
+				$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 				array_push($recommendation_ids, $result['drink_id']);
 				shuffle($recommendation_ids);
 			}
@@ -385,7 +385,7 @@ function search_drinks($search_string) {
 		try{
 			$r = $stmt->execute([':drink_id' => $search_string]);
 			if($r) {
-				$result = $stmt->fetch(PDO::FETCH_ASSOC);
+				$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 				$search_result_ids = $result['drink_id'];
 			}
 		} catch (Exception $e) {
@@ -398,7 +398,7 @@ function search_drinks($search_string) {
 		try {
 			$r = $stmt->execute([':search' => $search_string]);
 			if($r) {
-				$result = $stmt->fetch(PDO::FETCH_ASSOC);
+				$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 				$search_result_ids = $result['drink_id'];
 			}
 		} catch (Exception $e) {
