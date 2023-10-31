@@ -41,6 +41,8 @@ $isLoggedIn = is_logged_in();
             <li><a href="<?php echo get_url('register.php'); ?>">Register</a></li>
         <?php endif; ?>
         <?php if ($isLoggedIn) : ?>
+            <li><a href="<?php echo get_url('blog.php'); ?>">Blog</a></li>
+            <li><a href="<?php echo get_url('blogForm.php'); ?>">| Blog Post |</a></li>
             <li><a href="<?php echo get_url('logout.php'); ?>">Logout</a></li>
         <?php endif; ?>
     </ul>
