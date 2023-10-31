@@ -158,6 +158,7 @@ function send_drink_review($drink_id, $rating, $comment)
     $request['session_id'] = session_id();
     $response = $client->send_request($request);
     if(isset($response['drink_review_status']) && $response['drink_review_status'] === "valid") {
+		print_r($response);
         flash("Drink successfully reviewed", "success");
     } else {
         flash("Drink review failed", "warning");
