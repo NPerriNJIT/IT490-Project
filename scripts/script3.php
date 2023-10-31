@@ -50,13 +50,15 @@ foreach ($drink_ids as $drink_id) {
             
             if ($stmt->fetch()) {
                 // Insert rows into `Drink_Ingredients` table
+                $stmt->close(); // Close the previous statement
                 $stmt2 = $conn->prepare("INSERT INTO Drink_Ingredients (drink_id, ingredient_id) VALUES (?, ?)");
                 $stmt2->bind_param("ii", $drink_id, $ingredient_id);
                 $stmt2->execute();
                 $stmt2->close();
             }
-
-            $stmt->close();
+            else {
+                $stmt->close();
+            }
         }
 
         echo "Associated ingredients for drink ID: " . $drink_id . "<br>";
