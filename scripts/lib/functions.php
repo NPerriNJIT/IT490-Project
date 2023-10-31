@@ -151,7 +151,7 @@ function send_drink_review($drink_id, $rating, $comment)
 {
     $client = new rabbitMQClient(__DIR__ . "/../testRabbitMQ.ini", "testServer");
     $request = array();
-    $request['type'] = 'send_drink_rating';
+    $request['type'] = 'send_drink_review';
     $request['drink_id'] = $drink_id;
     $request['rating'] = $rating;
 	$request['comment'] = $comment;
