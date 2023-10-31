@@ -171,15 +171,15 @@ function get_drink($drink_id) {
 }
 
 //Processes blog post
-function send_blog_post($session_id, $blog_post) {
+function send_blog_post($session_id, $blog_post, $blog_title) {
 	$user_id = get_session_user_id($session_id);
 	if(!is_int($user_id)) {
 		return "user id error";
 	}
 	$db = getDB();
-	$stmt = $db->prepare("INSERT INTO Blogs (user_id, blog_post) VALUES(:user_id, :blog_post)");
+	$stmt = $db->prepare("INSERT INTO Blogs (user_id, blog_post, blog_title) VALUES(:user_id, :blog_post, :blog_title)");
 	try {
-		$stmt->execute([":user_id" => $user_id, ":blog_post" => $blog_post]);
+		$stmt->execute([":user_id" => $user_id, ":blog_post" => $blog_post, ":blog_title" => $blog_title]);
 		echo  "Blog posted successfully";
 		return "valid";
 	} catch (Exception $e) {
@@ -191,7 +191,7 @@ function send_blog_post($session_id, $blog_post) {
 //Get blog posts for a specific user
 function get_blog_posts_user($user_id) {
 	$db = getDB();
-	$stmt = $db->prepare("Select Blogs.blog_post, Users.username from Blogs inner join Users On Blogs.user_id = Users.id where Blogs.user_id = :user_id order bye Blogs.blog_id desc;");
+	$stmt = $db->prepare("Select Blogs.blog_post, Blogs.blog_title, Users.username from Blogs inner join Users On Blogs.user_id = Users.id where Blogs.user_id = :user_id order bye Blogs.blog_id desc;");
 	try{
 		$r = $stmt->execute([":user_id" => $user_id]);
 		if($r) {
@@ -215,7 +215,7 @@ function get_blog_posts_user($user_id) {
 //Get blog posts for all users
 function get_blog_posts_all() {
 	$db = getDB();
-	$stmt = $db->prepare("Select Blogs.blog_post, Users.username from Blogs inner join Users On Blogs.user_id = Users.id order bye Blogs.blog_id desc;");
+	$stmt = $db->prepare("Select Blogs.blog_post, Blogs.blog_title, Users.username from Blogs inner join Users On Blogs.user_id = Users.id order bye Blogs.blog_id desc;");
 	try{
 		$r = $stmt->execute();
 		if($r) {
