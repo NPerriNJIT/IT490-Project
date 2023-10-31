@@ -7,6 +7,7 @@ if(!isset($_GET['id'])) {
 //TODO: Make this page
 $drink_id = $_GET['id'];
 $drink = get_drink_info($drink_id);
+echo(var_dump($drink));
 $get_reviews = get_drink_reviews($drink_id);
 $unrated = false;
 if($get_reviews === 'No reviews') {
@@ -28,7 +29,7 @@ if (isset($_POST["submit"])) {
 ?>
 <h1>Add Rating</h1>
 <?php echo(display_drink_info($drink)) ?>
-<?php echo(var_dump($drink)) ?>
+<?php echo($drink['drink_name']) ?>
 <p><?php echo($get_reviews)?></p>
 <form method="POST">
     <h3>Rating</h3>
