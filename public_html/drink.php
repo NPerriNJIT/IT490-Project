@@ -27,17 +27,7 @@ if (isset($_POST["submit"])) {
 
 ?>
 <h1>Add Rating</h1>
-<?php
-$drink_info = "<li>Drink Name: " . $drink['drink_name'] . "</li>" . PHP_EOL;
-	$drink_info = $drink_info . "<li>Drink ID: " . $drink['drink_id'] . "</li>" . PHP_EOL;
-	$drink_info = $drink_info . "<li>Drink Category: " . $drink['tags'] . "</li>" . PHP_EOL;
-	$drink_info = $drink_info . "<li>Is alcoholic?: " . $drink['alcoholic'] . "</li>" . PHP_EOL;
-	$drink_info = $drink_info . "<li>Ingredients: " . $drink['ingredients'] . "</li>" . PHP_EOL;
-	$drink_info = $drink_info . "<li>Measurements: " . $drink['measurements'] . "</li>" . PHP_EOL;
-	$drink_info = $drink_info . "<li>Instructions: " . $drink['instructions'] . "</li>" . PHP_EOL . "<hr>";
-	$drink_info; ?>
-<?php echo($drink_info) ?>
-<?php echo($drink['drink_name']) ?>
+<?php echo(display_drink_info(get_drink_info($drink_id))) ?>
 <p><?php echo($get_reviews)?></p>
 <form method="POST">
     <h3>Rating</h3>
