@@ -7,8 +7,6 @@ if(!isset($_GET['id'])) {
 //TODO: Make this page
 $drink_id = $_GET['id'];
 $drink = get_drink_info($drink_id);
-var_dump($drink);
-var_dump($drink['drink_name']);
 $get_reviews = get_drink_reviews($drink_id);
 $unrated = false;
 if($get_reviews === 'No reviews') {
