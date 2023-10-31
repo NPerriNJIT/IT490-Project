@@ -11,8 +11,7 @@ if ($user_id < 1 || !check_user_exists($user_id)) {
     flash("Invalid user", "danger");
     die(header("Location: profile?id=$user_id"));
 }
-//TODO: Add get_user_id() to database functions
-//TODO: Add check_user_id_exists() to database functions
+
 //TODO: Add functions to get profile info for user
 //TODO: Add profile changes if user is on their profile, not required for midterm assignments ;)
 if($user_id == get_session_user_id()) {
