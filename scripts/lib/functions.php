@@ -138,7 +138,7 @@ function send_blog_post($blog_title, $blog_post)
     $request['blog_post'] = $blog_post;
     $request['session_id'] = session_id();
     $response = $client->send_request($request);
-    if(isset($response['blog_post_status']) && $response['blog_post_status'] === 'valid') {
+    if(isset($response['send_blog_post_status']) && $response['send_blog_post_status'] === 'valid') {
         flash("Blog post succesfully sent", "success");
 		die(header("Location: sessionTestPage.php"));
     } else {
