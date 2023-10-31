@@ -242,7 +242,7 @@ function get_drink_reviews($drink_id) {
 			$response = array();
 			$response['get_drink_reviews_status'] = "valid";
 			$result = $stmt->fetch(PDO::FETCH_ASSOC);
-			if(empty($result['id']) == 0) {
+			if(empty($result['id'])) {
 				$response['average_rating'] = 0;
 			} else {
 				$avg_rating = array_sum($result['rating']) / count($result);
