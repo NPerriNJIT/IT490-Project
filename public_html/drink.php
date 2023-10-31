@@ -8,11 +8,15 @@ if(!isset($_GET['id'])) {
 $drink_id = $_GET['id'];
 $drink = get_drink_info($drink_id);
 $get_reviews = get_drink_reviews($drink_id);
-//$avg_rating = $get_reviews['average_rating'];
-//$comments = array();
-//$comments['text'] = $get_reviews['comments'];
-//$comments['review_id'] = $get_reviews['review_id'];
-
+$avg_rating = $get_reviews['average_rating'];
+$unrated = false;
+if($avg_rating === 'no reviews') {
+    $unrated = true;
+} else {
+    $comments = array();
+    $comments['text'] = $get_reviews['comments'];
+    $comments['review_id'] = $get_reviews['review_id'];
+}
 if (isset($_POST["submit"])) {
     if (!isset($_POST["rating_number"]) || !isset($_POST["comment"])) {
         flash("Please fill all fields", "danger");
@@ -23,7 +27,7 @@ if (isset($_POST["submit"])) {
 
 ?>
 <h1>Add Rating</h1>
-<p><?php echo(var_dump($get_reviews)); ?></p>
+<p><?php $get_reviews?></p>
 <form method="POST">
     <h3>Rating</h3>
 	<label for="1">☆</label>
@@ -55,14 +59,11 @@ if (isset($_POST["submit"])) {
 // Check if there are previous ratings and comments
 if (!empty($comments)) {
     echo "<h2>Previous Ratings and Comments:</h2>";
-    
+    if(!$unrated);
     foreach ($comments as $review) {
-        $rating = $review['rating'];
-        $comment = $review['comment'];
         
         echo "<div>";
-        echo "<p>Rating: $rating stars</p>";
-        echo "<p>Comment: $comment</p>";
+        echo "<p>Comment: " . $review['text'] . "</p>";
         echo "</div>";
     }
 }
