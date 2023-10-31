@@ -23,32 +23,44 @@ if ($result->num_rows > 0) {
     }
 }
 
-// Fetch all ingredient IDs from the `Ingredients` table
-$ingredient_ids = [];
-$result = $conn->query("SELECT ingredient_id, ingredient_name FROM Ingredients");
-if ($result->num_rows > 0) {
-    while ($row = $result->fetch_assoc()) {
-        $ingredient_ids[$row["ingredient_name"]] = $row["ingredient_id"];
-    }
-}
-
-// Loop through each drink and associate ingredients with drink IDs
+// Loop through each drink and fetch the number of ingredients from the API
 foreach ($drink_ids as $drink_id) {
-    // Simulate a random number of ingredients (between 2 and 8) for each drink
-    $num_ingredients = rand(2, 8);
+    $api_url = "https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=" . $drink_id;
+    $response = file_get_contents($api_url);
+    $data = json_decode($response, true);
 
-    // Select random ingredients from the ingredient list
-    $selected_ingredients = array_rand($ingredient_ids, $num_ingredients);
+    if ($data['drinks'] != null) {
+        $drink = $data['drinks'][0];
+        $ingredients = [];
 
-    // Insert rows into `Drink_Ingredients` table
-    foreach ($selected_ingredients as $ingredient) {
-        $ingredient_id = $ingredient_ids[$ingredient];
-        $stmt = $conn->prepare("INSERT INTO Drink_Ingredients (drink_id, ingredient_id) VALUES (?, ?)");
-        $stmt->bind_param("ii", $drink_id, $ingredient_id);
-        $stmt->execute();
-        $stmt->close();
+        // Collect non-null ingredients
+        for ($i = 1; $i <= 15; $i++) {
+            $ingredient = $drink["strIngredient$i"];
+            if ($ingredient) {
+                $ingredients[] = $ingredient;
+            }
+        }
+
+        // Loop through ingredients and associate them with their unique IDs
+        foreach ($ingredients as $ingredient_name) {
+            $stmt = $conn->prepare("SELECT ingredient_id FROM Ingredients WHERE ingredient_name = ?");
+            $stmt->bind_param("s", $ingredient_name);
+            $stmt->execute();
+            $stmt->bind_result($ingredient_id);
+            
+            if ($stmt->fetch()) {
+                // Insert rows into `Drink_Ingredients` table
+                $stmt2 = $conn->prepare("INSERT INTO Drink_Ingredients (drink_id, ingredient_id) VALUES (?, ?)");
+                $stmt2->bind_param("ii", $drink_id, $ingredient_id);
+                $stmt2->execute();
+                $stmt2->close();
+            }
+
+            $stmt->close();
+        }
+
+        echo "Associated ingredients for drink ID: " . $drink_id . "<br>";
     }
-    echo "Associated ingredients for drink ID: " . $drink_id . "<br>";
 }
 
 // Close the database connection
