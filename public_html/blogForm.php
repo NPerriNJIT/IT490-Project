@@ -21,8 +21,9 @@ require_once(__DIR__ . "/../scripts/partials/nav.php");
 </html>
 <?php 
 if(isset($_POST['blogTitle']) && isset($_POST['blogContent'])) {
+    print_r("Posting");
     send_blog_post($_POST['blogTitle'], $_POST['blogContent']);
-    die(header("Location: blogForm.php"));
+    die(header("Location: sessionTestPage.php"));
 }
 ?>
 <?php
