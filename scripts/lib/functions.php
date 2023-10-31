@@ -211,7 +211,7 @@ function get_blog_posts_user($user_id) {
 function get_blog_posts_all() {
 	$db = getDB();
 	$response = array();
-	$stmt = $db->prepare("Select Blogs.blog_post, Blogs.blog_title, Users.username from Blogs inner join Users On Blogs.user_id = Users.id order bye Blogs.blog_id desc;");
+	$stmt = $db->prepare("Select Blogs.blog_post, Blogs.blog_title, Users.username from Blogs inner join Users On Blogs.user_id = Users.id order by Blogs.blog_id desc;");
 	try{
 		$r = $stmt->execute();
 		if($r) {
