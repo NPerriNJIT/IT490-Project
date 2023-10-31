@@ -147,6 +147,7 @@ function get_drink($drink_id) {
 	try{
 		$r = $stmt->execute([":drink_id" => $drink_id]);
 		if($r) {
+			$result = array();
 			$result = $stmt->fetch(PDO::FETCH_ASSOC);
 			$result['get_drink_info_status'] = "valid";
 			return $result;
@@ -241,7 +242,7 @@ function get_drink_reviews($drink_id) {
 			$response = array();
 			$response['get_drink_reviews_status'] = "valid";
 			$result = $stmt->fetch(PDO::FETCH_ASSOC);
-			if(count($result) == 0) {
+			if(count($result['id']) == 0) {
 				$response['average_rating'] = 0;
 			} else {
 				$avg_rating = array_sum($result['rating']) / count($result);
