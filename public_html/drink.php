@@ -8,6 +8,7 @@ if(!isset($_GET['id'])) {
 $drink_id = $_GET['id'];
 $drink = get_drink_info($drink_id);
 $get_reviews = get_drink_reviews($drink_id);
+print_r($get_reviews);
 $avg_rating = $get_reviews['average_rating'];
 $unrated = false;
 if($avg_rating === 'no reviews') {
