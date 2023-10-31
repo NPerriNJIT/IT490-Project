@@ -129,11 +129,12 @@ function get_url($dest)
 }
 //THESE FUNCTIONS ARE FOR PERSONAL DELIVERABLES, NOT DONE YET
 //Sends blog post to DB
-function send_blog_post($blog_post)
+function send_blog_post($blog_title, $blog_post)
 {
     $client = new rabbitMQClient(__DIR__ . "/../testRabbitMQ.ini", "testServer");
     $request = array();
     $request['type'] = 'send_blog_post';
+    $request['blog_title'] = $blog_title; 
     $request['blog_post'] = $blog_post;
     $request['session_id'] = session_id();
     $response = $client->send_request($request);
