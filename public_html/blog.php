@@ -6,7 +6,7 @@ if(!is_logged_in()) {
 }
 $blog_posts = get_blog_posts_all();
 ?>
-html>
+<html>
     <head>
         <meta charset="UTF-8">
 
