@@ -259,7 +259,7 @@ function get_drink_info($drink_id) {
     $response = $client->send_request($request);
     if(isset($response['get_drink_info_status']) && $response['get_drink_info_status'] === 'valid') {
         $drink_info = array();
-        //TODO: add drink info
+        $drink_info = $response['drink_info'];
         return $drink_info;
     } else {
         flash("Error retrieving drink info", "danger");
