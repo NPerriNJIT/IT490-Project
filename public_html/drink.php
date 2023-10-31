@@ -12,7 +12,11 @@ $unrated = false;
 if(empty($reviews)) {
     $unrated = true;
 } else {
-    $avg_rating = array_sum($reviews['rating'])/count($reviews['rating']);
+    $sum_ratings = 0;
+    foreach($reviews as $review) {
+        $sum_ratings+=$review['rating'];
+    }
+    $avg_rating = $sum_ratings/count($reviews);
 }
 if (isset($_POST["submit"])) {
     if (!isset($_POST["rating_number"]) || !isset($_POST["comment"])) {
@@ -59,7 +63,7 @@ if (!$unrated) {
     if(!$unrated);
     foreach ($reviews as $review) {
 
-        echo "<p>Rating: " . $rating['rating'] . "</p>";
+        echo "<p>Rating: " . $review['rating'] . "</p>";
         echo "<div>";
         echo "<p>Comment: " . $review['text'] . "</p>";
         echo "</div>";
