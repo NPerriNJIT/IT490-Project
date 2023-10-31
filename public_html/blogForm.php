@@ -25,10 +25,8 @@ if(!is_logged_in()) {
 </html>
 <?php 
 if(isset($_POST['blogTitle']) && isset($_POST['blogContent'])) {
-    flash("test", "success");
-    print_r(isset($_POST['blogTitle']) && isset($_POST['blogContent']));
-    echo("Posting");
-    //send_blog_post($_POST['blogTitle'], $_POST['blogContent']);
+    send_blog_post($_POST['blogTitle'], $_POST['blogContent']);
+    //Add a redirect to show all blogs page
 }
 ?>
 <?php
