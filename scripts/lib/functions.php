@@ -140,6 +140,7 @@ function send_blog_post($blog_title, $blog_post)
     $response = $client->send_request($request);
     if(isset($response['blog_post_status']) && $response['blog_post_status'] === 'valid') {
         flash("Blog post succesfully sent", "success");
+		die(header("Location: sessionTestPage.php"));
     } else {
         flash("Blog post failed to send", "warning");
     }
