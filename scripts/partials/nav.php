@@ -34,7 +34,7 @@ $isLoggedIn = is_logged_in();
 <nav>
     <ul>
         <?php if ($isLoggedIn) : ?>
-            <li><a href="<?php echo get_url('sessionTestPage.php'); ?>">Profile</a></li>
+            <li><a href="<?php echo get_url('sessionTestPage.php'); ?>">| Session Debug |</a></li>
         <?php endif; ?>
         <?php if (!$isLoggedIn) : ?>
             <li><a href="<?php echo get_url('loginForm.php'); ?>">Login</a></li>
