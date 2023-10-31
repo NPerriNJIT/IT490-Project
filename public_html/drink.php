@@ -65,7 +65,7 @@ if (!$unrated) {
 
         echo "<p>Rating: " . $review['rating'] . "</p>";
         echo "<div>";
-        echo "<p>Comment: " . $review['text'] . "</p>";
+        echo "<p>Comment: " . $review['comment'] . "</p>";
         echo "</div>";
     }
 }
