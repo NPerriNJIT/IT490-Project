@@ -60,6 +60,7 @@ if (isset($_POST["submit"])) {
 // Check if there are previous ratings and comments
 if (!$unrated) {
     echo "<h2>Previous Ratings and Comments:</h2>";
+    echo "<p>Average rating: " . $avg_rating . "</p>";
     if(!$unrated);
     foreach ($reviews as $review) {
 
@@ -68,6 +69,8 @@ if (!$unrated) {
         echo "<p>Comment: " . $review['comment'] . "</p>";
         echo "</div>";
     }
+} else {
+    echo "<h2>Be the first to leave a review!</h2>";
 }
 require(__DIR__ . "/../scripts/partials/flash.php");
 ?>
