@@ -35,7 +35,7 @@ foreach ($drink_ids as $drink_id) {
     
     // If the drink ID already exists, skip to the next one
     if ($count > 0) {
-        echo "Drink ID " . $drink_id . " already exists in Drink_Ingredients | ";
+        echo "Drink ID " . $drink_id . " already exists in Drink_Ingredients." . PHP_EOL;
         continue;
     }
 
@@ -75,7 +75,7 @@ foreach ($drink_ids as $drink_id) {
             }
         }
 
-        echo "Associated ingredients for drink ID: " . $drink_id . " | ";
+        echo "Associated ingredients for drink ID: " . $drink_id . PHP_EOL;
     }
 }
 

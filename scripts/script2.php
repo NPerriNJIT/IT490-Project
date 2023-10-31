@@ -40,9 +40,9 @@ if (isset($data['drinks'])) {
             $stmt->bind_param("s", $ingredient_name);
             $stmt->execute();
             $stmt->close();
-            echo "Inserted ingredient: " . $ingredient_name . "<br>";
+            echo "Inserted ingredient: " . $ingredient_name . PHP_EOL;
         } else {
-            echo "Ingredient already exists: " . $ingredient_name . "<br>";
+            echo "Ingredient already exists: " . $ingredient_name . PHP_EOL;
         }
     }
 } else {

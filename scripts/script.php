@@ -77,7 +77,7 @@ while (true) {
 
             // Check if the response contains a "429 Too Many Requests" error
             if (strpos($http_response_header_string, "429 Too Many Requests") !== false) {
-                echo "Rate limit reached. Waiting for $waitTime seconds...\n";
+                echo "Rate limit reached. Waiting for $waitTime seconds..." . PHP_EOL;
                 sleep($waitTime);
                 continue; // Retry after waiting
             }
@@ -90,7 +90,7 @@ while (true) {
             if (!isDuplicateDrink($drink_id, $conn)) {
                 populateDatabase($drink_id, $conn);
             } else {
-                echo "Drink with ID $drink_id already exists. Skipping.\n";
+                echo "Drink with ID $drink_id already exists." . PHP_EOL;
             }
         }
     }
