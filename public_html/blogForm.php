@@ -15,7 +15,7 @@ require_once(__DIR__ . "/../scripts/partials/nav.php");
             <label for="blogContent">Content:</label><br>
             <textarea id="blogContent" rows="4" cols="50"></textarea><br><br>
 
-            <button type="submit" value="Submit">
+            <button type="submit">
         </form>
     </body>
 </html>
