@@ -25,10 +25,8 @@ if($user_id == get_session_user_id()) {
 ?>
 <!- ADD HTML HERE ->
 <?php
-    //TODO: Add link to drink from drink names
+    //Add other profile info above (username, etc)
     $favorite_drinks = get_favorite_drinks($user_id);
     foreach($favorite_drinks as $drink) : ?>
-        <tr>
-            <td><?php /* TODO: Display drink info properly */ display_drink_info(get_drink_info($drink)) ?></td>
-        </tr>
+        <?php echo(display_drink_info(get_drink_info($drink))); ?>
     <?php endforeach; ?>

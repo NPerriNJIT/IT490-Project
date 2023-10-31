@@ -324,4 +324,15 @@ function get_profile_not_me($user_id) {
 		return $response['profile'];
 	}
 }
-//TODO: Add display_drink_info() function
+
+function display_drink_info($drink) {
+	//TODO: Add hyperlink to drink on the drink name
+	$drink_info = "<li>Drink Name: " . $drink['drink_name'] . "</li>" . PHP_EOL;
+	$drink_info = $drink_info . "<li>Drink ID: " . $drink['drink_id'] . "</li>" . PHP_EOL;
+	$drink_info = $drink_info . "<li>Drink Category: " . $drink['tags'] . "</li>" . PHP_EOL;
+	$drink_info = $drink_info . "<li>Is alcoholic?: " . $drink['alcoholic'] . "</li>" . PHP_EOL;
+	$drink_info = $drink_info . "<li>Ingredients: " . $drink['ingredients'] . "</li>" . PHP_EOL;
+	$drink_info = $drink_info . "<li>Measurements: " . $drink['measurements'] . "</li>" . PHP_EOL;
+	$drink_info = $drink_info . "<li>Instructions: " . $drink['instructions'] . "</li>" . PHP_EOL . "<hr>";
+	return $drink_info;
+}
