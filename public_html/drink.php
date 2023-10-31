@@ -9,7 +9,7 @@ $drink_id = $_GET['id'];
 $drink = get_drink_info($drink_id);
 $reviews = get_drink_reviews($drink_id);
 $unrated = false;
-if(count($reviews) == 0) {
+if(empty($reviews)) {
     $unrated = true;
 } else {
     $avg_rating = array_sum($reviews['rating'])/count($reviews['rating']);
