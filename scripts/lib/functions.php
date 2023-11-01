@@ -312,7 +312,7 @@ function get_favorite_drinks($user_id) {
 	}
 }
 
-function get_recommendations($session_id, $amount = 10) {
+function get_recommendations($session_id, $amount = 4) {
 	//Find favorites
 	$db = getDB();
 	$response = array();
