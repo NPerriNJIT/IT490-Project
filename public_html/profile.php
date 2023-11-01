@@ -13,6 +13,8 @@ if(isset($_GET['id'])) {
     die(header("Location: profile.php?id=" . $redirect_id));
 }
 error_log("user id $user_id");
+error_log(print_r($user_id < 1));
+error_log(print_r(check_user_exists($user_id)));
 if ($user_id < 1 || !check_user_exists($user_id)) {
     flash("Invalid user", "danger");
     die(header("Location: profile.php?id=" . $redirect_id));
