@@ -144,7 +144,7 @@ function get_session_user_id($session_id) {
 function get_drink($drink_id) {
 	$response = array();
 	$db = getDB();
-	$stmt = $db->prepare("Select drink_name, drink_tags, alcoholic, ingredients, measurements, instructions from Drinks where drink_id = :drink_id");
+	$stmt = $db->prepare("Select * from Drinks where drink_id = :drink_id");
 	try{
 		$r = $stmt->execute([":drink_id" => $drink_id]);
 		if($r) {
