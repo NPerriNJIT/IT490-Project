@@ -318,6 +318,11 @@ function get_recommendations($user_id, $amount = 10) {
 	$response = array();
 	$favorites = get_favorite_drinks($user_id);
 	$favorite_ids = $favorites['drink_id'];
+	if(count($favorite_ids) == 0) {
+		$response['get_recommendations_status'] = 'valid';
+		$response['recommendations'] = [];
+		return $response;
+	}
 	$recommendations = array();
 	$liked_ingredients = array();
 	//Compile an array of liked ingredients
