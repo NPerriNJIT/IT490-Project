@@ -343,8 +343,7 @@ function search_drinks($search_string) {
 	$request['search_string'] = $search_string;
 	$response = $client->send_request($request);
 	if(isset($response['search_drinks_status']) && $response['search_drinks_status'] === 'valid') {
-		unset($response['search_drinks_status']);
-		return $response;
+		return $response['search_results'];
 	} else {
 		flash("Error searching", "warning");
 	}
