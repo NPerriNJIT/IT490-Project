@@ -18,7 +18,7 @@ if (!is_logged_in()) {
 
         <div>
             <label for="input">Enter Drink</label>
-            <input type="text" id="drinkNameInput" name="drinkName"><br>
+            <input type="text" id="drinkNameInput" name="drinkNameInput"><br>
             <input type="button" id="searchButton" value="Search"><br>
         </div>
 
