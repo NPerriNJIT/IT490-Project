@@ -354,7 +354,7 @@ function add_user_drink($drinkName, $drinkTags, $isPublic, $alcoholic, $ingredie
 {
     $client = new rabbitMQClient(__DIR__ . "/../testRabbitMQ.ini", "testServer");
     $request = array();
-    $request['type'] = 'add_user_drink';
+    $request['type'] = 'send_add_user_drink';
     $request['drinkName'] = $drinkName; 
 	$request['user_id'] = get_session_user_id();
     $request['drinkTags'] = $drinkTags;
