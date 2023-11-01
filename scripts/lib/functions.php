@@ -296,31 +296,17 @@ function check_user_exists($user_id) {
 	return false;
 }
 
-function get_profile_me($user_id) {
+function get_username($user_id) {
 	$client = new rabbitMQClient(__DIR__ . "/../testRabbitMQ.ini","testServer");
 	$request = array();
-	$request['type'] = "get_profile_me";
+	$request['type'] = "get_username_user_id";
 	$request['user_id'] = $user_id;
 	$response = $client->send_request($request);
 	//Waits for a response from the server
 
 		
-	if(isset($response['get_profile_me_status']) && $response['get_profile_me_status'] == "valid") {
-		return $response['profile'];
-	}
-}
-
-function get_profile_not_me($user_id) {
-	$client = new rabbitMQClient(__DIR__ . "/../testRabbitMQ.ini","testServer");
-	$request = array();
-	$request['type'] = "get_profile_not_me";
-	$request['user_id'] = $user_id;
-	$response = $client->send_request($request);
-	//Waits for a response from the server
-
-		
-	if(isset($response['get_profile_not_me_status']) && $response['get_profile_not_me_status'] == "valid") {
-		return $response['profile'];
+	if(isset($response['get_username_user_id_status']) && $response['get_username_user_id_status'] == "valid") {
+		return $response['username'];
 	}
 }
 

@@ -24,10 +24,8 @@ if ($user_id < 1 || !check_user_exists($user_id)) {
 //TODO: Add profile changes if user is on their profile, not required for midterm assignments ;)
 if($user_id == get_session_user_id()) {
     $is_user = true;
-    $profile = get_profile_me($user_id);
 } else {
     $is_user = false;
-    $profile = get_profile_not_me($user_id);
 }
 ?>
 <!- ADD HTML HERE ->
@@ -38,9 +36,7 @@ if($user_id == get_session_user_id()) {
     </head>
 
     <body>
-        <p>
-            <?php echo(get_session_username()) ?>
-        </p>
+        <p> Username: <?php echo(get_username($user_id)) ?></p>
     </body>
 </html>
 
