@@ -60,7 +60,7 @@ if (!is_logged_in()) {
         $drinkResults = search_drinks($drinkInput);
 
         foreach($drinkResults as $drink){
-            echo(display_drink_info($drink['drink_name']));
+            echo(display_drink_info($drink));
         }
     }
     else{
