@@ -301,7 +301,8 @@ function get_favorite_drinks($user_id) {
 		if($r) {
 			$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 			$response['get_favorite_drinks_status'] = "valid";
-			$response['drink_ids'] = $result['drink_id'];
+
+			$response['drink_ids'] = $result;
 			return $response;
 		}
 	} catch (Exception $e){
@@ -415,6 +416,21 @@ function search_drinks($search_string) {
 	$response['search_results'] = $search_results;
 	return $response;
 }
+function check_user_exists($user_id) {
+	$db = getDB();
+	$response = array();
+	$response['check_user_exists_status'] = 'invalid';
+	$stmt = $db->prepare("Select user_id from Users where user_id = :user_id");
+	try {
+		$r = $stmt->execute([':user_id' => $user_id]);
+		if($r) {
+			$response['check_user_exists_status'] = 'valid';
+		}
+	} catch (Exception $e) {
+		echo("Error: " . $e);
+	}
+	return $response;
+}
 
 function add_user_drink($session_id, $drinkName, $drinkTags, $isPublic, $alcoholic, $ingredients, $measurements, $instructions) {
     // Get the user ID from the session
@@ -457,6 +473,5 @@ function add_user_drink($session_id, $drinkName, $drinkTags, $isPublic, $alcohol
 
     return "failure";
 }
-
 
 ?>

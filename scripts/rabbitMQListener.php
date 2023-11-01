@@ -54,6 +54,16 @@ function requestProcessor($request)
 		$response['session_status'] = doValidate($request['session_id']);
 		echo "Sending response: ".PHP_EOL . var_dump($response);
 		return $response;
+	case "get_session_user_id":
+		echo "getting session user_id";
+		$response = array();
+		$response['user_id'] = get_session_user_id($request['session_id']);
+		if(is_int($response['user_id'])) {
+			$response['get_session_user_id_status'] = 'valid';
+		} else {
+			$response['get_session_user_id_status'] = 'invalid';
+		}
+		return $response;
 	case "get_drink_info":
 		echo "running get drink info" . PHP_EOL;
 		$response = array();
@@ -109,6 +119,10 @@ function requestProcessor($request)
 		$response = array();
 		$response = search_drinks($request['search_string']);
 		return $response;
+	case "check_user_exists":
+		echo "checking user exists";
+		$response = check_user_exists($request['user_id']);
+		return $response;
 	case "send_add_user_drink":
 		echo "adding user drink";
 		$response = array();
@@ -118,7 +132,6 @@ function requestProcessor($request)
 	}
 	return array("returnCode" => '0', 'message'=>"Server received request and processed");
 }
-
 $server = new rabbitMQServer(__DIR__ . "/testRabbitMQ.ini","testServer");
 echo("Now listening for client messages...");
 $server->process_requests('requestProcessor');
