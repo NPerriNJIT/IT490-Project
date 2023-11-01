@@ -505,4 +505,25 @@ function get_username_user_id($user_id) {
 	return $response;
 }
 
+function get_user_drinks($user_id) {
+	$db = getDB();
+	$response = array();
+	$response['get_user_drinks_status'] = 'invalid';
+	if(!is_int($user_id)) {
+		return $response;
+	}
+	$stmt = $db->prepare("Select * from UserDrinks where user_id = :user_id");
+	try {
+		$r = $stmt->execute(['user_id' => $user_id]);
+		if($r) {
+			$drink_info = $stmt->fetchAll(PDO::FETCH_ASSOC);
+			$response['drink_info'] = $drink_info;
+			$response['get_user_drinks_status'] = 'valid';
+		}
+	} catch (Exception $e) {
+		echo("Error: $e");
+	}
+	return $response;
+}
+
 ?>

@@ -132,7 +132,13 @@ function requestProcessor($request)
 		$response['send_add_user_drink_status'] = add_user_drink($request['session_id'], $request['drinkName'], $request['drinkTags'], $request['isPublic'], $request['alcoholic'], 
 		$request['ingredients'], $request['measurements'], $request['instructions']);
 		return $response;
+	case "get_user_drinks":
+		echo "getting user drinks";
+		$response = array();
+		$response = get_user_drinks($request['user_id']);
+		return $response;
 	}
+	
 	return array("returnCode" => '0', 'message'=>"Server received request and processed");
 }
 $server = new rabbitMQServer(__DIR__ . "/testRabbitMQ.ini","testServer");
