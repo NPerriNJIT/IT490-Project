@@ -42,11 +42,18 @@ if($user_id == get_session_user_id()) {
 
 <?php
     //Add other profile info above (username, etc)
+    echo("<p> Favorites:</p>");
     $favorite_drinks = get_favorite_drinks($user_id);
     foreach($favorite_drinks as $drink) : ?>
         <?php echo(display_drink_info(get_drink_info($drink['drink_id']))); ?>
     <?php endforeach; ?>
-
+<?php 
+    echo("<br><p>Personal drinks:</p>");
+    $personal_drinks = get_user_drinks($user_id, $is_user);
+    foreach($favorite_drinks as $drink) : ?>
+        <?php echo(display_drink_info(get_drink_info($drink['drink_id']))); ?>
+    <?php endforeach; ?>
+?>
 
 <?php
 require(__DIR__ . "/../scripts/partials/flash.php");

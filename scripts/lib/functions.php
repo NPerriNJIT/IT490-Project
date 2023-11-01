@@ -372,3 +372,13 @@ function add_user_drink($drinkName, $drinkTags, $alcoholic, $isPublic, $ingredie
         flash("User drink information failed to send", "warning");
     }
 }
+function get_user_drinks($user_id, $get_private = false) {
+	$client = new rabbitMQClient(__DIR__ . "/../testRabbitMQ.ini", "testServer");
+    $request = array();
+    $request['type'] = 'get_user_drinks';
+	$request['get_private'] = $get_private;
+	$response = $client->send_request($request);
+	if(isset($response['get_user_drinks_status']) && $response['get_user_drinks_status'] === 'valid') {
+		return $response['drink_info'];
+	}
+}
