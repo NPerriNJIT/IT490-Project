@@ -276,7 +276,7 @@ function get_session_user_id() {
 	//Waits for a response from the server
 
 		
-	if(isset($response['get_session_user_id_status']) && $response['session_status'] == "valid") {
+	if(isset($response['get_session_user_id_status']) && $response['get_session_user_id_status'] == "valid") {
 		return $response['user_id'];
 	}
 }
