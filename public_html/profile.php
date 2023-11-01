@@ -23,9 +23,27 @@ if($user_id == get_session_user_id()) {
 }
 ?>
 <!- ADD HTML HERE ->
+
+<html>
+    <head>
+    <meta charset="UTF-8">
+    </head>
+
+    <body>
+        <p>
+            <?php echo(get_session_username()) ?>
+        </p>
+    </body>
+</html>
+
 <?php
     //Add other profile info above (username, etc)
     $favorite_drinks = get_favorite_drinks($user_id);
     foreach($favorite_drinks as $drink) : ?>
         <?php echo(display_drink_info(get_drink_info($drink))); ?>
     <?php endforeach; ?>
+
+
+<?php
+require(__DIR__ . "/../scripts/partials/flash.php");
+?>    
