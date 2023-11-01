@@ -129,8 +129,8 @@ function requestProcessor($request)
 	case "send_add_user_drink":
 		echo "adding user drink";
 		$response = array();
-		$response = add_user_drink($request['drinkName'], $request['drinkTags'], $request['isPublic'], $request['alcoholic'], 
-		$request['ingredients'], $request['measurements'], $request['instructions'], $request['user_id']);
+		$response = add_user_drink($request['session_id'], $request['drinkName'], $request['drinkTags'], $request['isPublic'], $request['alcoholic'], 
+		$request['ingredients'], $request['measurements'], $request['instructions']);
 		return $response;
 	}
 	return array("returnCode" => '0', 'message'=>"Server received request and processed");
