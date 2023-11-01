@@ -53,11 +53,14 @@ if($user_id == get_session_user_id()) {
         <?php echo(display_drink_info($drink)); ?>
     <?php endforeach; ?>
     <?php 
-    
-    echo("<br><p>Recommended drinks:</p>");
-    $recommendations = get_recommendations();
-    foreach($recommendations as $drink) {
-        echo(display_drink_info($drink));
+    if($is_user) {
+        echo("<br><p>Recommended drinks:</p>");
+        $recommendations = get_recommendations();
+        var_dump($recommendations);
+        foreach($recommendations as $drink) {
+            echo(display_drink_info($drink));
+
+        }
     }
 ?>
 <?php
