@@ -14,7 +14,7 @@ if(!is_logged_in()) {
     <label for="drinkTags">Drink Tags:</label><br>
     <input type="text" id="drinkTags" name="drinkTags"><br><br>
 
-    <label for="isAlcoholic">Is Public:</label><br>
+    <label for="isAlcoholic">Is Alcoholic:</label><br>
     <input type="radio" id="isAlcoholicYes" name="isAlcoholic" value="Y">
     <label for="isAlcoholicYes">Yes</label><br>
     <input type="radio" id="isAlcoholicNo" name="isAlcoholic" value="N">
@@ -45,7 +45,7 @@ if(!is_logged_in()) {
 if(isset($_POST['drinkName']) && isset($_POST['instructions']) && isset($_POST['measurements']) 
 && isset($_POST['ingredients']) && isset($_POST['isAlcoholic']) && isset($_POST['isPublic'])) {
 
-    add_user_drink($_POST['drinkName'], $_POST['drinkTags'], $_POST['isPublic'], $_POST['alcoholic'], 
+    add_user_drink($_POST['drinkName'], $_POST['drinkTags'], $_POST['isAlcoholic'], $_POST['isPublic'], 
     $_POST['ingredients'], $_POST['measurements'], $_POST['instructions']);
     //Add a redirect to show all blogs page
 }

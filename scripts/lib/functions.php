@@ -350,12 +350,12 @@ function search_drinks($search_string) {
 	}
 }
 
-function add_user_drink($drinkName, $drinkTags, $isPublic, $alcoholic, $ingredients, $measurements, $instructions)
+function add_user_drink($drinkName, $drinkTags, $alcoholic, $isPublic, $ingredients, $measurements, $instructions)
 {
     $client = new rabbitMQClient(__DIR__ . "/../testRabbitMQ.ini", "testServer");
     $request = array();
-    $request['type'] = 'add_user_drink';
-    $request['drinkName'] = $drinkName; 
+    $request['type'] = 'send_add_user_drink';
+    $request['drinkName'] = $drinkName;
 	$request['user_id'] = get_session_user_id();
     $request['drinkTags'] = $drinkTags;
 	$request['isPublic'] = $isPublic;
