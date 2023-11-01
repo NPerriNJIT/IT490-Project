@@ -51,6 +51,11 @@ if (isset($_POST["submit"])) {
         <label for="comment"></label><br>
         <input type="text" id="comment" name="comment"><br>
         <input type="submit" value="Submit" name="submit">
+<br>
+<!-- Favorite button -->
+    <input type="hidden" name="drink_id" value="<?php echo $drink_id; ?>">
+    <button type="submit" name="favorite">Favorite</button>
+
 </form>
 </div>
 
@@ -71,6 +76,11 @@ if (!$unrated) {
     }
 } else {
     echo "<h2>Be the first to leave a review!</h2>";
+}
+
+
+if (isset($_POST["favorite"])) {
+    send_favorite($drink_id);
 }
 require(__DIR__ . "/../scripts/partials/flash.php");
 ?>
