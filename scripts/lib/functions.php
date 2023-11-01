@@ -441,17 +441,17 @@ function add_user_drink($session_id, $drinkName, $drinkTags, $isPublic, $alcohol
         echo "Invalid user ID";
         return "failure";
     }
-	$public = false;
+	$public = 0;
 	if ($isPublic === 'Y')
     {
-        $public = true;
+        $public = 1;
     }
-	$is_alcoholic = false;
+	$is_alcoholic = 0;
 	echo("Is_alcoholic: " . $is_alcoholic . PHP_EOL);
 	echo($alcoholic . " IUdhlkjashdfkjashdlfkjashldkf" . PHP_EOL);
     if ($alcoholic === 'Y')
     {
-        $is_alcoholic = true;
+        $is_alcoholic = 1;
     }
     // Get the database connection
     $db = getDB();
