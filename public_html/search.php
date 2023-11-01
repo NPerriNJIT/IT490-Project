@@ -43,7 +43,7 @@ if(isset($_GET['id'])) {
 
             javascript draft
 
-            
+
             const drinkSearchResults = search_drinks(drinkNameInput.value)
 
             if(drinkSearchResults.length > 0){
@@ -63,11 +63,14 @@ if(isset($_GET['id'])) {
     if(isset($_POST['drinkNameInput'])){
         $drinkInput = $_POST['drinkNameInput'];
 
-        $drinkResults = search_drinks($drinkResults);
+        $drinkResults = search_drinks($drinkInput);
 
         foreach($drinkResults as $drink){
             echo(display_drink_info(get_drink_info($drink['drink_name'])));
         }
+    }
+    else{
+        flash("Enter Drink");
     }
 ?>
 
