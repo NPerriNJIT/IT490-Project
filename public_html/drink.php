@@ -78,7 +78,7 @@ if (!$unrated) {
     echo "<h2>Be the first to leave a review!</h2>";
 }
 
-
+//send drink id to favorite table
 if (isset($_POST["favorite"])) {
     send_favorite($drink_id);
 }
