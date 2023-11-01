@@ -85,6 +85,7 @@ if (!$unrated) {
 
 //send drink id to favorite table
 if (isset($_POST["favorite"])) {
+    echo("button push hehe");
     send_favorite($drink_id);
 }
 require(__DIR__ . "/../scripts/partials/flash.php");
