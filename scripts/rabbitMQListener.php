@@ -42,6 +42,9 @@ function requestProcessor($request)
 		}
 		echo "Sending response: ".PHP_EOL . var_dump($response);
 		return $response;
+	case "get_username_user_id":
+		$response = get_username_user_id($request['user_id']);
+		return $response;
 	case "delete_session_data":
 		echo "running delete session" . PHP_EOL;
 		$response = array();
@@ -54,10 +57,90 @@ function requestProcessor($request)
 		$response['session_status'] = doValidate($request['session_id']);
 		echo "Sending response: ".PHP_EOL . var_dump($response);
 		return $response;
+	case "get_session_user_id":
+		echo "getting session user_id";
+		$response = array();
+		$response['user_id'] = get_session_user_id($request['session_id']);
+		if(is_int($response['user_id'])) {
+			$response['get_session_user_id_status'] = 'valid';
+		} else {
+			$response['get_session_user_id_status'] = 'invalid';
+		}
+		return $response;
+	case "get_drink_info":
+		echo "running get drink info" . PHP_EOL;
+		$response = array();
+		$response = get_drink($request['drink_id']);
+		echo "Sending response: " . PHP_EOL . var_dump($response);
+		return $response;
+	case "send_blog_post":
+		echo "user sent blog post" . PHP_EOL;
+		$response = array();
+		$response['send_blog_post_status'] = send_blog_post($request['session_id'], $request['blog_post'], $request['blog_title']);
+		return $response;
+	case "get_blog_posts_user":
+		echo "getting user blog posts" . PHP_EOL;
+		$response = array();
+		$response = get_blog_posts_user($request['user_id']);
+		return $response;
+	case "get_blog_posts_all":
+		echo "getting all blog posts" . PHP_EOL;
+		$response = array();
+		$response = get_blog_posts_all();
+		return $response;
+	case "send_drink_review":
+		echo "processing drink review" . PHP_EOL;
+		$response = array();
+		$response['send_drink_reviews_status'] = send_drink_review($request['drink_id'], $request['session_id'], $request['rating'], $request['comment']);
+		return $response;
+	case "get_drink_reviews":
+		echo "getting drink reviews" . PHP_EOL;
+		$response = array();
+		$response = get_drink_reviews($request['drink_id']);
+		return $response;
+	case "send_favorite":
+		echo "processing favorite";
+		$response = array();
+		$response['send_favorite_status'] = send_favorite($request['session_id'], $request['drink_id']);
+		return $response;
+	case "get_favorite_drinks":
+		echo "getting favorites";
+		$response = array();
+		$response = get_favorite_drinks($request['user_id']);
+		return $response;
+	case "get_recommendations":
+		echo "getting recommendations";
+		$response = array();
+		if(isset($request['amount'])) {
+			$response = get_recommendations($request['user_id'], $request['amount']);
+		} else {
+			$response = get_recommendations($request['user_id']);
+		}
+		return $response;
+	case "search_drinks":
+		echo "search";
+		$response = array();
+		$response = search_drinks($request['search_string']);
+		return $response;
+	case "check_user_exists":
+		echo "checking user exists";
+		$response = check_user_exists($request['user_id']);
+		return $response;
+	case "send_add_user_drink":
+		echo "adding user drink";
+		$response = array();
+		$response['send_add_user_drink_status'] = add_user_drink($request['session_id'], $request['drinkName'], $request['drinkTags'], $request['isPublic'], $request['alcoholic'], 
+		$request['ingredients'], $request['measurements'], $request['instructions']);
+		return $response;
+	case "get_user_drinks":
+		echo "getting user drinks";
+		$response = array();
+		$response = get_user_drinks($request['user_id'], $request['get_private']);
+		return $response;
 	}
+	
 	return array("returnCode" => '0', 'message'=>"Server received request and processed");
 }
-
 $server = new rabbitMQServer(__DIR__ . "/testRabbitMQ.ini","testServer");
 echo("Now listening for client messages...");
 $server->process_requests('requestProcessor');

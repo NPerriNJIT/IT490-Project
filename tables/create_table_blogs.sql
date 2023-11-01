@@ -1,0 +1,10 @@
+CREATE TABLE IF NOT EXISTS `Blogs` (
+        `blog_id` INT NOT NULL PRIMARY KEY AUTO_INCREMENT UNIQUE,
+        `user_id` INT NOT NULL,
+        `blog_title` TEXT,
+        `blog_post` TEXT,
+        `created` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        `modified` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+	FOREIGN KEY(user_id) REFERENCES Users(id)
+)
+;
