@@ -3,14 +3,6 @@ require_once(__DIR__ . "/../scripts/partials/nav.php");
 if (!is_logged_in()) {
     die(header("Location: loginForm.php"));
 }
-
-$redirect_id = get_session_user_id();
-error_log($redirect_id);
-if(isset($_GET['id'])) {
-    $user_id = $_GET['id'];
-} else {
-    die(header("Location: profile.php?id=" . $redirect_id));
-}
 ?>
 
 
