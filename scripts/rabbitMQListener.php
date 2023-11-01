@@ -129,7 +129,7 @@ function requestProcessor($request)
 	case "send_add_user_drink":
 		echo "adding user drink";
 		$response = array();
-		$response = add_user_drink($request['session_id'], $request['drinkName'], $request['drinkTags'], $request['isPublic'], $request['alcoholic'], 
+		$response['send_add_user_drink_status'] = add_user_drink($request['session_id'], $request['drinkName'], $request['drinkTags'], $request['isPublic'], $request['alcoholic'], 
 		$request['ingredients'], $request['measurements'], $request['instructions']);
 		return $response;
 	}
