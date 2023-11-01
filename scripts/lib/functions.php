@@ -453,6 +453,7 @@ function add_user_drink($session_id, $drinkName, $drinkTags, $isPublic, $alcohol
     }
     // Get the database connection
     $db = getDB();
+	echo($alcoholic . " IUdhlkjashdfkjashdlfkjashldkf" . PHP_EOL);
 	echo($is_alcoholic . " IUdhlkjashdfkjashdlfkjashldkf" . PHP_EOL);
     // Prepare the SQL query
     $stmt = $db->prepare("INSERT INTO UserDrinks (drink_name, drink_tags, is_public, alcoholic, ingredients, measurements, instructions, user_id) 
