@@ -17,9 +17,11 @@ if (!is_logged_in()) {
         </header>
 
         <div>
-            <label for="input">Enter Drink</label>
-            <input type="text" id="drinkNameInput" name="drinkNameInput"><br>
-            <input type="button" id="searchButton" value="Search"><br>
+            <form method="POST">
+                <label for="input">Enter Drink</label>
+                <input type="text" id="drinkNameInput" name="drinkNameInput"><br>
+                <input type="button" id="searchButton" value="Search"><br>
+            </form>
         </div>
 
         <div id="drinkResults">
