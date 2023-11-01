@@ -356,7 +356,6 @@ function add_user_drink($drinkName, $drinkTags, $alcoholic, $isPublic, $ingredie
     $request = array();
     $request['type'] = 'send_add_user_drink';
     $request['drinkName'] = $drinkName;
-	$request['user_id'] = get_session_user_id();
     $request['drinkTags'] = $drinkTags;
 	$request['isPublic'] = $isPublic;
 	$request['alcoholic'] = $alcoholic;
