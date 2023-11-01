@@ -329,10 +329,10 @@ function get_recommendations($session_id, $amount = 10) {
 	$recommendations = array();
 	$liked_ingredients = array();
 	//Compile an array of liked ingredients
-	foreach($favorite_ids as $drink_id) {
+	foreach($favorite_ids as $favorite_drink) {
 		$stmt = $db->prepare("Select ingredient_id from Drink_Ingredients where drink_id = :drink_id");
 		try {
-			$r = $stmt->execute(['drink_id' => $drink_id]);
+			$r = $stmt->execute(['drink_id' => $favorite_drink['drink_id']]);
 			if($r) {
 				$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 				$liked_ingredients_rows = $result;
