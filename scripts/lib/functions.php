@@ -312,10 +312,11 @@ function get_favorite_drinks($user_id) {
 	}
 }
 
-function get_recommendations($user_id, $amount = 10) {
+function get_recommendations($session_id, $amount = 10) {
 	//Find favorites
 	$db = getDB();
 	$response = array();
+	$user_id = get_session_user_id($session_id);
 	$favorites = get_favorite_drinks($user_id);
 	$favorite_ids = $favorites['drink_ids'];
 	echo($user_id . PHP_EOL);
