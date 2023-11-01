@@ -22,10 +22,9 @@ if ($user_id < 1 || !check_user_exists($user_id)) {
 
 //TODO: Add functions to get profile info for user
 //TODO: Add profile changes if user is on their profile, not required for midterm assignments ;)
+$is_user = false;
 if($user_id == get_session_user_id()) {
     $is_user = true;
-} else {
-    $is_user = false;
 }
 ?>
 <!- ADD HTML HERE ->
@@ -53,7 +52,6 @@ if($user_id == get_session_user_id()) {
     foreach($favorite_drinks as $drink) : ?>
         <?php echo(display_drink_info(get_drink_info($drink['drink_id']))); ?>
     <?php endforeach; ?>
-?>
 
 <?php
 require(__DIR__ . "/../scripts/partials/flash.php");
