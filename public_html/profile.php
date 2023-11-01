@@ -50,7 +50,7 @@ if($user_id == get_session_user_id()) {
     echo("<br><p>Personal drinks:</p>");
     $personal_drinks = get_user_drinks($user_id, $is_user);
     foreach($personal_drinks as $drink) : ?>
-        <?php echo(display_drink_info($drink['drink_id'])); ?>
+        <?php echo(display_drink_info($drink)); ?>
     <?php endforeach; ?>
 
 <?php
