@@ -54,6 +54,16 @@ function requestProcessor($request)
 		$response['session_status'] = doValidate($request['session_id']);
 		echo "Sending response: ".PHP_EOL . var_dump($response);
 		return $response;
+	case "get_session_user_id":
+		echo "getting session user_id";
+		$response = array();
+		$response['user_id'] = get_session_user_id($request['session_id']);
+		if(is_int($response['user_id'])) {
+			$response['get_session_user_id_status'] = 'valid';
+		} else {
+			$response['get_session_user_id_status'] = 'invalid';
+		}
+		return $response;
 	case "get_drink_info":
 		echo "running get drink info" . PHP_EOL;
 		$response = array();
