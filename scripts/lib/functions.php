@@ -319,8 +319,6 @@ function get_recommendations($session_id, $amount = 10) {
 	$user_id = get_session_user_id($session_id);
 	$favorites = get_favorite_drinks($user_id);
 	$favorite_ids = $favorites['drink_ids'];
-	echo($user_id . PHP_EOL);
-	var_dump($favorite_ids);
 	if(count($favorite_ids) == 0) {
 		$response['get_recommendations_status'] = 'valid';
 		$response['recommendations'] = [];
@@ -350,7 +348,6 @@ function get_recommendations($session_id, $amount = 10) {
 	$count_instances = array_count_values($liked_ingredients);
 	arsort($count_instances);
 	$weighted_ingredients = array_keys($count_instances);
-	var_dump($weighted_ingredients);
 	//Find top $amount drinks, first come first serve based on ingredient preference, then randomize drinks that are weighted the same
 	$recommendation_ids = array();
 	foreach($weighted_ingredients as $ingredient_id) {
