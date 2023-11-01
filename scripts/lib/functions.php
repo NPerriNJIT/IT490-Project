@@ -390,7 +390,7 @@ function search_drinks($search_string) {
 	} catch (Exception $e) {
 		echo("Error: " . $e);
 	}
-	$stmt = $db->prepare("Select * from UserDrinks where drink_id like :search_string or drink_name like :search_string or drink_tags like :search_string or ingredients like :search_string");
+	$stmt = $db->prepare("Select * from UserDrinks where is_public = 1 and (drink_id like :search_string or drink_name like :search_string or drink_tags like :search_string or ingredients like :search_string)");
 	try {
 		$r = $stmt->execute([':search_string' => $search_string_fixed]);
 		if($r) {
