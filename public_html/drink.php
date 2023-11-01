@@ -31,9 +31,11 @@ if (isset($_POST["submit"])) {
 
 
 <!-- Favorite button -->
+<form method="POST">
 <input type="hidden" name="drink_id" value="<?php echo $drink_id; ?>">
 <button type="submit" name="favorite">Favorite</button>
 <br>
+</form>
 
 <h1>Add Rating</h1>
 <form method="POST">
