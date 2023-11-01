@@ -441,21 +441,19 @@ function add_user_drink($session_id, $drinkName, $drinkTags, $isPublic, $alcohol
         echo "Invalid user ID";
         return "failure";
     }
+	$public = false;
 	if ($isPublic === 'Y')
     {
-        $isPublic = true;
-    } else {
-        $isPublic = false;
+        $public = true;
     }
+	$is_alcoholic = false;
     if ($alcoholic === 'Y')
     {
-        $alcoholic = true;
-    } else {
-        $alcoholic = false;
+        $is_alcoholic = true;
     }
     // Get the database connection
     $db = getDB();
-	echo($alcoholic . " IUdhlkjashdfkjashdlfkjashldkf" . PHP_EOL);
+	echo($is_alcoholic . " IUdhlkjashdfkjashdlfkjashldkf" . PHP_EOL);
     // Prepare the SQL query
     $stmt = $db->prepare("INSERT INTO UserDrinks (drink_name, drink_tags, is_public, alcoholic, ingredients, measurements, instructions, user_id) 
                           VALUES (:drink_name, :drink_tags, :is_public, :alcoholic, :ingredients, :measurements, :instructions, :user_id)");
@@ -463,8 +461,8 @@ function add_user_drink($session_id, $drinkName, $drinkTags, $isPublic, $alcohol
     // Bind parameters
     $stmt->bindParam(":drink_name", $drinkName);
     $stmt->bindParam(":drink_tags", $drinkTags);
-    $stmt->bindParam(":is_public", $isPublic);
-    $stmt->bindParam(":alcoholic", $alcoholic);
+    $stmt->bindParam(":is_public", $public);
+    $stmt->bindParam(":alcoholic", $is_alcoholic);
     $stmt->bindParam(":ingredients", $ingredients);
     $stmt->bindParam(":measurements", $measurements);
     $stmt->bindParam(":instructions", $instructions);
