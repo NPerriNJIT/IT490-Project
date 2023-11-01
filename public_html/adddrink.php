@@ -7,7 +7,7 @@ if(!is_logged_in()) {
 
 ?>
 
-<form method="POST" action="submit_form.php"> <!-- Replace with your form action -->
+<form method="POST">
     <label for="drinkName">Drink Name:</label><br>
     <input type="text" id="drinkName" name="drinkName" required><br><br>
 
@@ -44,10 +44,13 @@ if(!is_logged_in()) {
 
 if(isset($_POST['drinkName']) && isset($_POST['instructions']) && isset($_POST['measurements']) 
 && isset($_POST['ingredients']) && isset($_POST['isAlcoholic']) && isset($_POST['isPublic'])) {
-    
+
     add_user_drink($_POST['drinkName'], $_POST['drinkTags'], $_POST['isPublic'], $_POST['alcoholic'], 
     $_POST['ingredients'], $_POST['measurements'], $_POST['instructions']);
     //Add a redirect to show all blogs page
 }
 
+?>
+<?php
+require(__DIR__ . "/../scripts/partials/flash.php");
 ?>
