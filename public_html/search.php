@@ -20,7 +20,7 @@ if (!is_logged_in()) {
             <form method="POST">
                 <label for="input">Enter Drink</label>
                 <input type="text" id="drinkNameInput" name="drinkNameInput"><br>
-                <input type="button" id="searchButton" value="Search"><br>
+                <button type="submit">Submit</button>
             </form>
         </div>
 
