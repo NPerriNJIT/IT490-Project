@@ -135,7 +135,7 @@ function requestProcessor($request)
 	case "get_user_drinks":
 		echo "getting user drinks";
 		$response = array();
-		$response = get_user_drinks($request['user_id']);
+		$response = get_user_drinks($request['user_id'], $request['get_private']);
 		return $response;
 	}
 	
