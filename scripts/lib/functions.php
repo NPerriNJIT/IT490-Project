@@ -474,4 +474,24 @@ function add_user_drink($session_id, $drinkName, $drinkTags, $isPublic, $alcohol
     return "failure";
 }
 
+function get_username_user_id($user_id) {
+	$db = getDB();
+	$response = array();
+	$response['get_username_user_id_status'] = 'invalid';
+	$stmt = $db->prepare("Select username from Users where id = :userID");
+	try{
+		$r = $stmt->execute([":userID" => $user_id]);
+		if($r) {
+			$user = $stmt->fetch(PDO::FETCH_ASSOC);
+			$username = $user['username'];
+			$response['username'] = $username;
+			$response['get_username_user_id_status'] = 'valid';
+		} else {
+		}
+	} catch (Exception $e) {
+		echo "Error: " . $e->getMessage();
+	}
+	return $response;
+}
+
 ?>

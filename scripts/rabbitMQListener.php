@@ -42,6 +42,9 @@ function requestProcessor($request)
 		}
 		echo "Sending response: ".PHP_EOL . var_dump($response);
 		return $response;
+	case "get_username_user_id":
+		$response = get_username_user_id($request['user_id']);
+		return $response;
 	case "delete_session_data":
 		echo "running delete session" . PHP_EOL;
 		$response = array();
