@@ -40,6 +40,10 @@ if(isset($_GET['id'])) {
 
         <script>
             /*
+
+            javascript draft
+
+            
             const drinkSearchResults = search_drinks(drinkNameInput.value)
 
             if(drinkSearchResults.length > 0){
