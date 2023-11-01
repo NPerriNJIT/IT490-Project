@@ -101,7 +101,7 @@ function requestProcessor($request)
 	case "send_favorite":
 		echo "processing favorite";
 		$response = array();
-		$response = send_favorite($request['session_id'], $request['drink_id']);
+		$response['send_favorite_status'] = send_favorite($request['session_id'], $request['drink_id']);
 		return $response;
 	case "get_favorite_drinks":
 		echo "getting favorites";
