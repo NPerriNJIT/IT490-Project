@@ -1,4 +1,4 @@
-<?php
+a<?php
 require_once(__DIR__ . '/../path.inc');
 require_once(__DIR__ . '/../get_host_info.inc');
 require_once(__DIR__ . '/../rabbitMQLib.inc');
@@ -313,6 +313,9 @@ function get_username($user_id) {
 function display_drink_info($drink) {
 	//TODO: Add hyperlink to drink on the drink name
 	$drink_info = "<li>Drink Name: " . $drink['drink_name'] . "</li>" . PHP_EOL;
+	if(isset($drink['is_public'])) {
+		$drink_info = $drink_info . '<li>User ID: <a href="profile.php?id=' . $drink['user_id'] .'>' . get_username($drink['user_id']) . '</a></li>' . PHP_EOL;
+	}
 	$drink_info = $drink_info . "<li>Drink ID: " . $drink['drink_id'] . "</li>" . PHP_EOL;
 	$drink_info = $drink_info . "<li>Drink Category: " . $drink['tags'] . "</li>" . PHP_EOL;
 	$drink_info = $drink_info . "<li>Is alcoholic?: " . $drink['alcoholic'] . "</li>" . PHP_EOL;
