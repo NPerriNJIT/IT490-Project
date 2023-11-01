@@ -46,13 +46,20 @@ if($user_id == get_session_user_id()) {
     foreach($favorite_drinks as $drink) : ?>
         <?php echo(display_drink_info(get_drink_info($drink['drink_id']))); ?>
     <?php endforeach; ?>
-<?php 
+    <?php 
     echo("<br><p>Personal drinks:</p>");
     $personal_drinks = get_user_drinks($user_id, $is_user);
     foreach($personal_drinks as $drink) : ?>
         <?php echo(display_drink_info($drink)); ?>
     <?php endforeach; ?>
-
+    <?php 
+    
+    echo("<br><p>Recommended drinks:</p>");
+    $recommendations = get_recommendations();
+    foreach($recommendations as $drink) {
+        echo(display_drink_info($drink));
+    }
+?>
 <?php
 require(__DIR__ . "/../scripts/partials/flash.php");
 ?>    

@@ -332,7 +332,7 @@ function get_recommendations() {
 	$request['user_id'] = session_id();
 	$response = $client->send_request($request);
 	if(isset($response['get_recommendations_status']) && $response['get_recommendations_status'] === 'valid') {
-		return $response['drinks'];
+		return $response['recommendations'];
 	} else {
 		echo flash("Failed to get recommendations", "warning");
 		return "error";
