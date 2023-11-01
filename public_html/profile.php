@@ -44,7 +44,7 @@ if($user_id == get_session_user_id()) {
     //Add other profile info above (username, etc)
     $favorite_drinks = get_favorite_drinks($user_id);
     foreach($favorite_drinks as $drink) : ?>
-        <?php echo(display_drink_info(get_drink_info($drink))); ?>
+        <?php echo(display_drink_info(get_drink_info($drink['drink_id']))); ?>
     <?php endforeach; ?>
 
 
