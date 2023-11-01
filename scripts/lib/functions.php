@@ -293,7 +293,6 @@ function send_favorite($session_id, $drink_id) {
 	return "failure";
 }
 
-
 function get_favorite_drinks($user_id) {
 	$db = getDB();
 	$stmt = $db->prepare("Select drink_id from Favorites where user_id = :user_id");
