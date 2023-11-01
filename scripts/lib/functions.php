@@ -421,7 +421,7 @@ function check_user_exists($user_id) {
 	$db = getDB();
 	$response = array();
 	$response['check_user_exists_status'] = 'invalid';
-	$stmt = $db->prepare("Select user_id from Users where user_id = :user_id");
+	$stmt = $db->prepare("Select id from Users where id = :user_id");
 	try {
 		$r = $stmt->execute([':user_id' => $user_id]);
 		if($r) {
