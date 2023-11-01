@@ -317,7 +317,7 @@ function display_drink_info($drink) {
 		$drink_info = $drink_info . '<li>User ID: <a href="profile.php?id=' . $drink['user_id'] .'>' . get_username($drink['user_id']) . '</a></li>' . PHP_EOL;
 	}
 	$drink_info = $drink_info . "<li>Drink ID: " . $drink['drink_id'] . "</li>" . PHP_EOL;
-	$drink_info = $drink_info . "<li>Drink Category: " . $drink['tags'] . "</li>" . PHP_EOL;
+	$drink_info = $drink_info . "<li>Drink Category: " . $drink['drink_tags'] . "</li>" . PHP_EOL;
 	$drink_info = $drink_info . "<li>Is alcoholic?: " . $drink['alcoholic'] . "</li>" . PHP_EOL;
 	$drink_info = $drink_info . "<li>Ingredients: " . $drink['ingredients'] . "</li>" . PHP_EOL;
 	$drink_info = $drink_info . "<li>Measurements: " . $drink['measurements'] . "</li>" . PHP_EOL;
