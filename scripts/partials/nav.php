@@ -34,7 +34,7 @@ $isLoggedIn = is_logged_in();
 <nav>
     <ul>
         <?php if ($isLoggedIn) : ?>
-            <li><a href="<?php echo get_url('sessionTestPage.php'); ?>">| Session Debug |</a></li>
+            <li><a href="<?php echo get_url('profile.php'); ?>"> Profile </a></li>
         <?php endif; ?>
         <?php if (!$isLoggedIn) : ?>
             <li><a href="<?php echo get_url('loginForm.php'); ?>">Login</a></li>
@@ -42,8 +42,10 @@ $isLoggedIn = is_logged_in();
         <?php endif; ?>
         <?php if ($isLoggedIn) : ?>
             <li><a href="<?php echo get_url('blog.php'); ?>">Blog</a></li>
-            <li><a href="<?php echo get_url('blogForm.php'); ?>">| Blog Post |</a></li>
-            <li><a href="<?php echo get_url('logout.php'); ?>">Logout</a></li>
+            <li><a href="<?php echo get_url('blogForm.php'); ?>">Blog Post</a></li>
+            <li><a href="<?php echo get_url('search.php'); ?>"> Search Drinks</a></li>
+            <li><a href="<?php echo get_url('adddrink.php'); ?>">Create A Drink</a></li>
+            <li><a href="<?php echo get_url('logout.php'); ?>"> Logout</a></li>
         <?php endif; ?>
     </ul>
 </nav>

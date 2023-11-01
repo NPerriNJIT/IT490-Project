@@ -140,7 +140,7 @@ function send_blog_post($blog_title, $blog_post)
     $response = $client->send_request($request);
     if(isset($response['send_blog_post_status']) && $response['send_blog_post_status'] === 'valid') {
         flash("Blog post succesfully sent", "success");
-		die(header("Location: sessionTestPage.php"));
+		die(header("Location: blog.php"));
     } else {
         flash("Blog post failed to send", "warning");
     }
@@ -370,7 +370,7 @@ function add_user_drink($drinkName, $drinkTags, $alcoholic, $isPublic, $ingredie
     $response = $client->send_request($request);
     if(isset($response['send_add_user_drink_status']) && $response['send_add_user_drink_status'] === 'valid') {
         flash("User drink information sent", "success");
-		die(header("Location: sessionTestPage.php"));
+		die(header("Location: profile.php"));
     } else {
         flash("User drink information failed to send", "warning");
     }
