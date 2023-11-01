@@ -1,4 +1,4 @@
-<?php
+a<?php
 require_once(__DIR__ . '/../path.inc');
 require_once(__DIR__ . '/../get_host_info.inc');
 require_once(__DIR__ . '/../rabbitMQLib.inc');
@@ -129,49 +129,36 @@ function get_url($dest)
 }
 //THESE FUNCTIONS ARE FOR PERSONAL DELIVERABLES, NOT DONE YET
 //Sends blog post to DB
-function send_blog_post($blog_post)
+function send_blog_post($blog_title, $blog_post)
 {
     $client = new rabbitMQClient(__DIR__ . "/../testRabbitMQ.ini", "testServer");
     $request = array();
     $request['type'] = 'send_blog_post';
+    $request['blog_title'] = $blog_title; 
     $request['blog_post'] = $blog_post;
     $request['session_id'] = session_id();
     $response = $client->send_request($request);
-    if(isset($response['blog_post_status']) && $response['blog_post_status'] === 'success') {
+    if(isset($response['send_blog_post_status']) && $response['send_blog_post_status'] === 'valid') {
         flash("Blog post succesfully sent", "success");
+		die(header("Location: blog.php"));
     } else {
         flash("Blog post failed to send", "warning");
     }
 }
 
-//Send drink rating to DB
-function send_drink_rating($drink_id, $rating)
+//Send drink review to DB
+function send_drink_review($drink_id, $rating, $comment)
 {
     $client = new rabbitMQClient(__DIR__ . "/../testRabbitMQ.ini", "testServer");
     $request = array();
-    $request['type'] = 'send_drink_rating';
+    $request['type'] = 'send_drink_review';
     $request['drink_id'] = $drink_id;
     $request['rating'] = $rating;
+	$request['comment'] = $comment;
     $request['session_id'] = session_id();
     $response = $client->send_request($request);
-    if(isset($response['drink_rating_status']) && $response['drink_rating_status'] === "success") {
-        flash("Drink successfully rated", "success");
-    } else {
-        flash("Drink rating failed", "warning");
-    }
-}
-
-//Send drink review to DB
-function send_drink_review($drink_id, $review)
-{
-    $client = new rabbitMQClient(__DIR__ . "/../testRabbitMQ.ini", "testServer");
-    $request = array();
-    $request['type'] = 'send_drink_rating';
-    $request['drink_id'] = $drink_id;
-    $request['review'] = $review;
-    $request['session_id'] = session_id();
-    $response = $client->send_request($request);
-    if(isset($response['drink_review_status']) && $response['drink_review_status'] === "success") {
+    if(isset($response['drink_review_status']) && $response['drink_review_status'] === "valid") {
+		print_r($response);
         flash("Drink successfully reviewed", "success");
     } else {
         flash("Drink review failed", "warning");
@@ -186,7 +173,7 @@ function get_blog_posts_user($user_id)
     $request['type'] = 'get_blog_posts_user';
     $request['user_id'] = $user_id;
     $response = $client->send_request($request);
-    if(isset($response['get_blog_posts_user_status']) && $response['get_blog_posts_user_status'] === 'success') {
+    if(isset($response['get_blog_posts_user_status']) && $response['get_blog_posts_user_status'] === 'valid') {
         return $response['blog_posts'];
     } else {
         flash("Failed to get blog posts", "warning");
@@ -201,29 +188,11 @@ function get_blog_posts_all()
     $request = array();
     $request['type'] = 'get_blog_posts_all';
     $response = $client->send_request($request);
-    if(isset($response['get_blog_posts_all_status']) && $response['get_blog_posts_all_status'] === 'success') {
+    if(isset($response['get_blog_posts_all_status']) && $response['get_blog_posts_all_status'] === 'valid') {
         return $response['blog_posts'];
     } else {
         flash("Failed to get blog posts", "warning");
         return [];
-    }
-}
-
-//Get rating for a specific drink
-function get_drink_rating($drink_id)
-{
-    $client = new rabbitMQClient(__DIR__ . "/../testRabbitMQ.ini", "testServer");
-    $request = array();
-    $request['type'] = 'get_drink_rating';
-    $request['drink_id'] = $drink_id;
-    $response = $client->send_request($request);
-    if(isset($response['get_drink_rating_status']) && $response['get_drink_rating_status'] === 'success') {
-        if($response['has_ratings'] === 'true') {
-            return $response['average_rating'];
-        }
-        return "Unrated";
-    } else {
-        flash("Failed to get drink ratings", "warning");
     }
 }
 
@@ -235,13 +204,12 @@ function get_drink_reviews($drink_id)
     $request['type'] = 'get_drink_reviews';
     $request['drink_id'] = $drink_id;
     $response = $client->send_request($request);
-    if(isset($response['get_drink_reviews_status']) && $response['get_drink_reviews_status'] === 'success') {
-        if($response['has_reviews'] === 'true') {
-            return $response['average_reviews'];
-        }
-        return "No reviews";
+    if(isset($response['get_drink_reviews_status']) && $response['get_drink_reviews_status'] === 'valid') {
+		$reviews = $response['reviews'];
+		return $reviews;
     } else {
         flash("Failed to get drink reviews", "warning");
+		return [];
     }
 }
 
@@ -270,8 +238,8 @@ function get_favorite_drinks($user_id)
     $request['user_id'] = $user_id;
     $response = $client->send_request($request);
     if(isset($response['get_favorite_drinks_status']) && $response['get_favorite_drinks_status'] === 'valid') {
-        if($response['has_favorites'] === 'true') {
-            return $response['favorite_drinks'];
+        if($response['drink_ids'] > 0) {
+            return $response['drink_ids'];
         }
         return "No favorites";
     } else {
@@ -288,11 +256,133 @@ function get_drink_info($drink_id) {
     $response = $client->send_request($request);
     if(isset($response['get_drink_info_status']) && $response['get_drink_info_status'] === 'valid') {
         $drink_info = array();
-        //TODO: add drink info
+        $drink_info = $response['drink_info'];
+		unset($drink_info['get_drink_info_status']);
         return $drink_info;
     } else {
         flash("Error retrieving drink info", "danger");
         die(header("Location: profile.php"));
         return false;
     }
+}
+
+//Get user id from session
+function get_session_user_id() {
+	$client = new rabbitMQClient(__DIR__ . "/../testRabbitMQ.ini","testServer");
+	$request = array();
+	$request['type'] = "get_session_user_id";
+	$request['session_id'] = session_id();
+	$response = $client->send_request($request);
+	//Waits for a response from the server
+
+		
+	if(isset($response['get_session_user_id_status']) && $response['get_session_user_id_status'] == "valid") {
+		return $response['user_id'];
+	}
+}
+
+function check_user_exists($user_id) {
+	$client = new rabbitMQClient(__DIR__ . "/../testRabbitMQ.ini","testServer");
+	$request = array();
+	$request['type'] = "check_user_exists";
+	$request['user_id'] = $user_id;
+	$response = $client->send_request($request);
+	//Waits for a response from the server
+
+	
+	if(isset($response['check_user_exists_status'])) {
+		return $response['check_user_exists_status'] === 'valid';
+	}
+	return false;
+}
+
+function get_username($user_id) {
+	$client = new rabbitMQClient(__DIR__ . "/../testRabbitMQ.ini","testServer");
+	$request = array();
+	$request['type'] = "get_username_user_id";
+	$request['user_id'] = $user_id;
+	$response = $client->send_request($request);
+	//Waits for a response from the server
+
+		
+	if(isset($response['get_username_user_id_status']) && $response['get_username_user_id_status'] == "valid") {
+		return $response['username'];
+	}
+}
+
+function display_drink_info($drink) {
+	//TODO: Add hyperlink to drink on the drink name
+	$drink_info = "<li>Drink Name: " . $drink['drink_name'] . "</li>" . PHP_EOL;
+	if(isset($drink['is_public'])) {
+		$drink_info = $drink_info . '<li>User ID: <a href="profile.php?id=' . $drink['user_id'] . '">' . get_username($drink['user_id']) . '</a></li>' . PHP_EOL;
+		$drink_info = $drink_info . "<li>Drink ID: " . $drink['drink_id'] . "</li>" . PHP_EOL;
+	} else {
+		$drink_info = $drink_info . '<li>Drink ID: <a href="drink.php?id=' . $drink['drink_id'] . '">' . $drink['drink_id'] . '</a></li>' . PHP_EOL;
+	}
+	$drink_info = $drink_info . "<li>Drink Category: " . $drink['drink_tags'] . "</li>" . PHP_EOL;
+	$drink_info = $drink_info . "<li>Is alcoholic?: " . $drink['alcoholic'] . "</li>" . PHP_EOL;
+	$drink_info = $drink_info . "<li>Ingredients: " . $drink['ingredients'] . "</li>" . PHP_EOL;
+	$drink_info = $drink_info . "<li>Measurements: " . $drink['measurements'] . "</li>" . PHP_EOL;
+	$drink_info = $drink_info . "<li>Instructions: " . $drink['instructions'] . "</li>" . PHP_EOL . "<hr>";
+	return $drink_info;
+}
+
+function get_recommendations() {
+	$client = new rabbitMQClient(__DIR__ . "/../testRabbitMQ.ini","testServer");
+	$request = array();
+	$request['type'] = "get_recommendations";
+	$request['user_id'] = session_id();
+	$response = $client->send_request($request);
+	if(isset($response['get_recommendations_status']) && $response['get_recommendations_status'] === 'valid') {
+		return $response['recommendations'];
+	} else {
+		echo flash("Failed to get recommendations", "warning");
+		return "error";
+	}
+}
+
+function search_drinks($search_string) {
+	$client = new rabbitMQClient(__DIR__ . "/../testRabbitMQ.ini","testServer");
+	$request = array();
+	$request['type'] = "search_drinks";
+	$request['search_string'] = $search_string;
+	$response = $client->send_request($request);
+	if(isset($response['search_drinks_status']) && $response['search_drinks_status'] === 'valid') {
+		return $response['search_results'];
+	} else {
+		flash("Error searching", "warning");
+	}
+}
+
+function add_user_drink($drinkName, $drinkTags, $alcoholic, $isPublic, $ingredients, $measurements, $instructions)
+{
+    $client = new rabbitMQClient(__DIR__ . "/../testRabbitMQ.ini", "testServer");
+    $request = array();
+    $request['type'] = 'send_add_user_drink';
+    $request['drinkName'] = $drinkName;
+    $request['drinkTags'] = $drinkTags;
+	$request['isPublic'] = $isPublic;
+	$request['alcoholic'] = $alcoholic;
+	$request['ingredients'] = $ingredients;
+	$request['measurements'] = $measurements;
+	$request['instructions'] = $instructions;
+    $request['session_id'] = session_id();
+    $response = $client->send_request($request);
+    if(isset($response['send_add_user_drink_status']) && $response['send_add_user_drink_status'] === 'valid') {
+        flash("User drink information sent", "success");
+		die(header("Location: profile.php"));
+    } else {
+        flash("User drink information failed to send", "warning");
+    }
+}
+function get_user_drinks($user_id, $get_private = false) {
+	$client = new rabbitMQClient(__DIR__ . "/../testRabbitMQ.ini", "testServer");
+    $request = array();
+    $request['type'] = 'get_user_drinks';
+	$request['user_id'] = $user_id;
+	$request['get_private'] = $get_private;
+	$response = $client->send_request($request);
+	if(isset($response['get_user_drinks_status']) && $response['get_user_drinks_status'] === 'valid') {
+		return $response['drink_info'];
+	}
 }
