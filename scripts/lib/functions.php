@@ -390,6 +390,17 @@ function search_drinks($search_string) {
 	} catch (Exception $e) {
 		echo("Error: " . $e);
 	}
+	$stmt = $db->prepare("Select * from UserDrinks where drink_id like :search_string or drink_name like :search_string or drink_tags like :search_string or ingredients like :search_string");
+	try {
+		$r = $stmt->execute([':search_string' => $search_string_fixed]);
+		if($r) {
+			$search_results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+			$response['search_results'] = $search_results;
+			$response['search_drinks_status'] = "valid";
+		}
+	} catch (Exception $e) {
+		echo("Error: " . $e);
+	}
 
 	return $response;
 }
