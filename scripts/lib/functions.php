@@ -441,7 +441,18 @@ function add_user_drink($session_id, $drinkName, $drinkTags, $isPublic, $alcohol
         echo "Invalid user ID";
         return "failure";
     }
-
+	if ($isPublic === 'Y')
+    {
+        $isPublic = true;
+    } else {
+        $isPublic = false;
+    }
+    if ($alcoholic === 'Y')
+    {
+        $alcoholic = true;
+    } else {
+        $alcoholic = false;
+    }
     // Get the database connection
     $db = getDB();
 
