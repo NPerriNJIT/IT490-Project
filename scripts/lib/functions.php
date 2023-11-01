@@ -356,7 +356,7 @@ function get_recommendations($session_id, $amount = 10) {
 	foreach($weighted_ingredients as $ingredient_id) {
 		$stmt = $db->prepare("Select distinct drink_id from Drink_Ingredients where ingredient_id = :ingredient_id");
 		try {
-			$r = $stmt->execute(['drink_id' => $ingredient_id]);
+			$r = $stmt->execute(['ingredient_id' => $ingredient_id]);
 			if($r) {
 				$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 				foreach($result as $recommendation) {
