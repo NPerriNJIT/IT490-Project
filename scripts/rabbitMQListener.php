@@ -136,7 +136,6 @@ function requestProcessor($request)
 		echo "getting user drinks";
 		$response = array();
 		$response = get_user_drinks($request['user_id'], $request['get_private']);
-		var_dump($response);
 		return $response;
 	}
 	
