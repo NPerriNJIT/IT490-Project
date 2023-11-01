@@ -28,6 +28,13 @@ if (isset($_POST["submit"])) {
 
 ?>
 <?php echo(display_drink_info($drink)) ?>
+
+
+<!-- Favorite button -->
+<input type="hidden" name="drink_id" value="<?php echo $drink_id; ?>">
+<button type="submit" name="favorite">Favorite</button>
+<br>
+
 <h1>Add Rating</h1>
 <form method="POST">
     <h3>Rating</h3>
@@ -52,9 +59,7 @@ if (isset($_POST["submit"])) {
         <input type="text" id="comment" name="comment"><br>
         <input type="submit" value="Submit" name="submit">
 <br>
-<!-- Favorite button -->
-    <input type="hidden" name="drink_id" value="<?php echo $drink_id; ?>">
-    <button type="submit" name="favorite">Favorite</button>
+
 
 </form>
 </div>
