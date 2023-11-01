@@ -386,7 +386,6 @@ function search_drinks($search_string) {
 			$search_results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 			$response['search_results'] = $search_results;
 			$response['search_drinks_status'] = "valid";
-			var_dump($response);
 		}
 	} catch (Exception $e) {
 		echo("Error: " . $e);
