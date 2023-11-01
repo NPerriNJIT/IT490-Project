@@ -350,6 +350,7 @@ function get_recommendations($session_id, $amount = 10) {
 	$count_instances = array_count_values($liked_ingredients);
 	arsort($count_instances);
 	$weighted_ingredients = array_keys($count_instances);
+	var_dump($weighted_ingredients);
 	//Find top $amount drinks, first come first serve based on ingredient preference, then randomize drinks that are weighted the same
 	$recommendation_ids = array();
 	foreach($weighted_ingredients as $ingredient_id) {
