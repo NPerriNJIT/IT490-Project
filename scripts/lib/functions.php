@@ -506,6 +506,7 @@ function get_user_drinks($user_id, $get_private) {
 	$db = getDB();
 	$response = array();
 	$response['get_user_drinks_status'] = 'invalid';
+	var_dump($user_id);
 	if($get_private) {
 		$stmt = $db->prepare("Select * from UserDrinks where user_id = :user_id");
 	} else {
