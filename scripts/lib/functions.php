@@ -315,6 +315,7 @@ function get_favorite_drinks($user_id) {
 function get_recommendations($user_id, $amount = 10) {
 	//Find favorites
 	$db = getDB();
+	$response = array();
 	$favorites = get_favorite_drinks($user_id);
 	$favorite_ids = $favorites['drink_id'];
 	$recommendations = array();
@@ -326,7 +327,10 @@ function get_recommendations($user_id, $amount = 10) {
 			$r = $stmt->execute(['drink_id' => $drink_id]);
 			if($r) {
 				$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-				array_push($liked_ingredients, $result['ingredient_id']);
+				$liked_ingredients_rows = $result;
+				foreach($liked_ingredients_rows as $ingredient) {
+					array_push($liked_ingredients, $ingredient['ingredient_id']);
+				}
 			}
 		} catch (Exception $e) {
 			echo("Error: " . $e);
@@ -343,10 +347,12 @@ function get_recommendations($user_id, $amount = 10) {
 	foreach($weighted_ingredients as $ingredient_id) {
 		$stmt = $db->prepare("Select distinct drink_id from Drink_Ingredients where ingredient_id = :ingredient_id");
 		try {
-			$r = $stmt->execute(['drink_id' => $drink_id]);
+			$r = $stmt->execute(['drink_id' => $ingredient_id]);
 			if($r) {
 				$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-				array_push($recommendation_ids, $result['drink_id']);
+				foreach($result as $recommendation) {
+					array_push($recommendation_ids, $recommendation['drink_id']);
+				}
 				shuffle($recommendation_ids);
 			}
 			if(count($recommendation_ids) >= $amount) {
@@ -365,10 +371,8 @@ function get_recommendations($user_id, $amount = 10) {
 	//Get drink info for recommendations
 	foreach($recommendation_ids as $drink_id) {
 		$drink_info = get_drink($drink_id);
-		unset($drink_info['get_drink_info_status']);
-		array_push($recommendations, $drink_info);
+		array_push($recommendations, $drink_info['drink_info']);
 	}
-	$response = array();
 	$response['get_recommendations_status'] = 'valid';
 	$response['recommendations'] = $recommendations;
 	return $response;
