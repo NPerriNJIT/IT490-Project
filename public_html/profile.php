@@ -5,12 +5,15 @@ if (!is_logged_in()) {
     die(header("Location: loginForm.php"));
 }
 //TODO: sanitize id if necessary
-$user_id = $_GET['id'];
+$redirect_id = get_session_user_id();
+if(isset($_GET['id'])) {
+    $user_id = $_GET['id'];
+} else {
+    die(header("Location: profile?id=" . $redirect_id));
+}
 error_log("user id $user_id");
 if ($user_id < 1 || !check_user_exists($user_id)) {
     flash("Invalid user", "danger");
-    $redirect_id = get_session_user_id();
-    die(header("Location: profile?id=" . $redirect_id));
 }
 
 //TODO: Add functions to get profile info for user
