@@ -6,6 +6,7 @@ if (!is_logged_in()) {
 }
 //TODO: sanitize id if necessary
 $redirect_id = get_session_user_id();
+error_log($redirect_id);
 if(isset($_GET['id'])) {
     $user_id = $_GET['id'];
 } else {
