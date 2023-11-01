@@ -119,6 +119,10 @@ function requestProcessor($request)
 		$response = array();
 		$response = search_drinks($request['search_string']);
 		return $response;
+	case "check_user_exists":
+		echo "checking user exists";
+		$response = check_user_exists($request['user_id']);
+		return $response;
 	}
 	return array("returnCode" => '0', 'message'=>"Server received request and processed");
 }

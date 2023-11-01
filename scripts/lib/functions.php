@@ -417,4 +417,20 @@ function search_drinks($search_string) {
 	return $response;
 }
 
+function check_user_exists($user_id) {
+	$db = getDB();
+	$response = array();
+	$response['check_user_exists_status'] = 'invalid';
+	$stmt = $db->prepare("Select user_id from Users where user_id = :user_id");
+	try {
+		$r = $stmt->exceute([':user_id' => $user_id]);
+		if($r) {
+			$response['check_user_exists_status'] = 'valid';
+		}
+	} catch (Exception $e) {
+		echo("Error: " . $e);
+	}
+	return $response;
+}
+
 ?>
