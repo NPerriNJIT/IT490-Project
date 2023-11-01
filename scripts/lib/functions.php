@@ -302,7 +302,8 @@ function get_favorite_drinks($user_id) {
 		if($r) {
 			$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 			$response['get_favorite_drinks_status'] = "valid";
-			$response['drink_ids'] = $result['drink_id'];
+
+			$response['drink_ids'] = $result;
 			return $response;
 		}
 	} catch (Exception $e){
