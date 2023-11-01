@@ -109,6 +109,12 @@ function requestProcessor($request)
 		$response = array();
 		$response = search_drinks($request['search_string']);
 		return $response;
+	case "send_add_user_drink":
+		echo "adding user drink";
+		$response = array();
+		$response = add_user_drink($request['drinkName'], $request['drinkTags'], $request['isPublic'], $request['alcholic'], 
+		$request['ingredients'], $request['measurements'], $request['instructions'], $request['user_id']);
+		return $response;
 	}
 	return array("returnCode" => '0', 'message'=>"Server received request and processed");
 }

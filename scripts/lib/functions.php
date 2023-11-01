@@ -416,4 +416,47 @@ function search_drinks($search_string) {
 	return $response;
 }
 
+function add_user_drink($session_id, $drinkName, $drinkTags, $isPublic, $alcoholic, $ingredients, $measurements, $instructions) {
+    // Get the user ID from the session
+    $user_id = get_session_user_id($session_id);
+
+    // Check if user_id is valid (not an error)
+    if (!is_int($user_id)) {
+        echo "Invalid user ID";
+        return "failure";
+    }
+
+    // Get the database connection
+    $db = getDB();
+
+    // Prepare the SQL query
+    $stmt = $db->prepare("INSERT INTO UserDrinks (drink_name, drink_tags, is_public, alcoholic, ingredients, measurements, instructions, user_id) 
+                          VALUES (:drink_name, :drink_tags, :is_public, :alcoholic, :ingredients, :measurements, :instructions, :user_id)");
+
+    // Bind parameters
+    $stmt->bindParam(":drink_name", $drinkName);
+    $stmt->bindParam(":drink_tags", $drinkTags);
+    $stmt->bindParam(":is_public", $isPublic);
+    $stmt->bindParam(":alcoholic", $alcoholic);
+    $stmt->bindParam(":ingredients", $ingredients);
+    $stmt->bindParam(":measurements", $measurements);
+    $stmt->bindParam(":instructions", $instructions);
+    $stmt->bindParam(":user_id", $user_id);
+
+    try {
+        // Execute the query
+        if ($stmt->execute()) {
+            echo "Drink added successfully";
+            return "valid";
+        } else {
+            echo "Error executing the query";
+        }
+    } catch (PDOException $e) {
+        echo "Error: " . $e->getMessage();
+    }
+
+    return "failure";
+}
+
+
 ?>
