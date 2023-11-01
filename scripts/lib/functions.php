@@ -363,3 +363,26 @@ function search_drinks($search_string) {
 		flash("Error searching", "warning");
 	}
 }
+
+function add_user_drink($drinkName, $drinkTags, $isPublic, $alcoholic, $ingredients, $measurements, $instructions)
+{
+    $client = new rabbitMQClient(__DIR__ . "/../testRabbitMQ.ini", "testServer");
+    $request = array();
+    $request['type'] = 'add_user_drink';
+    $request['drinkName'] = $drinkName; 
+	$request['user_id'] = get_session_user_id();
+    $request['drinkTags'] = $drinkTags;
+	$request['isPublic'] = $isPublic;
+	$request['alcoholic'] = $alcoholic;
+	$request['ingredients'] = $ingredients;
+	$request['measurements'] = $measurements;
+	$request['instructions'] = $instructions;
+    $request['session_id'] = session_id();
+    $response = $client->send_request($request);
+    if(isset($response['send_add_user_drink_status']) && $response['send_add_user_drink_status'] === 'valid') {
+        flash("User drink information sent", "success");
+		die(header("Location: sessionTestPage.php"));
+    } else {
+        flash("User drink information failed to send", "warning");
+    }
+}
