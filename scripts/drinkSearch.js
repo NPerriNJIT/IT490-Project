@@ -36,6 +36,10 @@ searchButton.addEventListener('click', () => {
         }
     }
 
+
+
+
+    
     fetch(apiURL)
         .then(response => response.json())
         .then(data=> {
@@ -107,6 +111,8 @@ searchButton.addEventListener('click', () => {
         });
   
     console.log(apiURL)
+
+    
 
 
 });
