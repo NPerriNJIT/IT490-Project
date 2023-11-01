@@ -318,6 +318,7 @@ function get_recommendations($user_id, $amount = 10) {
 	$response = array();
 	$favorites = get_favorite_drinks($user_id);
 	$favorite_ids = $favorites['drink_ids'];
+	echo($user_id . PHP_EOL);
 	var_dump($favorite_ids);
 	if(count($favorite_ids) == 0) {
 		$response['get_recommendations_status'] = 'valid';
