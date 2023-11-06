@@ -412,7 +412,7 @@ function search_drinks($search_string) {
                 if(empty($response['search_results'])) {
                     $response['search_results'] = $search_results;
                 } else {
-                    array_merge($response['search_results'], $search_results);
+                    $response['search_results'] = array_merge($response['search_results'], $search_results);
                 }
             }
             $response['search_drinks_status'] = "valid";
