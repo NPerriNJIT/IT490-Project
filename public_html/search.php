@@ -58,6 +58,7 @@ if (!is_logged_in()) {
         $drinkInput = $_POST['drinkNameInput'];
 
         $drinkResults = search_drinks($drinkInput);
+        var_dump($drinkResults);
         foreach($drinkResults as $drink){
             echo(display_drink_info($drink));
         }
