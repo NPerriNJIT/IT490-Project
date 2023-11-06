@@ -395,7 +395,7 @@ function search_drinks($search_string) {
 		$r = $stmt->execute([':search_string' => $search_string_fixed]);
 		if($r) {
 			$search_results = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            if(empty($search_results)) {
+            if(!empty($search_results)) {
                 $response['search_results'] = $search_results;
             }
 			$response['search_drinks_status'] = "valid";
