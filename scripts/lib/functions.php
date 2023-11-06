@@ -389,6 +389,7 @@ function search_drinks($search_string) {
 	$response = array();
 	$search_string_fixed = "%" . $search_string . "%";
 	$response['search_drinks_status'] = "invalid";
+    $response['search_results'] = array();
 	$stmt = $db->prepare("Select * from Drinks where drink_id like :search_string or drink_name like :search_string or drink_tags like :search_string or ingredients like :search_string");
 	try {
 		$r = $stmt->execute([':search_string' => $search_string_fixed]);
@@ -405,7 +406,7 @@ function search_drinks($search_string) {
 		$r = $stmt->execute([':search_string' => $search_string_fixed]);
 		if($r) {
 			$search_results = $stmt->fetchAll(PDO::FETCH_ASSOC);
-			$response['search_results'] = $search_results;
+            array_push($response['search_results'], $search_results);
 			$response['search_drinks_status'] = "valid";
 		}
 	} catch (Exception $e) {
