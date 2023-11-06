@@ -409,7 +409,11 @@ function search_drinks($search_string) {
 		if($r) {
 			$search_results = $stmt->fetchAll(PDO::FETCH_ASSOC);
             if(!empty($search_results)) {
-                array_push($response['search_results'], $search_results);
+                if(empty($response['search_results'])) {
+                    $response['search_results'] = $search_results;
+                } else {
+                    array_push($response['search_results'], $search_results);
+                }
             }
             $response['search_drinks_status'] = "valid";
 		}
