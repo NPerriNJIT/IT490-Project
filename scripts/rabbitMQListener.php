@@ -31,7 +31,6 @@ function requestProcessor($request)
 		echo "Sending response: ".PHP_EOL . var_dump($response);
 		return $response;
 	case "get_session_username":
-		//TODO: add validate session
 		$response = array();
 		$response['type'] = "session_response";
 		if(doValidate($request['session_id'])) {
