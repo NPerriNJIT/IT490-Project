@@ -531,4 +531,16 @@ function get_user_drinks($user_id, $get_private) {
 	return $response;
 }
 
+function get_profile($user_id, $is_user, $session_id) {
+	//TODO: Make all RabbitMQ stuff happen in 1 request
+	//get_session_user_id, get_username, get_favorite_drinks, get_drink_info, get_user_drinks, get_recommendations
+	//compile into get_profile function
+	//TODO: This still needs work
+	$response = array();
+	$response['username'] = get_username_user_id($user_id);
+	$response['favorites'] = get_favorite_drinks($user_id);
+	get_user_drinks($user_id, $is_user);
+	get_recommendations($session_id);
+}
+
 ?>
