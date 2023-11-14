@@ -12,21 +12,22 @@ if(isset($_GET['id'])) {
 } else {
     die(header("Location: profile.php?id=" . $redirect_id));
 }
-error_log("user id $user_id");
-error_log(print_r($user_id < 1));
-error_log(print_r(check_user_exists($user_id)));
 if ($user_id < 1 || !check_user_exists($user_id)) {
     flash("Invalid user", "danger");
     die(header("Location: profile.php?id=" . $redirect_id));
 }
 
-//TODO: Add functions to get profile info for user
-//TODO: Add profile changes if user is on their profile, not required for midterm assignments ;)
 $is_user = false;
 if($user_id == get_session_user_id()) {
     $is_user = true;
 }
+//TODO: Make all RabbitMQ stuff happen in 1 request
+//get_session_user_id, get_username, get_favorite_drinks, get_drink_info, get_user_drinks, get_recommendations
+//compile into get_profile function
+$profile = get_profile($user_id, $is_user);
+
 ?>
+
 <!- ADD HTML HERE ->
 
 <html>

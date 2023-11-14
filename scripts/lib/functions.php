@@ -386,3 +386,17 @@ function get_user_drinks($user_id, $get_private = false) {
 		return $response['drink_info'];
 	}
 }
+
+function get_profile($user_id, $is_user) {
+	$client = new rabbitMQClient(__DIR__ . "/../testRabbitMQ.ini", "testServer");
+    $request = array();
+    $request['type'] = 'get_profile';
+	$request['user_id'] = $user_id;
+	$request['is_user'] = $is_user;
+	$response = $client->send_request($request);
+	if(isset($response['get_profile_status']) && $response['get_profile_status'] === 'valid') {
+		return $response;
+	} else {
+		return [];
+	}
+}
