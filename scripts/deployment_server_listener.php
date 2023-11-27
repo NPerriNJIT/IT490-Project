@@ -29,6 +29,10 @@ function requestProcessor($request)
         case "add_version":
             //TODO: Add add_version function
             //What should be set in the request: version, branch, status, 
+            $response = add_version();
+        case "get_version":
+            //TODO: Add get_version function
+            //What should be set: status ()
     }
     return $response;
 }
