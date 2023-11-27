@@ -11,7 +11,7 @@ function set_version_status($request) {
         return $response;
     }
     $db = getDB();
-    $stmt = "Update Packages set status = :status where version = :version";
+    $stmt = $db->prepare("Update Packages set status = :status where version = :version");
     try{
         $r = $stmt->execute([':status' => $request['status'], ':version' => $request['version']]);
         if($r) {
