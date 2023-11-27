@@ -1,4 +1,8 @@
 <?php
+require_once(__DIR__ . "/db.php");
+require_once(__DIR__ . '/../path.inc');
+require_once(__DIR__ . '/../get_host_info.inc');
+require_once(__DIR__ . '/../rabbitMQLib.inc');
 //TODO: Add db stuff
 function set_version_status($request) {
     $response = array();
