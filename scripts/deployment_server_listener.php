@@ -17,16 +17,18 @@ function requestProcessor($request)
     switch($request['type']) {
         case "check_update":
             //TODO: Add check_update function
-            //What should be set in the request: machine, current version
+            //What should be set in the request: branch, cluster, current version
             $response = check_update($request);
         case "set_version_status":
-            //TODO: add set_version_status function
             //What should be set in the request: version, status
             $response = set_version_status();
         case "rollback":
             //TODO: add rollback function
             //What should be set: machine
             $response = rollback();
+        case "add_version":
+            //TODO: Add add_version function
+            //What should be set in the request: version, branch, status, 
     }
     return $response;
 }
