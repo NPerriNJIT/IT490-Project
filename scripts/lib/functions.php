@@ -37,10 +37,18 @@ function add_version($destination_path, $version, $machine, $sender_name, $sende
     }
     //If successful, update SQL information
     echo("Received version " . $version . PHP_EOL);
-
+    $local_path = '/destination/to/packages/' . $version;
     $db = getDB();
-    //TODO: Start here when I get time again
-    $stmt = $db->prepare("Insert into Packages machine, destination_path, local_path, version ");
+    $stmt = $db->prepare("Insert into Packages (machine, destination_path, local_path, version) values (:machine, :destination_path, :local_path, :version)");
+    try {
+        $r = $stmt->execute([':machine' => $machine, ':destination_path' => $destination_path, ':local_path' => $local_path, ':version' => $version]);
+        if($r) {
+            $response['status'] = 'success';
+        }
+    } catch (Exception $e) {
+        echo("Error: ". $e);
+    }
+    return $response;
 }
 
 //Used to call a bash script that will receive a new version file via sftp
