@@ -16,14 +16,6 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Current Database: `testdb`
---
-
-CREATE DATABASE /*!32312 IF NOT EXISTS*/ `testdb` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
-
-USE `testdb`;
-
---
 -- Table structure for table `Blogs`
 --
 
@@ -302,6 +294,28 @@ LOCK TABLES `Users` WRITE;
 INSERT INTO `Users` VALUES (1,'jheans','12345','2023-10-08 18:14:05','2023-10-08 18:14:05'),(2,'11111111','$2y$10$TFpwa533p6f9yLKAekPqc.Zit5EHPpAV6yfVtPL96N7Ic1ilBZPwq','2023-10-25 15:47:29','2023-10-25 15:47:29'),(3,'22222222','$2y$10$YsJbWzChJuKvAi09ahJtO.QO17B06Mj.ypVzKDJ0aSYpHcd0X0aqG','2023-10-30 16:18:50','2023-10-30 16:18:50'),(4,'33333333','$2y$10$rL29ll2wgrPNMGprSpOJC.mcTg3hkFSe/VV6KHw3..80TjHA5OQs2','2023-10-30 16:24:24','2023-10-30 16:24:24'),(5,'44444444','$2y$10$l8pg/Mug1o2xM7b0Jx8exO4wH91mgB7OR6MTpLCZQZWEhUjuWr82S','2023-10-30 16:25:35','2023-10-30 16:25:35'),(6,'Zach','$2y$10$ak/AWS9VglnCXxmBodvwROX/EVeZiG/d.64V0BQ/AIu1ed3lvVmLm','2023-11-06 17:22:48','2023-11-06 17:22:48'),(7,'testUser202','$2y$10$UGgKH7Yy0JP01pTPuMRGzu/h6c6ZE2V5fhWIwjYphxaqDeuCLdIn.','2023-11-06 17:38:59','2023-11-06 17:38:59');
 /*!40000 ALTER TABLE `Users` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Table structure for table `example_table`
+--
+
+DROP TABLE IF EXISTS `example_table`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `example_table` (
+  `example_column` varchar(30) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `example_table`
+--
+
+LOCK TABLES `example_table` WRITE;
+/*!40000 ALTER TABLE `example_table` DISABLE KEYS */;
+INSERT INTO `example_table` VALUES ('first row'),('second row'),('third');
+/*!40000 ALTER TABLE `example_table` ENABLE KEYS */;
+UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -312,4 +326,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-12-06 12:37:45
+-- Dump completed on 2023-12-06 13:49:28
