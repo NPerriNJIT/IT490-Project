@@ -543,4 +543,23 @@ function get_profile($user_id, $is_user, $session_id) {
 	get_recommendations($session_id);
 }
 
+//Get top rated public drinks
+function get_top_drinks($max = 10) {
+    $response = array();
+    $response['get_top_drinks_status'] = 'invalid';
+    $db = getDB();
+    $stmt = $db->prepare("Select drink_id, AVG(rating) as avg_rating from Ratings group by drink_id order by avg_rating desc limit :max");
+    try {
+        $r = $stmt->execute([':max' => $max]);
+        if($r) {
+            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $response['get_top_drinks_status'] = 'valid';
+            $response['top_drinks'] = $results;
+        }
+    } catch (Exception $e) {
+        echo("Error: " . $e);
+    }
+    return $response;
+}
+
 ?>
