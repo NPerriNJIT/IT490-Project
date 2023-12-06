@@ -136,6 +136,11 @@ function requestProcessor($request)
 		$response = array();
 		$response = get_user_drinks($request['user_id'], $request['get_private']);
 		return $response;
+	case "get_top_drinks":
+		echo "getting top drinks";
+		$response = array();
+		$response = get_top_drinks();
+		return $response;
 	}
 	
 	return array("returnCode" => '0', 'message'=>"Server received request and processed");
