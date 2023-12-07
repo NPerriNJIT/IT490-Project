@@ -548,12 +548,13 @@ function get_top_drinks($max = 10) {
     $response = array();
     $response['get_top_drinks_status'] = 'invalid';
     $db = getDB();
-    $stmt = $db->prepare("Select drink_id, AVG(rating) as avg_rating from Ratings group by drink_id order by avg_rating desc limit :max");
+    $stmt = $db->prepare("SELECT D.*, R.avg_rating FROM Drinks D JOIN (SELECT drink_id, AVG(rating) AS avg_rating FROM Ratings GROUP BY drink_id ORDER BY avg_rating DESC LIMIT :max) R ON D.drink_id = R.drink_id");
     try {
         $r = $stmt->execute([':max' => $max]);
         if($r) {
             $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
             $response['get_top_drinks_status'] = 'valid';
+            echo("Got top drinks from Ratings");
             $response['top_drinks'] = $results;
         }
     } catch (Exception $e) {
