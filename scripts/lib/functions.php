@@ -400,3 +400,15 @@ function get_profile($user_id, $is_user) {
 		return [];
 	}
 }
+
+function get_top_drinks() {
+    $client = new rabbitMQClient(__DIR__ . "/../testRabbitMQ.ini", "testServer");
+    $request = array();
+    $request['type'] = 'get_top_drinks';
+    $response = $client->send_request($request);
+    if(isset($response['get_top_drinks_status']) && $response['get_top_drinks_status'] === 'valid') {
+		return $response['top_drinks'];
+	} else {
+		return [];
+	}
+}
