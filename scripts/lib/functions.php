@@ -544,13 +544,13 @@ function get_profile($user_id, $is_user, $session_id) {
 }
 
 //Get top rated public drinks
-function get_top_drinks($max = 10) {
+function get_top_drinks() {
     $response = array();
     $response['get_top_drinks_status'] = 'invalid';
     $db = getDB();
-    $stmt = $db->prepare("SELECT D.*, R.avg_rating FROM Drinks D JOIN (SELECT drink_id, AVG(rating) AS avg_rating FROM Ratings GROUP BY drink_id ORDER BY avg_rating DESC LIMIT :max) R ON D.drink_id = R.drink_id");
+    $stmt = $db->prepare("SELECT D.*, R.avg_rating FROM Drinks D JOIN (SELECT drink_id, AVG(rating) AS avg_rating FROM Ratings GROUP BY drink_id ORDER BY avg_rating DESC LIMIT) R ON D.drink_id = R.drink_id");
     try {
-        $r = $stmt->execute([':max' => $max]);
+        $r = $stmt->execute();
         if($r) {
             $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
             $response['get_top_drinks_status'] = 'valid';
