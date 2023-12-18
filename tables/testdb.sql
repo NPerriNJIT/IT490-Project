@@ -313,7 +313,7 @@ CREATE TABLE `example_table` (
 
 LOCK TABLES `example_table` WRITE;
 /*!40000 ALTER TABLE `example_table` DISABLE KEYS */;
-INSERT INTO `example_table` VALUES ('first row'),('second row'),('third');
+INSERT INTO `example_table` VALUES ('first'),('second'),('third');
 /*!40000 ALTER TABLE `example_table` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -326,4 +326,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-12-06 13:49:28
+-- Dump completed on 2023-12-11 11:52:03
