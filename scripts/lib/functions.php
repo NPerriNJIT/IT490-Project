@@ -548,7 +548,7 @@ function get_top_drinks() {
     $response = array();
     $response['get_top_drinks_status'] = 'invalid';
     $db = getDB();
-    $stmt = $db->prepare("SELECT D.*, R.avg_rating FROM Drinks D JOIN (SELECT drink_id, AVG(rating) AS avg_rating FROM Ratings GROUP BY drink_id ORDER BY avg_rating DESC LIMIT) R ON D.drink_id = R.drink_id");
+    $stmt = $db->prepare("SELECT D.*, R.avg_rating FROM Drinks D JOIN (SELECT drink_id, AVG(rating) AS avg_rating FROM Ratings GROUP BY drink_id ORDER BY avg_rating DESC LIMIT 10) R ON D.drink_id = R.drink_id");
     try {
         $r = $stmt->execute();
         if($r) {
