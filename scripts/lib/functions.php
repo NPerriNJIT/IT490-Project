@@ -562,5 +562,22 @@ function get_top_drinks() {
     }
     return $response;
 }
-
+function get_user_activity($table) {
+	$response = array();
+	$response['get_user_activity_status'] = 'invalid';
+	$db = getDB();
+	$stmt = $db->prepare("Select * from $table order by created DESC LIMIT 1");
+    try {
+        $r = $stmt->execute();
+        if($r) {
+            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $response['get_user_activity_status'] = 'valid';
+            echo("getting user activity");
+            $response['user_activity'] = "User ID " . $results['user_id'] . " added an entry to " . $table . ".";
+        }
+    } catch (Exception $e) {
+        echo("Error: " . $e);
+    }
+    return $response;
+}
 ?>

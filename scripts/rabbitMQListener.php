@@ -141,6 +141,11 @@ function requestProcessor($request)
 		$response = array();
 		$response = get_top_drinks();
 		return $response;
+	case "get_user_activity":
+		echo "getting user activity";
+		$response = array();
+		$response = get_user_activity($request['table']);
+		return $response;
 	}
 	
 	return array("returnCode" => '0', 'message'=>"Server received request and processed");
