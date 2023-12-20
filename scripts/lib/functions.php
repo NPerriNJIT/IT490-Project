@@ -157,7 +157,7 @@ function send_drink_review($drink_id, $rating, $comment)
 	$request['comment'] = $comment;
     $request['session_id'] = session_id();
     $response = $client->send_request($request);
-    if(isset($response['drink_review_status']) && $response['drink_review_status'] === "valid") {
+    if(isset($response['send_drink_reviews_status']) && $response['send_drink_reviews_status'] === "valid") {
 		print_r($response);
         flash("Drink successfully reviewed", "success");
     } else {
@@ -384,5 +384,31 @@ function get_user_drinks($user_id, $get_private = false) {
 	$response = $client->send_request($request);
 	if(isset($response['get_user_drinks_status']) && $response['get_user_drinks_status'] === 'valid') {
 		return $response['drink_info'];
+	}
+}
+
+function get_profile($user_id, $is_user) {
+	$client = new rabbitMQClient(__DIR__ . "/../testRabbitMQ.ini", "testServer");
+    $request = array();
+    $request['type'] = 'get_profile';
+	$request['user_id'] = $user_id;
+	$request['is_user'] = $is_user;
+	$response = $client->send_request($request);
+	if(isset($response['get_profile_status']) && $response['get_profile_status'] === 'valid') {
+		return $response;
+	} else {
+		return [];
+	}
+}
+
+function get_top_drinks() {
+    $client = new rabbitMQClient(__DIR__ . "/../testRabbitMQ.ini", "testServer");
+    $request = array();
+    $request['type'] = 'get_top_drinks';
+    $response = $client->send_request($request);
+    if(isset($response['get_top_drinks_status']) && $response['get_top_drinks_status'] === 'valid') {
+		return $response['top_drinks'];
+	} else {
+		return [];
 	}
 }
