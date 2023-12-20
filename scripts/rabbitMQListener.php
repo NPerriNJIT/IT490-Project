@@ -141,10 +141,15 @@ function requestProcessor($request)
 		$response = array();
 		$response = get_top_drinks();
 		return $response;
-	case "get_user_activity":
+	case "send_user_activity":
+		echo "sending user activity";
+		$response = array();
+		$response = send_user_activity();
+		return $response;
+	case "get_user_activity";
 		echo "getting user activity";
 		$response = array();
-		$response = get_user_activity($request['table']);
+		$response = get_user_activity();
 		return $response;
 	}
 	

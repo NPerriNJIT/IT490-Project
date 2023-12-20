@@ -599,16 +599,16 @@ function send_user_activity() {
         $r = $stmt->execute();
         if($r) {
             $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            $response['get_user_activity_status'] = 'valid';
-            echo("getting user activity");
-            $response['user_activity'] = $response;
+            $response['send_user_activity_status'] = 'valid';
+            echo("sending user activity");
+            $response['user_activity'] = $results;
         }
     } catch (Exception $e) {
         echo("Error: " . $e);
     }
     return $response;
 }
-function get_user_follow_activity($table) {
+function get_user_follow_activity($session_id) {
 	$response = array();
 	$response['get_user_follow_activity_status'] = 'invalid';
 	$db = getDB();
@@ -619,7 +619,7 @@ function get_user_follow_activity($table) {
             $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
             $response['get_user_follow_activity_status'] = 'valid';
             echo("getting user follow activity");
-            $response['user_follow_activity'] = $response;
+            $response['user_follow_activity'] = $results;
         }
     } catch (Exception $e) {
         echo("Error: " . $e);
