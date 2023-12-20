@@ -1,3 +1,5 @@
+//Written by Matt Toegel
+//https://github.com/MattToegel
 function flash(message = "", color = "info") {
     let flash = document.getElementById("flash");
     //create a div (or whatever wrapper we want)
