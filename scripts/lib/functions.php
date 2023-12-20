@@ -412,3 +412,15 @@ function get_top_drinks() {
 		return [];
 	}
 }
+
+function get_user_activity () {
+    $client = new rabbitMQClient(__DIR__ . "/../testRabbitMQ.ini", "testServer");
+    $request = array();
+    $request['type'] = 'get_user_activity';
+    $response = $client->send_request($request);
+    if(isset($response['get_user_activity_status']) && $response['get_user_activity_status'] === 'valid') {
+		return $response['user_activity'];
+	} else {
+		return [];
+	}
+}
