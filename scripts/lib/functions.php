@@ -5,6 +5,9 @@ require_once(__DIR__ . '/../rabbitMQLib.inc');
 
 //se() makes sure that variables that will be outputted via html
 //are properly outputted
+//se() and flash() are both written by Matt Toegel in a public repository
+//https://github.com/MattToegel
+
 function se($v, $k = null, $default = "", $isEcho = true)
 {
     if (is_array($v) && isset($k) && isset($v[$k])) {
