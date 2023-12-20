@@ -562,18 +562,64 @@ function get_top_drinks() {
     }
     return $response;
 }
-function get_user_activity($table) {
+function send_user_activity() {
 	$response = array();
 	$response['get_user_activity_status'] = 'invalid';
 	$db = getDB();
-	$stmt = $db->prepare("Select * from $table order by created DESC LIMIT 1");
+	$stmt = $db->prepare(
+		"SELECT user_id, created, blog_title, NULL AS drink_id, NULL AS rating, NULL AS comment, NULL AS drink_name
+		FROM Blogs
+		ORDER BY created DESC
+		LIMIT 10
+	)
+	UNION
+	(
+		SELECT user_id, created, NULL AS blog_title, drink_id, rating, comment, NULL AS drink_name
+		FROM Ratings
+		ORDER BY created DESC
+		LIMIT 10
+	)
+	UNION
+	(
+		SELECT user_id, created, NULL AS blog_title, drink_id, NULL AS rating, NULL AS comment, NULL AS drink_name
+		FROM Favorites
+		ORDER BY created DESC
+		LIMIT 10
+	)
+	UNION
+	(
+		SELECT user_id, created, NULL AS blog_title, NULL AS drink_id, NULL AS rating, NULL AS comment, drink_name
+		FROM UserDrinks
+		ORDER BY created DESC
+		LIMIT 10
+	)
+	ORDER BY created DESC
+	LIMIT 10;");
     try {
         $r = $stmt->execute();
         if($r) {
             $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
             $response['get_user_activity_status'] = 'valid';
             echo("getting user activity");
-            $response['user_activity'] = "User ID " . $results['user_id'] . " added an entry to " . $table . ".";
+            $response['user_activity'] = $response;
+        }
+    } catch (Exception $e) {
+        echo("Error: " . $e);
+    }
+    return $response;
+}
+function get_user_follow_activity($table) {
+	$response = array();
+	$response['get_user_follow_activity_status'] = 'invalid';
+	$db = getDB();
+	$stmt = $db->prepare();
+    try {
+        $r = $stmt->execute();
+        if($r) {
+            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $response['get_user_follow_activity_status'] = 'valid';
+            echo("getting user follow activity");
+            $response['user_follow_activity'] = $response;
         }
     } catch (Exception $e) {
         echo("Error: " . $e);

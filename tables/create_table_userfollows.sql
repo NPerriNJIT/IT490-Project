@@ -1,0 +1,10 @@
+CREATE TABLE IF NOT EXISTS `UserFollows` (
+        `id` INT PRIMARY KEY NOT NULL UNIQUE AUTO_INCREMENT,
+        `user_id` INT NOT NULL,
+        `followed_user_id` INT NOT NULL,
+        `created` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        `modified` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+        FOREIGN KEY(user_id) REFERENCES Users(id),
+        FOREIGN KEY(followed_user_id) REFERENCES Users(id)
+)
+;
