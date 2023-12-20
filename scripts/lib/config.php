@@ -1,5 +1,6 @@
 <?php
-
+//Written by Matt Toegel
+//https://github.com/MattToegel
 $ini = @parse_ini_file(".env");
 if($ini && isset($ini["DB_URL"])){
     //load local .env file
