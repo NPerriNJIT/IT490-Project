@@ -567,34 +567,35 @@ function get_user_activity() {
 	$response['get_user_activity_status'] = 'invalid';
 	$db = getDB();
 	$stmt = $db->prepare(
-		"SELECT user_id, created, blog_title, NULL AS drink_id, NULL AS rating, NULL AS comment, NULL AS drink_name
-		FROM Blogs
+		"(
+			SELECT user_id, created, blog_title, NULL AS drink_id, NULL AS rating, NULL AS comment, NULL AS drink_name
+			FROM Blogs
+			ORDER BY created DESC
+			LIMIT 10
+		)
+		UNION
+		(
+			SELECT user_id, created, NULL AS blog_title, drink_id, rating, comment, NULL AS drink_name
+			FROM Ratings
+			ORDER BY created DESC
+			LIMIT 10
+		)
+		UNION
+		(
+			SELECT user_id, created, NULL AS blog_title, drink_id, NULL AS rating, NULL AS comment, NULL AS drink_name
+			FROM Favorites
+			ORDER BY created DESC
+			LIMIT 10
+		)
+		UNION
+		(
+			SELECT user_id, created, NULL AS blog_title, NULL AS drink_id, NULL AS rating, NULL AS comment, drink_name
+			FROM UserDrinks
+			ORDER BY created DESC
+			LIMIT 10
+		)
 		ORDER BY created DESC
-		LIMIT 10
-	)
-	UNION
-	(
-		SELECT user_id, created, NULL AS blog_title, drink_id, rating, comment, NULL AS drink_name
-		FROM Ratings
-		ORDER BY created DESC
-		LIMIT 10
-	)
-	UNION
-	(
-		SELECT user_id, created, NULL AS blog_title, drink_id, NULL AS rating, NULL AS comment, NULL AS drink_name
-		FROM Favorites
-		ORDER BY created DESC
-		LIMIT 10
-	)
-	UNION
-	(
-		SELECT user_id, created, NULL AS blog_title, NULL AS drink_id, NULL AS rating, NULL AS comment, drink_name
-		FROM UserDrinks
-		ORDER BY created DESC
-		LIMIT 10
-	)
-	ORDER BY created DESC
-	LIMIT 10;");
+		LIMIT 10;");
     try {
         $r = $stmt->execute();
         if($r) {
