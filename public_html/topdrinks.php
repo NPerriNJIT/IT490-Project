@@ -34,7 +34,7 @@ if (!is_logged_in()) {
     $top_drinks = get_top_drinks();
     foreach($top_drinks as $drink){
         $sum_ratings = 0;
-        $reviews = get_drink_reviews($drink['id']);
+        $reviews = get_drink_reviews($drink['drink_id']);
         foreach($reviews as $review) {
             $sum_ratings+=$review['rating'];
         }
