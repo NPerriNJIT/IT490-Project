@@ -591,6 +591,7 @@ function get_user_activity() {
 		(
 			SELECT user_id, created, NULL AS blog_title, NULL AS drink_id, NULL AS rating, NULL AS comment, drink_name
 			FROM UserDrinks
+			WHERE is_public = true
 			ORDER BY created DESC
 			LIMIT 10
 		)
