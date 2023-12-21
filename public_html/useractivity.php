@@ -7,51 +7,53 @@ if(!is_logged_in()) {
 //need more code to edit display on webpage
 ?>
 
-<!DOCTYPE html>
+v<!DOCTYPE html>
 <html>
 <head>
-    <title>User Activity</title>
+    <title>User Activity Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        h1 {
+            text-align: center;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            margin: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+        }
+    </style>
 </head>
 <body>
+    <h1>User Activity Page</h1>
 
-<table border="1">
-    <tr>
-        <th>User ID</th>
-        <th>Created</th>
-        <th>Action</th>
-        <th>Details</th>
-    </tr>
-    <?php
-    $userActivity = get_user_activity();
+    <ul>
+        <?php
+        $userActivity = get_user_activity();
 
-    foreach ($userActivity as $activity) {
-        echo '<tr>';
-        echo '<td>' . $activity['user_id'] . '</td>';
-        echo '<td>' . $activity['created'] . '</td>';
+        foreach ($userActivity as $activity) {
+            echo '<li>';
 
-        if (!is_null($activity['blog_title'])) {
-            echo '<td>Blog Post</td>';
-            echo '<td>Title: ' . $activity['blog_title'] . '</td>';
-        } elseif (!is_null($activity['drink_id']) && !is_null($activity['rating']) && !is_null($activity['comment'])) {
-            echo '<td>Rating</td>';
-            echo '<td>Drink ID: ' . $activity['drink_id'] . '<br>';
-            echo 'Rating: ' . $activity['rating'] . '<br>';
-            echo 'Comment: ' . $activity['comment'] . '</td>';
-        } elseif (!is_null($activity['drink_id'])) {
-            echo '<td>Favorite</td>';
-            echo '<td>Drink ID: ' . $activity['drink_id'] . '</td>';
-        } elseif (!is_null($activity['drink_name'])) {
-            echo '<td>User Drink</td>';
-            echo '<td>Drink Name: ' . $activity['drink_name'] . '</td>';
-        } else {
-            echo '<td>Unknown Activity</td>';
-            echo '<td></td>';
+            if (!is_null($activity['blog_title'])) {
+                echo 'User ID ' . $activity['user_id'] . ' just made a blog post about "' . $activity['blog_title'] . '"!<br>';
+            } elseif (!is_null($activity['drink_id']) && !is_null($activity['rating']) && !is_null($activity['comment'])) {
+                echo 'User ID ' . $activity['user_id'] . ' just left a ' . $activity['rating'] . ' star rating on drink ID ' . $activity['drink_id'] . ', saying "' . $activity['comment'] . '"!<br>';
+            } elseif (!is_null($activity['drink_id'])) {
+                echo 'User ID ' . $activity['user_id'] . ' just favorited drink ID ' . $activity['drink_id'] . '!<br>';
+            } elseif (!is_null($activity['drink_name'])) {
+                echo 'User ID ' . $activity['user_id'] . ' created their own drink: the "' . $activity['drink_name'] . '"! Go check it out!<br>';
+            } else {
+                echo 'Unknown Activity<br>';
+            }
+
+            echo '</li>';
         }
-
-        echo '</tr>';
-    }
-    ?>
-</table>
-
+        ?>
+    </ul>
 </body>
 </html>
