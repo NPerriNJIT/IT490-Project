@@ -45,7 +45,7 @@ if (!is_logged_in()) {
         $drink_info = $drink_info . "<li>Drink Category: " . $drink['drink_tags'] . "</li>" . PHP_EOL;
         $drink_info = $drink_info . "<li>Is alcoholic?: " . $drink['alcoholic'] . "</li>" . PHP_EOL;
         $drink_info = $drink_info . "<li>Ingredients: " . $drink['ingredients'] . "</li>" . PHP_EOL;
-        $drink_info = $drink_info . "<li>Average rating: " . $avg_rating . "</li>" . PHP_EOL;
+        $drink_info = $drink_info . "<li>Average rating: " . $avg_rating . "</li>" . PHP_EOL . "<br>";
         echo($drink_info);
 
     //    echo(display_drink_info($drink));
