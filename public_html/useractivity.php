@@ -46,7 +46,7 @@ if(!is_logged_in()) {
             } elseif (!is_null($activity['drink_id'])) {
                 echo '<a href="profile.php?id=' . $activity['user_id'] . '">User ID ' . get_username($activity['user_id']) . '</a> just favorited drink ID ' . $activity['drink_id'] . '!<br>';
             } elseif (!is_null($activity['drink_name'])) {
-                echo '<a href="user_profile.php?id=' . $activity['user_id'] . '">User ID ' . get_username($activity['user_id']) . '</a> created their own drink: the ' . $activity['drink_name'] . 'Go check it out!<br>';
+                echo '<a href="profile.php?id=' . $activity['user_id'] . '">User ID ' . get_username($activity['user_id']) . '</a> created their own drink: the ' . $activity['drink_name'] . '! Go check it out!<br>';
             } else {
                 echo 'Unknown Activity<br>';
             }
