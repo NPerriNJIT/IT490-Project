@@ -33,7 +33,22 @@ if (!is_logged_in()) {
 <?php 
     $top_drinks = get_top_drinks();
     foreach($top_drinks as $drink){
-        echo(display_drink_info($drink));
+        $sum_ratings = 0;
+        $reviews = get_drink_reviews($drink['id']);
+        foreach($reviews as $review) {
+            $sum_ratings+=$review['rating'];
+        }
+        $avg_rating = $sum_ratings/count($reviews);
+        $drink_info = "<li>Drink Name: " . $drink['drink_name'] . "</li>" . PHP_EOL;
+        
+        $drink_info = $drink_info . '<li>Drink ID: <a href="drink.php?id=' . $drink['drink_id'] . '">' . $drink['drink_id'] . '</a></li>' . PHP_EOL;
+        $drink_info = $drink_info . "<li>Drink Category: " . $drink['drink_tags'] . "</li>" . PHP_EOL;
+        $drink_info = $drink_info . "<li>Is alcoholic?: " . $drink['alcoholic'] . "</li>" . PHP_EOL;
+        $drink_info = $drink_info . "<li>Ingredients: " . $drink['ingredients'] . "</li>" . PHP_EOL;
+        $drink_info = $drink_info . "<li>Average rating: " . $avg_rating . "</li>" . PHP_EOL;
+        echo($drink_info);
+
+    //    echo(display_drink_info($drink));
     }
 ?>
 
