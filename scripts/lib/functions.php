@@ -562,7 +562,7 @@ function get_top_drinks() {
     }
     return $response;
 }
-function send_user_activity() {
+function get_user_activity() {
 	$response = array();
 	$response['get_user_activity_status'] = 'invalid';
 	$db = getDB();
@@ -599,7 +599,7 @@ function send_user_activity() {
         $r = $stmt->execute();
         if($r) {
             $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            $response['send_user_activity_status'] = 'valid';
+            $response['get_user_activity_status'] = 'valid';
             echo("sending user activity");
             $response['user_activity'] = $results;
         }
