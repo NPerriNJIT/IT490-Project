@@ -40,13 +40,13 @@ if(!is_logged_in()) {
             echo '<li>';
 
             if (!is_null($activity['blog_title'])) {
-                echo '<a href="profile.php?user_id=' . $activity['user_id'] . '">User ID ' . $activity['user_id'] . '</a> just made a blog post about "' . $activity['blog_title'] . '"!<br>';
+                echo '<a href="profile.php?user_id=' . $activity['user_id'] . '">User ID ' . get_username($activity['user_id']) . '</a> just made a blog post about "' . $activity['blog_title'] . '"!<br>';
             } elseif (!is_null($activity['drink_id']) && !is_null($activity['rating']) && !is_null($activity['comment'])) {
-                echo '<a href="profile.php?user_id=' . $activity['user_id'] . '">User ID ' . $activity['user_id'] . '</a> just left a ' . $activity['rating'] . ' star rating on drink ID ' . $activity['drink_id'] . ', saying "' . $activity['comment'] . '"!<br>';
+                echo '<a href="profile.php?user_id=' . $activity['user_id'] . '">User ID ' . get_username($activity['user_id']) . '</a> just left a ' . $activity['rating'] . ' star rating on drink ID ' . $activity['drink_id'] . ', saying "' . $activity['comment'] . '"!<br>';
             } elseif (!is_null($activity['drink_id'])) {
-                echo '<a href="profile.php?user_id=' . $activity['user_id'] . '">User ID ' . $activity['user_id'] . '</a> just favorited drink ID ' . $activity['drink_id'] . '!<br>';
+                echo '<a href="profile.php?user_id=' . $activity['user_id'] . '">User ID ' . get_username($activity['user_id']) . '</a> just favorited drink ID ' . $activity['drink_id'] . '!<br>';
             } elseif (!is_null($activity['drink_name'])) {
-                echo '<a href="user_profile.php?user_id=' . $activity['user_id'] . '">User ID ' . $activity['user_id'] . '</a> created their own drink: the <a href="drink.php?drink_id=' . $activity['drink_id'] . '">' . $activity['drink_name'] . '</a>! Go check it out!<br>';
+                echo '<a href="user_profile.php?user_id=' . $activity['user_id'] . '">User ID ' . get_username($activity['user_id']) . '</a> created their own drink: the <a href="drink.php?drink_id=' . $activity['drink_id'] . '">' . $activity['drink_name'] . '</a>! Go check it out!<br>';
             } else {
                 echo 'Unknown Activity<br>';
             }
