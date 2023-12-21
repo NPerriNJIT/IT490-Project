@@ -422,7 +422,7 @@ function get_user_activity () {
     $request['type'] = 'get_user_activity';
     $response = $client->send_request($request);
     if(isset($response['get_user_activity_status']) && $response['get_user_activity_status'] === 'valid') {
-		echo($response['user_activity']);
+		print_r($response['user_activity']);
 		//^debug
 		return $response['user_activity'];
 	} else {
